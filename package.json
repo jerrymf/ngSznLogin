@@ -1,0 +1,39 @@
+{
+  "name": "ngSznLogin",
+  "version": "0.9-beta",
+  "description": "Module for login to Seznam.cz services",
+  "main": "Gruntfile.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "express": "~4.3.0",
+    "grunt": "~0.4.5",
+    "grunt-angular-templates": "~0.5.5",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-copy": "^0.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jerrymf/ngSznLogin.git"
+  },
+  "keywords": [
+    "Seznam.cz",
+    "angularjs",
+    "login"
+  ],
+  "author": "Marek Fojtl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jerrymf/ngSznLogin/issues"
+  },
+  "homepage": "https://github.com/jerrymf/ngSznLogin"
+}

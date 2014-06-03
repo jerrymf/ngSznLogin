@@ -1,0 +1,455 @@
+#sznLoginBox h1,
+#sznLoginBox h2,
+#sznLoginBox h3,
+#sznLoginBox h4,
+#sznLoginBox h5,
+#sznLoginBox h6,
+#sznLoginBox p,
+#sznLoginBox ul,
+#sznLoginBox ol,
+#sznLoginBox li,
+#sznLoginBox form,
+#sznLoginBox label {
+  margin: 0;
+  padding: 0;
+}
+#sznLoginBox li {
+  list-style-type: none;
+}
+#sznLoginBox hr {
+  display: none;
+}
+#sznLoginBox img {
+  border: none;
+}
+#sznLoginBox table {
+  border: none;
+  border-collapse: collapse;
+  font-size: 100%;
+}
+#sznLoginBox a {
+  color: #0000CC;
+  outline: none;
+}
+#sznLoginBox input {
+  outline: none;
+  font-family: Arial, sans-serif;
+}
+#sznLoginBox header,
+#sznLoginBox footer {
+  display: block;
+}
+#sznLoginBox .szn-login-clear {
+  clear: both;
+  height: 0;
+}
+#sznLoginBox input {
+  padding: 0;
+  margin: 0;
+}
+#sznLoginBox .disabled {
+  zoom: 1;
+  filter: alpha(opacity=30);
+  -webkit-opacity: 0.3;
+  -moz-opacity: 0.3;
+  opacity: 0.3;
+  cursor: default !important;
+}
+#sznLoginBox .szn-login-overlay {
+  z-index: 998;
+  background: #fff;
+  filter: alpha(opacity=70);
+  opacity: 0.7;
+  transition: opacity 0.7s;
+  -webkit-transition: opacity 0.7s;
+  position: fixed;
+  z-index: 99998;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+#sznLoginBox .szn-login-overflow {
+  position: fixed;
+  z-index: 99998;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window {
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 0 0 70px rgba(119, 126, 133, 0.71);
+  border: 4px solid #ffa92d;
+  border-radius: 14px;
+  padding: 60px 60px 54px;
+  background: url('img/seznam.png') no-repeat 53px 48px #fffdf3;
+  transition: opacity 0.7s, transform 0.7s;
+  -webkit-transition: opacity 0.7s, -webkit-transform 0.7s;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window {
+    padding: 30px 24px 14px;
+    background-position: 24px 28px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window.hidden {
+  display: none;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window.done:before {
+  content: url('img/pes2.png');
+  position: absolute;
+  right: -79px;
+  bottom: -150px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window.done:before {
+    content: "";
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window.register:before,
+#sznLoginBox .szn-login-overflow .szn-login-window.verify:before {
+  content: url('img/pes3.png');
+  position: absolute;
+  right: -155px;
+  bottom: -30px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window.register:before,
+  #sznLoginBox .szn-login-overflow .szn-login-window.verify:before {
+    content: "";
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-close {
+  position: absolute;
+  cursor: pointer;
+  top: -28px;
+  right: -28px;
+  width: 26px;
+  height: 26px;
+  border: 4px solid #ffa92d;
+  border-radius: 50%;
+  background: url('img/close.png') no-repeat 50% 50% #fffdf3;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-close {
+    top: -4px;
+    right: -4px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form {
+  font-family: arial, sans-serif;
+  margin: 48px 0 0;
+  font-size: 15px;
+  color: #333;
+  text-align: left;
+  /* nelze sloucit */
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form ::-webkit-input-placeholder {
+  color: #808080;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form :-moz-placeholder {
+  color: #808080;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form > div {
+  width: 360px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form > div > div {
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form > div {
+    width: 262px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form > div:first-of-type {
+  margin-bottom: 20px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form .input {
+  position: relative;
+  display: inline-block;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form .input .icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=text],
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=password],
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit],
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button] {
+  font-family: arial, sans-serif;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  border-width: 1px;
+  border-style: solid;
+  height: 31px;
+  line-height: 31px;
+  vertical-align: top;
+  /* ve FF se jinak nezarovnavalo heslo a submit */
+  margin: 0;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=text],
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=password] {
+  font-size: 16px;
+  padding: 0 21px 0 9px;
+  border-color: #848484 #c1c1c1 #e0e0e0;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=text] {
+  width: 328px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit],
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button] {
+  padding: 0;
+  font-size: 15px;
+  width: 136px;
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  border-color: #c5c5c5 #7d7d7d #7b7b7b #a1a1a1;
+  cursor: pointer;
+  background: #f3f3f3;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #ececec));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  /* IE10+ */
+  background: linear-gradient(top, #ffffff 0%, #ececec 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ececec', GradientType=0);
+  /* IE6-9 */
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit]:active,
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button]:active {
+  border-color: #bbb #707070 #666 #999;
+  background: #ececec;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f6f6f6), color-stop(100%, #e1e1e1));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  /* IE10+ */
+  background: linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#e1e1e1', GradientType=0);
+  /* IE6-9 */
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit],
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button] {
+    width: 136px;
+  }
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit] {
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=checkbox] {
+  margin-left: 0;
+  margin-right: 7px;
+  cursor: pointer;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form div.text {
+  font-size: 16px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form div.text.error strong,
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form div.text.notify strong {
+  color: #de0000;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form .info {
+  margin-top: 45px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form a {
+  color: #0000d1;
+  text-decoration: none;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form .error input {
+  color: #000;
+  background-color: #faffbd;
+  font-weight: bold;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form .error .icon {
+  background-image: url('img/error.png');
+  cursor: pointer;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form .ok .icon {
+  background-image: url('img/ok.png');
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull {
+  margin-top: 11px;
+  padding-left: 23px;
+  float: right;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull {
+    display: none;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull:before {
+  content: "Reklama";
+  display: block;
+  color: #999;
+  font-size: 10px;
+  font-family: arial, sans-serif;
+  text-transform: uppercase;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull + #sznLoginForm {
+  position: relative;
+  margin-right: 325px;
+  padding-right: 70px;
+  min-height: 292px;
+  /* 270 = reklama + 11 = reklama nahore + 11 = reklama dole */
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull + #sznLoginForm {
+    margin-right: 0;
+    padding-right: 0;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull + #sznLoginForm .line {
+  height: 100%;
+  border-radius: 2px;
+  width: 4px;
+  background-color: #e6e4db;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .adFull + #sznLoginForm .line {
+    display: none;
+  }
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form input[type=text] {
+    width: 230px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form input[type=password] {
+  width: 188px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form input[type=password] {
+    width: 230px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form input[type=submit] {
+  margin-left: 2px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form label {
+  cursor: pointer;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form li {
+  margin-bottom: 0.5em;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form div.error strong {
+  color: #de0000;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page input[type=text] {
+    width: 230px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page input[type=password] {
+  width: 145px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page input[type=password] {
+    width: 230px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page .password-line .input {
+  display: block;
+  float: left;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page .password-line .input.second {
+  margin-left: 6px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page .password-line .input.second {
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page div.error {
+  color: #de0000;
+  font-weight: bold;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page #passwordMeter {
+  display: block;
+  position: absolute;
+  left: 1px;
+  bottom: 1px;
+  width: 175px;
+  height: 3px;
+  background-color: #eeeeee;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page #passwordMeter {
+    width: 260px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page #passwordMeter span {
+  display: block;
+  height: 100%;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-verify-page input[type=text] {
+  width: 188px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-verify-page input[type=text] {
+    width: 110px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-verify-page input[type=submit] {
+  margin-left: 2px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-verify-page input[type=submit] {
+    width: 116px;
+    margin-top: 0;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-verify-page div.resend {
+  margin-top: 30px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-done-page div.done {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-done-page div.done {
+    margin-bottom: 20px;
+  }
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-done-page input[type="button"] {
+  width: 358px;
+}
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow .szn-login-window .szn-done-page input[type="button"] {
+    width: 260px;
+  }
+}

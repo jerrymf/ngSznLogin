@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Demo of ngSznLogin</title>
+        <link rel="stylesheet" href="../build/ng-szn-login.css" type="text/css" media="all" />
+        <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="../build/ng-szn-login.js"></script>
+        <script type="text/javascript" src="//i.imedia.cz/js/im2.js" class="not-packable"></script>
+
+        <script type="text/javascript">
+            var demoApp = angular.module("DemoApp", ["ngSznLogin"]);
+
+            demoApp.config(["sznLoginProvider", function(sznLoginProvider) {
+                sznLoginProvider.config({
+                    url:"https://login.szn.dev",
+                    registerUrl:"https://registrace.seznam.dev",
+                    autoLogin:false,
+                    serviceId:"email"
+                });
+            }]);
+
+            demoApp.controller("MainCtrl", ["$scope", "sznLogin", function($scope, sznLogin) {
+                $scope.$on("szn-login-done", function(auto) {
+                    console.log("Logged in");
+                });
+            }]);
+        </script>
+    </head>
+    <body ng-app="DemoApp" ng-controller="MainCtrl">
+        <h1>Demo of ngSznLogin</h1>
+        You can click on <button szn-login-init>Login</button> and you will see, what will happen.
+    </body>
+</html>
