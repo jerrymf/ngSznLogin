@@ -5,7 +5,9 @@ Module for login to Seznam.cz services
 
 TODO:
 
-tests
-docs / comments
-demo - hwo to use
-refactoring
+<ul>
+  <li>tests</li>
+  <li>docs / comments</li>
+  <li>demo - hwo to use</li>
+  <li>refactoring</li>
+</ul>
