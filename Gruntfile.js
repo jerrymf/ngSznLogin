@@ -48,6 +48,11 @@ module.exports = function ( grunt ) {
                     cwd: "./src/img/",
                     src: "**",
                     dest: "./build/img"
+                },{
+                    expand: true,
+                    cwd: "./src/css/",
+                    src: "**",
+                    dest: "./build/"
                 }]
             }
         },
