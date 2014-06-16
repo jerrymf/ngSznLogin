@@ -23,7 +23,10 @@
 
             return fBound;
         };
+    }
 
+    if (!("getSelection" in win)) {
+        // we are in IE8
         document.createElement("szn-login-box");
         document.createElement("szn-login-form-window");
         document.createElement("szn-register-form-window");
