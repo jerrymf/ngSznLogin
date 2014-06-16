@@ -23,6 +23,12 @@
 
             return fBound;
         };
+
+        document.createElement("szn-login-box");
+        document.createElement("szn-login-form-window");
+        document.createElement("szn-register-form-window");
+        document.createElement("szn-verify-form-window");
+        document.createElement("szn-done-form-window");
     }
 
     var DEF_LOGIN_URL = "https://login.szn.cz";
@@ -31,359 +37,355 @@
 
     var mdl = angular.module("ngSznLogin", ["ng"]);
 
-    var inj = angular.injector(["ng"]);
-    var $el = angular.element;
-    var $http = inj.get("$http");
-    var $q = inj.get("$q");
-
-    var LoginTransport = null;
-
-    document.createElement("szn-login-box");
-    document.createElement("szn-login-form-window");
-    document.createElement("szn-register-form-window");
-    document.createElement("szn-verify-form-window");
-    document.createElement("szn-done-form-window");
-
-
-    var LoginRequest = function(url) {
-        this._url = url;
-    };
-
-    LoginRequest.isSupported = window.XMLHttpRequest && ("withCredentials" in new XMLHttpRequest()) && ("MozTransition" in document.createElement("div").style);
-
-    LoginRequest.prototype.get = function(method, params) {
-        var url = this._url + method;
-        return this._send("GET", url, params);
-    };
-
-    LoginRequest.prototype.post = function(method, params) {
-        var url = this._url + method;
-        return this._send("POST", url, params);
-    };
-
-    LoginRequest.prototype._send = function(method, url, params) {
-        if (method == "POST") {
-             var data = [];
-
-            for (var i in params) {
-                data.push(i + "=" + encodeURIComponent(params[i]));
-            }
-
-            return $http({
-                method:method,
-                url:url,
-                data:data.join("&"),
-                withCredentials: true,
-                headers: {"Accept": "application/json", "Content-Type":"application/x-www-form-urlencoded" }
-            });
-        } else {
-            return $http({
-                method:method,
-                url:url,
-                params:params,
-                withCredentials: true,
-                headers: {"Accept": "application/json", "Content-Type":"application/x-www-form-urlencoded" }
-            });
-        }
-    };
-
-
-    var LoginIframe = function(url) {
-        var loginDomain = url.match(/\/\/([^.]+)/)[1];
-        var curretDomain = window.location.hostname.split(".").slice(-2).join(".");
-
-        this._origins = [
-            url,
-            "http://" + loginDomain + "." + curretDomain
-        ];
-
-        this._url = url;
-        this._id = "sznLoginIframe" + (new Date().getTime() - Math.round(Math.random() * 10000000));
-        this._iframe = this._buildIframe();
-        this._deferred = null;
-        this._onMessage = this._onMessage.bind(this);
-
-        $el(window).bind("message", this._onMessage);
-    };
-
-    LoginIframe.isSupported = !!window.postMessage;
-
-    LoginIframe.prototype.get = function(method, params) {
-        this._deferred = $q.defer();
-
-        var url = this._url + method;
-        var arr = [];
-
-        for (var name in params) {
-            arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(params[name]));
-        }
-
-        this._iframe.src = url + "?" + arr.join("&");
-
-        return this._deferred.promise;
-
-    };
-
-    LoginIframe.prototype.post = function(method, params) {
-        this._deferred = $q.defer();
-
-        var url = this._url + method;
-
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.target = this._id;
-        form.action = url;
-
-        for (var name in params) {
-            var value = params[name];
-
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = name;
-            input.value = value;
-
-            form.appendChild(input);
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-        form.parentNode.removeChild(form);
-
-        return this._deferred.promise;
-    };
-
-    LoginIframe.prototype._buildIframe = function() {
-        var tempDiv = document.createElement("div");
-        tempDiv.innerHTML = '<iframe name="' + this._id + '"></iframe>';
-        var iframe = tempDiv.firstChild;
-        iframe.style.display = "none";
-        document.body.insertBefore(iframe, document.body.firstChild);
-        return iframe;
-    };
-
-    LoginIframe.prototype._onMessage = function(e) {
-        if (!this._isAllowedUrl(e.origin)) { return; }
-
-        var deferred = this._deferred;
-        this._deferred = null;
-        deferred.resolve({data:JSON.parse(e.data)});
-    };
-
-    LoginIframe.prototype._isAllowedUrl = function(url) {
-        var re = /\/\/([^\/]+)/;
-        url = url.match(re)[1];
-        if (!url) { return false; }
-
-        for (var i = 0, len = this._origins.length; i < len; i++) {
-            var origin = this._origins[i].match(re)[1];
-            if (origin == url) {
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    if (LoginRequest.isSupported) {
-        LoginTransport = LoginRequest;
-    } else if (LoginIframe.isSupported) {
-        LoginTransport = LoginIframe;
-    } else {
-        throw new Error("ngSznLogin: There is no supported login method.");
-    }
-
-    var Login = function(conf) {
-        this._conf = {
-            url: "",
-            serviceId: "",
-            returnURL: ""
+    mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
+        var LoginRequest = function(url) {
+            this._url = url;
         };
 
-        this._methods = {
-            status: "/beta/status",
-            login: "/beta/login",
-            autologin: "/beta/autologin",
-            acceptweak: "/beta/acceptweak",
-            change: "/changeScreen",
-            openId: "/loginOIProcess"
+        LoginRequest.isSupported = window.XMLHttpRequest && ("withCredentials" in new XMLHttpRequest()) && ("MozTransition" in document.createElement("div").style);
+
+        LoginRequest.prototype.get = function(method, params) {
+            var url = this._url + method;
+            return this._send("GET", url, params);
         };
 
-        for (var i in conf) {
-            var value = conf[i];
-            if (value) {
-                this._conf[i] = value;
+        LoginRequest.prototype.post = function(method, params) {
+            var url = this._url + method;
+            return this._send("POST", url, params);
+        };
+
+        LoginRequest.prototype._send = function(method, url, params) {
+            if (method == "POST") {
+                 var data = [];
+
+                for (var i in params) {
+                    data.push(i + "=" + encodeURIComponent(params[i]));
+                }
+
+                return $http({
+                    method:method,
+                    url:url,
+                    data:data.join("&"),
+                    withCredentials: true,
+                    headers: {"Accept": "application/json", "Content-Type":"application/x-www-form-urlencoded" }
+                });
+            } else {
+                return $http({
+                    method:method,
+                    url:url,
+                    params:params,
+                    withCredentials: true,
+                    headers: {"Accept": "application/json", "Content-Type":"application/x-www-form-urlencoded" }
+                });
             }
-        }
+        };
 
-        this._transport = new LoginTransport(this._conf.url);
-        this._cookie = true;
-    };
 
-    Login.prototype.check = function() {
-        var check = $q.defer();
-        var data = this._getCommonData();
+        var LoginIframe = function(url) {
+            var loginDomain = url.match(/\/\/([^.]+)/)[1];
+            var curretDomain = window.location.hostname.split(".").slice(-2).join(".");
 
-        this._transport.get(this._methods.status, data).then(function(response) {
-            var data = response.data;
-            this._cookie = data.cookie;
-            check.resolve(data.logged);
-        }.bind(this));
+            this._origins = [
+                url,
+                "http://" + loginDomain + "." + curretDomain
+            ];
 
-        return check.promise;
-    };
+            this._url = url;
+            this._id = "sznLoginIframe" + (new Date().getTime() - Math.round(Math.random() * 10000000));
+            this._iframe = this._buildIframe();
+            this._deferred = null;
+            this._onMessage = this._onMessage.bind(this);
 
-    Login.prototype.autologin = function() {
-        var data = this._getCommonData();
+            angular.element(window).bind("message", this._onMessage);
+        };
 
-        return this._transport.get(this._methods.autologin, data);
-    };
+        LoginIframe.isSupported = !!window.postMessage;
 
-    Login.prototype.continueWithWeakPassword = function() {
-        var data = this._getCommonData();
+        LoginIframe.prototype.get = function(method, params) {
+            this._deferred = $q.defer();
 
-        return this._transport.get(this._methods.acceptweak, data);
-    };
+            var url = this._url + method;
+            var arr = [];
 
-    Login.prototype.getURLForPasswordChange = function(crypted) {
-        var data = this._getCommonData();
-        data.cPassPower = crypted;
+            for (var name in params) {
+                arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(params[name]));
+            }
 
-        var arr = [];
-        for (var p in data) { arr.push(p + "=" + encodeURIComponent(data[p])); }
+            this._iframe.src = url + "?" + arr.join("&");
 
-        return this._conf.url + this._methods.change + "?" + arr.join("&");
-    };
+            return this._deferred.promise;
 
-    Login.prototype.getURLForOpenId = function(openId) {
-        var data = this._getCommonData();
-        data.openid = openId;
+        };
 
-        var arr = [];
-        for (var p in data) { arr.push(p + "=" + encodeURIComponent(data[p])); }
+        LoginIframe.prototype.post = function(method, params) {
+            this._deferred = $q.defer();
 
-        return this._conf.url + this._methods.openId + "?" + arr.join("&");
-    };
+            var url = this._url + method;
 
-    Login.prototype.login = function(name, pass, remember) {
-        var defered = $q.defer();
-
-        var data = this._getCommonData();
-        data.user = name;
-        data.password = pass;
-        data.remember = (remember ? 1 : 0);
-        data.ajax = (this._cookie ? 1 : 0);
-
-        if (!this._cookie) {
             var form = document.createElement("form");
-            form.method = "post";
-            form.action = this._conf.url + this._methods.login;
+            form.method = "POST";
+            form.target = this._id;
+            form.action = url;
 
-            for (var p in data) {
+            for (var name in params) {
+                var value = params[name];
+
                 var input = document.createElement("input");
                 input.type = "hidden";
-                input.name = p;
-                input.value = data[p];
+                input.name = name;
+                input.value = value;
 
                 form.appendChild(input);
             }
 
             document.body.appendChild(form);
             form.submit();
+            form.parentNode.removeChild(form);
+
+            return this._deferred.promise;
+        };
+
+        LoginIframe.prototype._buildIframe = function() {
+            var tempDiv = document.createElement("div");
+            tempDiv.innerHTML = '<iframe name="' + this._id + '"></iframe>';
+            var iframe = tempDiv.firstChild;
+            iframe.style.display = "none";
+            document.body.insertBefore(iframe, document.body.firstChild);
+            return iframe;
+        };
+
+        LoginIframe.prototype._onMessage = function(e) {
+            if (!this._isAllowedUrl(e.origin)) { return; }
+
+            var deferred = this._deferred;
+            this._deferred = null;
+            deferred.resolve({data:JSON.parse(e.data)});
+        };
+
+        LoginIframe.prototype._isAllowedUrl = function(url) {
+            var re = /\/\/([^\/]+)/;
+            url = url.match(re)[1];
+            if (!url) { return false; }
+
+            for (var i = 0, len = this._origins.length; i < len; i++) {
+                var origin = this._origins[i].match(re)[1];
+                if (origin == url) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        if (LoginRequest.isSupported) {
+            return LoginRequest;
+        } else if (LoginIframe.isSupported) {
+            return LoginIframe;
+        } else {
+            throw new Error("ngSznLogin: There is no supported login method.");
+        }
+    }]);
+
+    mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLoginTransport) {
+        var Login = function(conf) {
+            this._conf = {
+                url: "",
+                serviceId: "",
+                returnURL: ""
+            };
+
+            this._methods = {
+                status: "/beta/status",
+                login: "/beta/login",
+                autologin: "/beta/autologin",
+                acceptweak: "/beta/acceptweak",
+                change: "/changeScreen",
+                openId: "/loginOIProcess"
+            };
+
+            for (var i in conf) {
+                var value = conf[i];
+                if (value) {
+                    this._conf[i] = value;
+                }
+            }
+
+            this._transport = new SznLoginTransport(this._conf.url);
+            this._cookie = true;
+        };
+
+        Login.prototype.check = function() {
+            var check = $q.defer();
+            var data = this._getCommonData();
+
+            this._transport.get(this._methods.status, data).then(function(response) {
+                var data = response.data;
+                this._cookie = data.cookie;
+                check.resolve(data.logged);
+            }.bind(this));
+
+            return check.promise;
+        };
+
+        Login.prototype.autologin = function() {
+            var data = this._getCommonData();
+
+            return this._transport.get(this._methods.autologin, data);
+        };
+
+        Login.prototype.continueWithWeakPassword = function() {
+            var data = this._getCommonData();
+
+            return this._transport.get(this._methods.acceptweak, data);
+        };
+
+        Login.prototype.getURLForPasswordChange = function(crypted) {
+            var data = this._getCommonData();
+            data.cPassPower = crypted;
+
+            var arr = [];
+            for (var p in data) { arr.push(p + "=" + encodeURIComponent(data[p])); }
+
+            return this._conf.url + this._methods.change + "?" + arr.join("&");
+        };
+
+        Login.prototype.getURLForOpenId = function(openId) {
+            var data = this._getCommonData();
+            data.openid = openId;
+
+            var arr = [];
+            for (var p in data) { arr.push(p + "=" + encodeURIComponent(data[p])); }
+
+            return this._conf.url + this._methods.openId + "?" + arr.join("&");
+        };
+
+        Login.prototype.login = function(name, pass, remember) {
+            var defered = $q.defer();
+
+            var data = this._getCommonData();
+            data.user = name;
+            data.password = pass;
+            data.remember = (remember ? 1 : 0);
+            data.ajax = (this._cookie ? 1 : 0);
+
+            if (!this._cookie) {
+                var form = document.createElement("form");
+                form.method = "post";
+                form.action = this._conf.url + this._methods.login;
+
+                for (var p in data) {
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = p;
+                    input.value = data[p];
+
+                    form.appendChild(input);
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+                return defered.promise;
+            }
+
+            this._transport.post(this._methods.login, data).then(function(response) {
+                var data = response.data;
+                defered.resolve({data:data});
+            });
+
             return defered.promise;
-        }
-
-        this._transport.post(this._methods.login, data).then(function(response) {
-            var data = response.data;
-            defered.resolve({data:data});
-        });
-
-        return defered.promise;
-    };
-
-    Login.prototype._getCommonData = function() {
-        return {
-            serviceId: this._conf.serviceId,
-            returnURL: this._conf.returnURL || win.location.href
-        };
-    };
-
-    var Register = function(conf) {
-        this._methods = {
-            passwordcheck: "/beta/passwordcheck",
-            usercheck: "/beta/usercheck",
-            registration: "/beta/registration",
-            verifypin: "/beta/verifypin"
         };
 
-        this._conf = {
-            url: "",
-            serviceId: "",
-            returnURL: ""
+        Login.prototype._getCommonData = function() {
+            return {
+                serviceId: this._conf.serviceId,
+                returnURL: this._conf.returnURL || win.location.href
+            };
         };
 
-        this._current = null;
+        return Login;
+    }]);
 
-        for (var p in conf) { this._conf[p] = conf[p]; }
+    mdl.factory("SznRegisterBackend", ["SznLoginTransport", function(SznLoginTransport) {
+        var Register = function(conf) {
+            this._methods = {
+                passwordcheck: "/beta/passwordcheck",
+                usercheck: "/beta/usercheck",
+                registration: "/beta/registration",
+                verifypin: "/beta/verifypin"
+            };
 
-        this._transport = new LoginTransport(this._conf.url);
-    };
+            this._conf = {
+                url: "",
+                serviceId: "",
+                returnURL: ""
+            };
 
-    Register.prototype.checkPassword = function(password) {
-        var data = this._commonData();
-        data.password = password;
+            this._current = null;
 
-        return this._transport.post(this._methods.passwordcheck, data);
-    };
+            for (var p in conf) { this._conf[p] = conf[p]; }
 
-    Register.prototype.checkUser = function(username) {
-        var data = this._commonData();
-        data.user = username;
-
-        return this._transport.get(this._methods.usercheck, data);
-    };
-
-    Register.prototype.register = function(user, password, password2) {
-        this._current = this._commonData();
-        this._current.user = user;
-        this._current.password = password;
-        this._current.password2 = password2;
-        this._current.cud = "";
-        return this._transport.post(this._methods.registration, this._current).then(this._setCud.bind(this));
-    };
-
-    Register.prototype.registerRepeat = function() {
-        return this.register(this._current.user, this._current.password, this._current.password2);
-    };
-
-    Register.prototype.getUsernameAndPassword = function() {
-        return {
-            username: this._current.user,
-            password: this._current.password
+            this._transport = new SznLoginTransport(this._conf.url);
         };
-    };
 
-    Register.prototype.verify = function(pin) {
-        var data = this._commonData();
-        data.cud = this._current.cud;
-        data.pin = pin;
+        Register.prototype.checkPassword = function(password) {
+            var data = this._commonData();
+            data.password = password;
 
-        return this._transport.post(this._methods.verifypin, data);
-    };
-
-    Register.prototype._commonData = function() {
-        return {
-            serviceId: this._conf.serviceId,
-            returnURL: this._conf.returnURL || win.location.href
+            return this._transport.post(this._methods.passwordcheck, data);
         };
-    };
 
-    Register.prototype._setCud = function(response) {
-        if (response && response.data && response.data.status == 200) {
-            this._current.cud = response.data.cud;
-        }
+        Register.prototype.checkUser = function(username) {
+            var data = this._commonData();
+            data.user = username;
 
-        return response;
-    };
+            return this._transport.get(this._methods.usercheck, data);
+        };
+
+        Register.prototype.register = function(user, password, password2) {
+            this._current = this._commonData();
+            this._current.user = user;
+            this._current.password = password;
+            this._current.password2 = password2;
+            this._current.cud = "";
+            return this._transport.post(this._methods.registration, this._current).then(this._setCud.bind(this));
+        };
+
+        Register.prototype.registerRepeat = function() {
+            return this.register(this._current.user, this._current.password, this._current.password2);
+        };
+
+        Register.prototype.getUsernameAndPassword = function() {
+            return {
+                username: this._current.user,
+                password: this._current.password
+            };
+        };
+
+        Register.prototype.verify = function(pin) {
+            var data = this._commonData();
+            data.cud = this._current.cud;
+            data.pin = pin;
+
+            return this._transport.post(this._methods.verifypin, data);
+        };
+
+        Register.prototype._commonData = function() {
+            return {
+                serviceId: this._conf.serviceId,
+                returnURL: this._conf.returnURL || win.location.href
+            };
+        };
+
+        Register.prototype._setCud = function(response) {
+            if (response && response.data && response.data.status == 200) {
+                this._current.cud = response.data.cud;
+            }
+
+            return response;
+        };
+
+        return Register;
+    }]);
 
     mdl.provider("sznLogin", function() {
         var conf = {
@@ -403,14 +405,14 @@
             }
         };
 
-        this.$get = ["$compile", "$rootScope", function($compile, $rootScope) {
+        this.$get = ["$compile", "$rootScope", "SznLoginBackend", "SznRegisterBackend", function($compile, $rootScope, SznLoginBackend, SznRegisterBackend) {
             var loginConf = {
                 url: conf.url || DEF_LOGIN_URL,
                 serviceId: conf.serviceId || DEF_SERVICE_ID,
                 returnURL: conf.returnURL
             };
 
-            var login = new Login(loginConf);
+            var login = new SznLoginBackend(loginConf);
 
             var registerConf = {
                 url: conf.registerUrl || DEF_REGISTER_URL,
@@ -418,7 +420,7 @@
                 returnURL: conf.returnURL
             };
 
-            var register = new Register(registerConf);
+            var register = new SznRegisterBackend(registerConf);
 
             return {
                 opened:false,
@@ -773,12 +775,10 @@
                         if (newValue) {
                             sznRegister.checkUser(newValue).then(function(response) {
                                 $scope.processStatus(response, "username");
-                                $scope.$apply();
                             });
                         } else {
                             $scope.resetError([500, 404, 427, 430, 431]);
                             $scope.valid.username = null;
-                            $scope.$apply();
                         }
                     }, 300);
                 };
@@ -800,14 +800,12 @@
                         if (newValue) {
                             sznRegister.checkPassword(newValue).then(function(response) {
                                 $scope.processStatus(response, "password");
-                                $scope.$apply();
                             });
                         } else {
                             $scope.resetError([500, 406, 420, 421, 422, 423, 424]);
                             $scope.valid.password = null;
                             $scope.valid.passwordPower = 0;
                             $scope.changePasswordMeter();
-                            $scope.$apply();
                         }
                     }, 300);
                 };
@@ -855,7 +853,6 @@
                             if (passed) {
                                 $scope.setActiveWindow("verify-window");
                             }
-                            $scope.$apply();
                         }
                     );
                 };
