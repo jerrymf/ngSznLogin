@@ -1,0 +1,9 @@
+(function(win, angular) {
+
+"use strict";
+
+if (!win || !angular) {
+    throw new Error("ngSznLogin: I did not found angular. Init failed.");
+}
+
+var mdl = angular.module("ngSznLogin", ["ng"]);
