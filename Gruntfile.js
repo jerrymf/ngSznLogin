@@ -11,8 +11,8 @@ module.exports = function ( grunt ) {
         pkg: grunt.file.readJSON("package.json"),
         less: {
           build: {
-            src:"./src/css/ng-szn-login.less",
-            dest:"./build/ng-szn-login.css"
+            src:"./src/less/ng-szn-login.less",
+            dest:"./dist/ng-szn-login.css"
           }
         },
         ngtemplates:  {
@@ -23,7 +23,7 @@ module.exports = function ( grunt ) {
               }
             },
             src: "./src/html/**/*.html",
-            dest: "./build/templates.js"
+            dest: "./dist/templates.js"
           }
         },
         concat: {
@@ -50,13 +50,13 @@ module.exports = function ( grunt ) {
                    "./src/js/common-center-position-directive.js",
                    "./src/js/common-closeable-directive.js",
                    "./src/js/ng-szn-login.suffix",
-                   "./build/templates.js"
+                   "./dist/templates.js"
                 ],
-               dest: "./build/ng-szn-login.js"
+               dest: "./dist/ng-szn-login.js"
             }
         },
         clean: {
-            js: ["./build/templates.js"]
+            js: ["./dist/templates.js"]
         },
         copy: {
             main: {
@@ -64,12 +64,12 @@ module.exports = function ( grunt ) {
                     expand: true,
                     cwd: "./src/img/",
                     src: "**",
-                    dest: "./build/img"
+                    dest: "./dist/img"
                 },{
                     expand: true,
-                    cwd: "./src/css/",
+                    cwd: "./src/less/",
                     src: "**",
-                    dest: "./build/"
+                    dest: "./dist/"
                 }]
             }
         },
@@ -79,20 +79,20 @@ module.exports = function ( grunt ) {
                 tasks: ["ngtemplates", "concat", "copy", "clean"]
             },
             styles: {
-                files: ["./src/css/**/*.less"],
+                files: ["./src/less/**/*.less"],
                 tasks: ["less"],
                 options: {
                   nospawn: true
                 }
             },
             js: {
-              files: ["./src/js/**/*.js", "./build/templates.js"],
+              files: ["./src/js/**/*.js", "./dist/templates.js"],
               tasks: ["ngtemplates", "concat", "copy", "clean"]
             }
         }
     });
 
-    grunt.registerTask("default", ["less", "ngtemplates", "concat", "copy", "clean"]);
+    grunt.registerTask("default", ["build"]);
     grunt.registerTask("build", ["less", "ngtemplates", "concat", "copy", "clean"]);
 
 };
