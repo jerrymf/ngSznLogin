@@ -31,18 +31,15 @@
     }
 
     .szn-login-overlay {
-        z-index: 998;
+        .opacity(0.7);
+        .transition(opacity 0.7s);
         background: #fff;
-        filter: alpha(opacity=70);
-        opacity: 0.7;
-        transition: opacity 0.7s;
-        -webkit-transition: opacity 0.7s;
         position:fixed;
-        z-index:99998;
         top:0;
         left:0;
         right:0;
         bottom:0;
+        z-index:99998;
     }
 
     .szn-login-overflow {
@@ -64,8 +61,7 @@
             border-radius: 14px;
             padding: 60px 60px 54px;
             background: url('@{szn-login-img-path}/seznam.png') no-repeat 53px 48px #fffdf3;
-            transition: opacity 0.7s, transform 0.7s;
-            -webkit-transition: opacity 0.7s, -webkit-transform 0.7s;
+            .transition(opacity 0.7s, transform 0.7s);
 
             @media @szn-login-mobile {
                 padding: 30px 24px 14px;
@@ -124,8 +120,7 @@
                 text-align: left;
 
                 /* nelze sloucit */
-                & ::-webkit-input-placeholder { color: #808080; }
-                & :-moz-placeholder { color: #808080; }
+                .placeholder(#808080);
 
                 & > div {
                     width: 360px;
@@ -161,10 +156,8 @@
                 input[type=password],
                 input[type=submit],
                 input[type=button] {
+                    .box-sizing(content-box);
                     font-family: arial, sans-serif;
-                    -webkit-box-sizing: content-box;
-                    -moz-box-sizing: content-box;
-                    box-sizing: content-box;
                     border-width: 1px;
                     border-style: solid;
                     height: 31px;
@@ -186,6 +179,8 @@
 
                 input[type=submit],
                 input[type=button] {
+                    background: #ececec;
+                    .background-image(linear-gradient(top,  #ffffff 0%,#ececec 100%));
                     padding: 0;
                     font-size: 15px;
                     width: 136px;
@@ -194,25 +189,11 @@
                     color: #000;
                     border-color: #c5c5c5 #7d7d7d #7b7b7b #a1a1a1;
                     cursor: pointer;
-                    background: #f3f3f3; /* Old browsers */
-                    background: -moz-linear-gradient(top,  #ffffff 0%, #ececec 100%); /* FF3.6+ */
-                    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ececec)); /* Chrome,Safari4+ */
-                    background: -webkit-linear-gradient(top,  #ffffff 0%,#ececec 100%); /* Chrome10+,Safari5.1+ */
-                    background: -o-linear-gradient(top,  #ffffff 0%,#ececec 100%); /* Opera 11.10+ */
-                    background: -ms-linear-gradient(top,  #ffffff 0%,#ececec 100%); /* IE10+ */
-                    background: linear-gradient(top,  #ffffff 0%,#ececec 100%); /* W3C */
-                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ececec',GradientType=0 ); /* IE6-9 */
 
                     &:active {
-                        border-color: #bbb #707070 #666 #999;
                         background: #ececec; /* Old browsers */
-                        background: -moz-linear-gradient(top,  #f6f6f6 0%, #e1e1e1 100%); /* FF3.6+ */
-                        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#e1e1e1)); /* Chrome,Safari4+ */
-                        background: -webkit-linear-gradient(top,  #f6f6f6 0%,#e1e1e1 100%); /* Chrome10+,Safari5.1+ */
-                        background: -o-linear-gradient(top,  #f6f6f6 0%,#e1e1e1 100%); /* Opera 11.10+ */
-                        background: -ms-linear-gradient(top,  #f6f6f6 0%,#e1e1e1 100%); /* IE10+ */
-                        background: linear-gradient(top,  #f6f6f6 0%,#e1e1e1 100%); /* W3C */
-                        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#e1e1e1',GradientType=0 ); /* IE6-9 */
+                        .background-image(linear-gradient(top,  #f6f6f6 0%,#e1e1e1 100%));
+                        border-color: #bbb #707070 #666 #999;
                     }
 
                     @media @szn-login-mobile {

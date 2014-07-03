@@ -1,8 +1,8 @@
 mdl.directive("centerPosition", ["$timeout", "$window", function($timeout, $window) {
     return {
         rectrict:"A",
-        link: function($scope, element, attrs) {
-            var container = element[0];
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
 
             var destroy = function() {
                 angular.element($window).unbind("resize", $scope.modifyPosition);

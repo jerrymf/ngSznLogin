@@ -56,18 +56,22 @@
   cursor: default !important;
 }
 #sznLoginBox .szn-login-overlay {
-  z-index: 998;
-  background: #fff;
+  zoom: 1;
   filter: alpha(opacity=70);
+  -webkit-opacity: 0.7;
+  -moz-opacity: 0.7;
   opacity: 0.7;
-  transition: opacity 0.7s;
   -webkit-transition: opacity 0.7s;
+  -moz-transition: opacity 0.7s;
+  -o-transition: opacity 0.7s;
+  transition: opacity 0.7s;
+  background: #fff;
   position: fixed;
-  z-index: 99998;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 99998;
 }
 #sznLoginBox .szn-login-overflow {
   position: fixed;
@@ -88,8 +92,10 @@
   border-radius: 14px;
   padding: 60px 60px 54px;
   background: url('img/seznam.png') no-repeat 53px 48px #fffdf3;
-  transition: opacity 0.7s, transform 0.7s;
   -webkit-transition: opacity 0.7s, -webkit-transform 0.7s;
+  -moz-transition: opacity 0.7s, -moz-transform 0.7s;
+  -o-transition: opacity 0.7s, -o-transform 0.7s;
+  transition: opacity 0.7s,-webkit-transform 0.7s,-moz-transform 0.7s,-o-transform 0.7s,transform 0.7s;
 }
 @media screen and (max-width: 800px) {
   #sznLoginBox .szn-login-overflow .szn-login-window {
@@ -149,10 +155,16 @@
   text-align: left;
   /* nelze sloucit */
 }
-#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form ::-webkit-input-placeholder {
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form::-webkit-input-placeholder {
   color: #808080;
 }
-#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form :-moz-placeholder {
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form:-moz-placeholder {
+  color: #808080;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form::-moz-placeholder {
+  color: #808080;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form:-ms-input-placeholder {
   color: #808080;
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form > div {
@@ -187,10 +199,10 @@
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=password],
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit],
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button] {
-  font-family: arial, sans-serif;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
+  font-family: arial, sans-serif;
   border-width: 1px;
   border-style: solid;
   height: 31px;
@@ -210,6 +222,12 @@
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit],
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button] {
+  background: #ececec;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VjZWNlYyIgc3RvcC1vcGFjaXR5PSIxIi8+PC9saW5lYXJHcmFkaWVudD48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #ececec 100%);
   padding: 0;
   font-size: 15px;
   width: 136px;
@@ -218,42 +236,17 @@
   color: #000;
   border-color: #c5c5c5 #7d7d7d #7b7b7b #a1a1a1;
   cursor: pointer;
-  background: #f3f3f3;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #ffffff 0%, #ececec 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #ececec));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #ffffff 0%, #ececec 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #ffffff 0%, #ececec 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #ffffff 0%, #ececec 100%);
-  /* IE10+ */
-  background: linear-gradient(top, #ffffff 0%, #ececec 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ececec', GradientType=0);
-  /* IE6-9 */
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit]:active,
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=button]:active {
-  border-color: #bbb #707070 #666 #999;
   background: #ececec;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f6f6f6), color-stop(100%, #e1e1e1));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
-  /* IE10+ */
-  background: linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#e1e1e1', GradientType=0);
-  /* IE6-9 */
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmNmY2ZjYiIHN0b3Atb3BhY2l0eT0iMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2UxZTFlMSIgc3RvcC1vcGFjaXR5PSIxIi8+PC9saW5lYXJHcmFkaWVudD48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);
+  background-image: -webkit-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  background-image: -moz-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  background-image: -o-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+  background-image: linear-gradient(to bottom, #f6f6f6 0%, #e1e1e1 100%);
+  border-color: #bbb #707070 #666 #999;
 }
 @media screen and (max-width: 800px) {
   #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-form input[type=submit],

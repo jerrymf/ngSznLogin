@@ -624,10 +624,6 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                 $interval(checkCookie, 1000);
                 checkCookie();
             }
-
-            $timeout(function() {
-
-            }, 100);
         }],
         link:function($scope, element, attrs) {
             var sznLoginConf = sznLogin.getConf();
@@ -636,13 +632,19 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
             var adElm = container.querySelector("#sznLoginAd");
 
             var showAd = function(data) {
-                var elm = angular.element(adElm).html(data);
+                var elm = angular.element(adElm);
+                elm.append(data);
+
                 if (data.indexOf("/impress?spotId") > -1) {
                     elm.addClass("adFull");
                 } else {
                     elm.removeClass("adFull");
                 }
-                $timeout($scope.modifyPosition, 0);
+
+                $timeout($scope.modifyPosition);
+                if (!("getSelection" in window)) { // IE8 redraw fix :-/
+                    $timeout($scope.modifyPosition);
+                }
             };
 
             var onInit = function() {
@@ -1048,8 +1050,8 @@ mdl.directive("autoFillSync", ["$timeout", function($timeout) {
 mdl.directive("centerPosition", ["$timeout", "$window", function($timeout, $window) {
     return {
         rectrict:"A",
-        link: function($scope, element, attrs) {
-            var container = element[0];
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
 
             var destroy = function() {
                 angular.element($window).unbind("resize", $scope.modifyPosition);

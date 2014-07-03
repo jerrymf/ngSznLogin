@@ -112,10 +112,6 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                 $interval(checkCookie, 1000);
                 checkCookie();
             }
-
-            $timeout(function() {
-
-            }, 100);
         }],
         link:function($scope, element, attrs) {
             var sznLoginConf = sznLogin.getConf();
@@ -124,13 +120,19 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
             var adElm = container.querySelector("#sznLoginAd");
 
             var showAd = function(data) {
-                var elm = angular.element(adElm).html(data);
+                var elm = angular.element(adElm);
+                elm.append(data);
+
                 if (data.indexOf("/impress?spotId") > -1) {
                     elm.addClass("adFull");
                 } else {
                     elm.removeClass("adFull");
                 }
-                $timeout($scope.modifyPosition, 0);
+
+                $timeout($scope.modifyPosition);
+                if (!("getSelection" in window)) { // IE8 redraw fix :-/
+                    $timeout($scope.modifyPosition);
+                }
             };
 
             var onInit = function() {
