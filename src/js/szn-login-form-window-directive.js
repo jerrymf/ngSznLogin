@@ -49,8 +49,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
 
                 switch (data.status) {
                     case 200:
-                        if (sznLoginConf.autoClose) { $scope.close(); }
                         $rootScope.$broadcast("szn-login-done", {auto:false});
+                        if (sznLoginConf.autoClose) { $scope.close(); }
                     break;
 
                     case 201:
