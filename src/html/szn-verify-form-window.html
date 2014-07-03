@@ -5,7 +5,7 @@
             <div class="text">Pro dokončení klikněte na odkaz, který jsme vám poslali na e-mail nebo opište zaslaný kód.</div>
             <div>
                 <div>
-                    <span class="input"><input type="text" placeholder="XXXX" ng-model="data.pin"><span class="icon"></span></span><input type="submit" value="Dokončit">
+                    <span class="input"><input type="text" placeholder="XXXXXX" title="Zadejte obdržený kód" ng-model="data.pin"><span class="icon"></span></span><input type="submit" value="Dokončit">
                 </div>
                 <div class="text error" ng-if="!!error.msgs.length"><div ng-repeat="emsg in error.msgs"><strong>{{emsg.msg}}</strong></div></div>
                 <div class="resend" ng-if="!resended">
