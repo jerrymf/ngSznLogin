@@ -575,7 +575,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                     case 200:
                         $rootScope.$broadcast("szn-login-done", {auto:false});
                         if (sznLoginConf.autoClose) { $scope.close(); }
-                    break;
+                    return;
 
                     case 201:
                         var name = $scope.data.username;
@@ -614,7 +614,9 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                     break;
                 }
 
-                $scope.$apply();
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
             };
 
             $scope.continueWithWeakPassword = function(e) {
@@ -1126,12 +1128,12 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-login-box.html',
-    "<div id=\"sznLoginBox\"><div class=\"szn-login-overlay\"></div><div class=\"szn-login-overflow\"><szn-login-form-window ng-if=\"activeWindow == 'login-window'\" center-position=\"\" closeable=\"\"></szn-login-form-window><szn-register-form-window ng-if=\"activeWindow == 'register-window'\" center-position=\"\" closeable=\"\"></szn-register-form-window><szn-verify-form-window ng-if=\"activeWindow == 'verify-window'\" center-position=\"\" closeable=\"\"></szn-verify-form-window><szn-done-form-window ng-if=\"activeWindow == 'done-window'\" center-position=\"\" closeable=\"\"></szn-done-form-window></div></div>"
+    "<div id=\"sznLoginBox\"><div class=\"szn-login-overlay\"></div><div class=\"szn-login-overflow\"><szn-login-form-window ng-if=\"activeWindow == 'login-window'\" center-position closeable></szn-login-form-window><szn-register-form-window ng-if=\"activeWindow == 'register-window'\" center-position closeable></szn-register-form-window><szn-verify-form-window ng-if=\"activeWindow == 'verify-window'\" center-position closeable></szn-verify-form-window><szn-done-form-window ng-if=\"activeWindow == 'done-window'\" center-position closeable></szn-done-form-window></div></div>"
   );
 
 
   $templateCache.put('./src/html/szn-login-form-window.html',
-    "<div class=\"szn-login-window hidden\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\" ng-bind-html=\"titleText\"></div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{error.msg}}</strong> (<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">Změnit heslo</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">Pokračovat se současným heslem</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync=\"\" placeholder=\"Libovolný e-mail\"><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync=\"\" placeholder=\"Heslo\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"Přihlásit se\"></div><div><label><input type=\"checkbox\" ng-model=\"data.remember\">Pamatovat si mě na tomto počítači (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>Pro správné přihlášení je potřeba zapnout cookies. Nevíte se rady? Podívejte se do <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">nápovědy</a>.</div></div><div><div class=\"info\">Nejste zaregistrováni na Seznam.cz? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">Registrujte se!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">Zaslat zapomenuté heslo</a></div></div><div class=\"line\"></div></form></div></div>"
+    "<div class=\"szn-login-window hidden\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\" ng-bind-html=\"titleText\"></div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{error.msg}}</strong> (<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">Změnit heslo</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">Pokračovat se současným heslem</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync placeholder=\"Libovolný e-mail\"><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync placeholder=\"Heslo\"><span class=\"icon\"></span></span> <input type=\"submit\" value=\"Přihlásit se\"></div><div><label><input type=\"checkbox\" ng-model=\"data.remember\">Pamatovat si mě na tomto počítači (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>Pro správné přihlášení je potřeba zapnout cookies. Nevíte se rady? Podívejte se do <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">nápovědy</a>.</div></div><div><div class=\"info\">Nejste zaregistrováni na Seznam.cz? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">Registrujte se!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">Zaslat zapomenuté heslo</a></div></div><div class=\"line\"></div></form></div></div>"
   );
 
 

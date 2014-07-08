@@ -51,7 +51,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                     case 200:
                         $rootScope.$broadcast("szn-login-done", {auto:false});
                         if (sznLoginConf.autoClose) { $scope.close(); }
-                    break;
+                    return;
 
                     case 201:
                         var name = $scope.data.username;
@@ -90,7 +90,9 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                     break;
                 }
 
-                $scope.$apply();
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
             };
 
             $scope.continueWithWeakPassword = function(e) {
