@@ -350,7 +350,7 @@
   }
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form input[type=submit] {
-  float: right;
+  margin-left: 2px;
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form label {
   cursor: pointer;
