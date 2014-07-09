@@ -644,7 +644,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
             var container = element[0];
             var form = container.querySelector("#sznloginForm");
             var adElm = container.querySelector("#sznLoginAd");
-            var usernameInput = container.querySelector("input[name='username']");
+            var usernameInput = container.querySelector("input[name=username]");
 
             var showAd = function(data) {
                 var elm = angular.element(adElm);
@@ -670,7 +670,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                         callback: showAd
                     };
                     im.getAds([ad], true);
-                    usernameInput.focus();
+                    $timeout(function() { usernameInput.focus(); });
                 }
             };
 
