@@ -927,6 +927,11 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", function($timeout) {
                 passwordMeter.style.backgroundColor = "rgb("+c.join(",")+")";
                 passwordMeter.style.width = power + '%';
             };
+
+            $timeout(function() {
+                var usernameInput = container.querySelector("input[name=username]");
+                usernameInput.focus();
+            });
         },
         templateUrl:"./src/html/szn-register-form-window.html"
     };
@@ -1011,6 +1016,14 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
                 $scope.data.pin = "";
             };
         }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $timeout(function() {
+                var verifyInput = container.querySelector("input[name=verify]");
+                verifyInput.focus();
+            });
+        },
         templateUrl:"./src/html/szn-verify-form-window.html"
     };
 }]);
@@ -1151,12 +1164,12 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-register-form-window.html',
-    "<div class=\"szn-login-window register hidden\"><div class=\"szn-login-close\"></div><div class=\"szn-register-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\"><strong>Registrujte</strong> se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám.</div><div><div><span class=\"input\" ng-class=\"{ok: valid.username, error: valid.username === false}\"><input type=\"text\" placeholder=\"Libovolný e-mail\" ng-model=\"data.username\" ng-blur=\"activateUsernameWatcher();\"><span class=\"icon\"></span></span></div><div class=\"password-line\"><span class=\"input\" ng-class=\"{ok: valid.password, error: valid.password === false}\"><input type=\"password\" placeholder=\"Heslo\" ng-model=\"data.password\" ng-blur=\"activatePasswordWatcher();\"><span class=\"icon\"></span><span id=\"passwordMeter\"><span style=\"width: 0%; background-color: rgb(238, 14, 14)\"></span></span></span> <span class=\"input second\" ng-class=\"{ok: valid.passwordRepeat, error: valid.passwordRepeat === false}\"><input type=\"password\" placeholder=\"Zopakujte heslo\" ng-model=\"data.passwordRepeat\" ng-blur=\"activatePasswordRepeatWatcher();\"><span class=\"icon\"></span></span><div class=\"szn-login-clear\"></div></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div><input type=\"checkbox\" ng-model=\"data.acceptation\">Registrací souhlasíte s <a ng-href=\"https://registrace.seznam.cz/licenceScreen\" target=\"_blank\">podmínkami služby</a>.</div><input type=\"submit\" value=\"Pokračovat\" ng-class=\"{disabled:!data.acceptation}\" title=\"Před pokračováním musíte souhlasit s podmínkami služby\"><div class=\"info\"><a ng-href=\"https://registrace.seznam.cz\" target=\"_blank\">Nemám e-mail a chci ho vytvořit</a></div><div><a ng-href=\"#\" ng-click=\"activateLoginPage($event);\">Jsem registrovaný a chci se přihlásit</a></div></div></form></div></div>"
+    "<div class=\"szn-login-window register hidden\"><div class=\"szn-login-close\"></div><div class=\"szn-register-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\"><strong>Registrujte</strong> se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám.</div><div><div><span class=\"input\" name=\"username\" ng-class=\"{ok: valid.username, error: valid.username === false}\"><input type=\"text\" placeholder=\"Libovolný e-mail\" ng-model=\"data.username\" ng-blur=\"activateUsernameWatcher();\"><span class=\"icon\"></span></span></div><div class=\"password-line\"><span class=\"input\" ng-class=\"{ok: valid.password, error: valid.password === false}\"><input type=\"password\" placeholder=\"Heslo\" ng-model=\"data.password\" ng-blur=\"activatePasswordWatcher();\"><span class=\"icon\"></span><span id=\"passwordMeter\"><span style=\"width: 0%; background-color: rgb(238, 14, 14)\"></span></span></span> <span class=\"input second\" ng-class=\"{ok: valid.passwordRepeat, error: valid.passwordRepeat === false}\"><input type=\"password\" placeholder=\"Zopakujte heslo\" ng-model=\"data.passwordRepeat\" ng-blur=\"activatePasswordRepeatWatcher();\"><span class=\"icon\"></span></span><div class=\"szn-login-clear\"></div></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div><input type=\"checkbox\" ng-model=\"data.acceptation\">Registrací souhlasíte s <a ng-href=\"https://registrace.seznam.cz/licenceScreen\" target=\"_blank\">podmínkami služby</a>.</div><input type=\"submit\" value=\"Pokračovat\" ng-class=\"{disabled:!data.acceptation}\" title=\"Před pokračováním musíte souhlasit s podmínkami služby\"><div class=\"info\"><a ng-href=\"https://registrace.seznam.cz\" target=\"_blank\">Nemám e-mail a chci ho vytvořit</a></div><div><a ng-href=\"#\" ng-click=\"activateLoginPage($event);\">Jsem registrovaný a chci se přihlásit</a></div></div></form></div></div>"
   );
 
 
   $templateCache.put('./src/html/szn-verify-form-window.html',
-    "<div class=\"szn-login-window verify hidden\"><div class=\"szn-login-close\"></div><div class=\"szn-verify-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\">Pro dokončení klikněte na odkaz, který jsme vám poslali na e-mail nebo opište zaslaný kód.</div><div><div><span class=\"input\"><input type=\"text\" placeholder=\"XXXXXX\" title=\"Zadejte obdržený kód\" ng-model=\"data.pin\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"Dokončit\"></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div class=\"resend\" ng-if=\"!resended\">Nepřišel vám kód? <a ng-href=\"#\" ng-click=\"resendCode($event);\">Zaslat znovu ověřovací kód</a></div><div class=\"text resend notify\" ng-if=\"!!resended\"><strong>Zkontrolujte svou e-mailovou schránku, kam jsme vám zaslali nový ověřovací kód.</strong></div></div></form></div></div>"
+    "<div class=\"szn-login-window verify hidden\"><div class=\"szn-login-close\"></div><div class=\"szn-verify-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\">Pro dokončení klikněte na odkaz, který jsme vám poslali na e-mail nebo opište zaslaný kód.</div><div><div><span class=\"input\"><input type=\"text\" name=\"verify\" placeholder=\"XXXXXX\" title=\"Zadejte obdržený kód\" ng-model=\"data.pin\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"Dokončit\"></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div class=\"resend\" ng-if=\"!resended\">Nepřišel vám kód? <a ng-href=\"#\" ng-click=\"resendCode($event);\">Zaslat znovu ověřovací kód</a></div><div class=\"text resend notify\" ng-if=\"!!resended\"><strong>Zkontrolujte svou e-mailovou schránku, kam jsme vám zaslali nový ověřovací kód.</strong></div></div></form></div></div>"
   );
 
 }]);

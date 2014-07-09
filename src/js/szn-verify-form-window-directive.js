@@ -77,6 +77,14 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
                 $scope.data.pin = "";
             };
         }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $timeout(function() {
+                var verifyInput = container.querySelector("input[name=verify]");
+                verifyInput.focus();
+            });
+        },
         templateUrl:"./src/html/szn-verify-form-window.html"
     };
 }]);
