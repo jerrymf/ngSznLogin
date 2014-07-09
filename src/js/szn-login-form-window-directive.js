@@ -146,7 +146,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                         callback: showAd
                     };
                     im.getAds([ad], true);
-                    usernameInput.focus();
+                    $timeout(function() { usernameInput.focus(); });
                 }
             };
 
