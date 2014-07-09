@@ -644,6 +644,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
             var container = element[0];
             var form = container.querySelector("#sznloginForm");
             var adElm = container.querySelector("#sznLoginAd");
+            var usernameInput = container.querySelector("input[name='username']");
 
             var showAd = function(data) {
                 var elm = angular.element(adElm);
@@ -669,6 +670,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                         callback: showAd
                     };
                     im.getAds([ad], true);
+                    usernameInput.focus();
                 }
             };
 
@@ -1103,8 +1105,16 @@ mdl.directive("closeable", [function() {
             var container = element[0];
             var closeButton = container.querySelector(".szn-login-close");
 
+            var onKeyup = function(e) {
+                var keycode = e.keycode || e.which;
+                if (keycode == 27) {
+                    $scope.close();
+                }
+            };
+
             var destroy = function() {
                 angular.element(closeButton).unbind("click", close);
+                angular.element(window).unbind("keyup", onKeyup);
             };
 
             $scope.close = function(e) {
@@ -1112,6 +1122,7 @@ mdl.directive("closeable", [function() {
             };
 
             angular.element(closeButton).bind("click", $scope.close);
+            angular.element(window).bind("keyup", onKeyup);
             $scope.$on("$destroy", destroy);
         }
     };
