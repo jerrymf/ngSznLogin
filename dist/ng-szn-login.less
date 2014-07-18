@@ -31,9 +31,8 @@
 
     .szn-login-overlay {
         .opacity(0);
-        .transition(opacity 0.5s);
-        .background-image(linear-gradient(to bottom, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0.7) 100%));
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aaffffff', endColorstr='#aaffffff',GradientType=0 );
+        .transition(opacity 0.7s);
+        background:#fff;
         position:fixed;
         top:0;
         left:0;
@@ -42,12 +41,12 @@
         z-index:99998;
 
         &.szn-login-active {
-            .opacity(1.0);
+            .opacity(0.7);
         }
     }
 
     .szn-login-overflow {
-        position:absolute;
+        position:fixed;
         z-index:99999;
         top:0;
         left:0;
@@ -65,6 +64,41 @@
             border-radius: 14px;
             padding: 60px 60px 54px;
             background: url('@{szn-login-img-path}/seznam.png') no-repeat 53px 48px #fffdf3;
+
+            &.ng-enter {
+                .opacity(0);
+                .transition(opacity 0.7s, transform 0.7s);
+
+                &.from-left {
+                    .transform(translateX(-600px));
+                }
+
+                &.from-right {
+                    .transform(translateX(600px));
+                }
+
+                &.ng-enter-active {
+                    .opacity(1);
+                    .transform(translateX(0));
+                }
+            }
+
+            &.ng-leave {
+                .opacity(1);
+                .transition(opacity 0.7s, transform 0.7s);
+
+                &.ng-leave-active {
+                    .opacity(0);
+
+                    &.to-right {
+                        .transform(translateX(600px));
+                    }
+
+                    &.to-left {
+                        .transform(translateX(-600px));
+                    }
+                }
+            }
 
             @media @szn-login-mobile {
                 padding: 30px 24px 14px;

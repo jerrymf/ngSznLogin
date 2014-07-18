@@ -76,7 +76,22 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
                 $scope.resetError();
                 $scope.data.pin = "";
             };
+
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
         }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $scope.changeClasses = function(old, current) {
+                if (old == "register-window") {
+                    angular.element(container).addClass("from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
+        },
         templateUrl:"./src/html/szn-verify-form-window.html"
     };
 }]);

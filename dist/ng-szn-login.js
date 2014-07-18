@@ -508,6 +508,7 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
             var elm = element[0];
             var overlay = elm.querySelector(".szn-login-overlay");
 
+            $scope.oldActiveWindow = null;
             $scope.activeWindow = attrs.activewindow;
 
             var remove = function() {
@@ -515,11 +516,17 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
             };
 
             var onDestroy = function() {
+                $scope.$apply(function() {
+                    $scope.oldActiveWindow = null;
+                    $scope.activeWindow = null;
+                });
                 $animate.removeClass(overlay, "szn-login-active", remove);
             }
 
             $scope.setActiveWindow = function(name) {
+                $scope.oldActiveWindow = $scope.activeWindow;
                 $scope.activeWindow = name;
+                $scope.$broadcast("szn-login-active-window-changed", {old:$scope.oldActiveWindow, current:$scope.activeWindow});
             };
 
             $scope.$on("$destroy", onDestroy);
@@ -648,6 +655,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                 $interval(checkCookie, 1000);
                 checkCookie();
             }
+
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
         }],
         link:function($scope, element, attrs) {
             var sznLoginConf = sznLogin.getConf();
@@ -670,6 +681,18 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                     $timeout($scope.modifyPosition);
                 }
             };
+
+            $scope.changeClasses = function(old, current) {
+                if (current == "register-window") {
+                    angular.element(container).addClass("to-left");
+                }
+
+                if (old == "register-window") {
+                    angular.element(container).addClass("from-left");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
 
             var onInit = function() {
                 if (window.im && sznLoginConf.zoneId) {
@@ -915,6 +938,10 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", function($timeout) {
                     }
                 );
             };
+
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
         }],
         link: function($scope, element, attrs) {
             var container = element[0];
@@ -933,6 +960,22 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", function($timeout) {
                 passwordMeter.style.backgroundColor = "rgb("+c.join(",")+")";
                 passwordMeter.style.width = power + '%';
             };
+
+            $scope.changeClasses = function(old, current) {
+                if (current == "login-window") {
+                    angular.element(container).addClass("to-right");
+                }
+
+                if (current == "verify-window") {
+                    angular.element(container).addClass("to-left");
+                }
+
+                if (old == "login-window") {
+                    angular.element(container).addClass("from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-register-form-window.html"
     };
@@ -1016,7 +1059,22 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
                 $scope.resetError();
                 $scope.data.pin = "";
             };
+
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
         }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $scope.changeClasses = function(old, current) {
+                if (old == "register-window") {
+                    angular.element(container).addClass("from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
+        },
         templateUrl:"./src/html/szn-verify-form-window.html"
     };
 }]);
@@ -1048,9 +1106,21 @@ mdl.directive("sznDoneFormWindow", ["$timeout", "$window", function($timeout, $w
                 var values = sznRegister.getUsernameAndPassword();
                 sznLoginBackend.login(values.username, values.password).then($scope.loginDone);
             });
-        }],
-        link: function($scope, element, attrs) {
 
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
+        }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $scope.changeClasses = function(old, current) {
+                if (old == "verify-window") {
+                    angular.element(container).addClass("from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-done-form-window.html"
     };
@@ -1159,7 +1229,7 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-login-box.html',
-    "<div id=\"sznLoginBox\"><div class=\"szn-login-overlay\"><div class=\"szn-login-overflow\"><szn-login-form-window ng-if=\"activeWindow == 'login-window'\" center-position closeable></szn-login-form-window><szn-register-form-window ng-if=\"activeWindow == 'register-window'\" center-position closeable></szn-register-form-window><szn-verify-form-window ng-if=\"activeWindow == 'verify-window'\" center-position closeable></szn-verify-form-window><szn-done-form-window ng-if=\"activeWindow == 'done-window'\" center-position closeable></szn-done-form-window></div></div></div>"
+    "<div id=\"sznLoginBox\"><div class=\"szn-login-overlay\"></div><div class=\"szn-login-overflow\"><szn-login-form-window ng-if=\"activeWindow == 'login-window'\" center-position closeable></szn-login-form-window><szn-register-form-window ng-if=\"activeWindow == 'register-window'\" center-position closeable></szn-register-form-window><szn-verify-form-window ng-if=\"activeWindow == 'verify-window'\" center-position closeable></szn-verify-form-window><szn-done-form-window ng-if=\"activeWindow == 'done-window'\" center-position closeable></szn-done-form-window></div></div>"
   );
 
 

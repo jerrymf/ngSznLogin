@@ -7,6 +7,7 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
             var elm = element[0];
             var overlay = elm.querySelector(".szn-login-overlay");
 
+            $scope.oldActiveWindow = null;
             $scope.activeWindow = attrs.activewindow;
 
             var remove = function() {
@@ -14,11 +15,17 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
             };
 
             var onDestroy = function() {
+                $scope.$apply(function() {
+                    $scope.oldActiveWindow = null;
+                    $scope.activeWindow = null;
+                });
                 $animate.removeClass(overlay, "szn-login-active", remove);
             }
 
             $scope.setActiveWindow = function(name) {
+                $scope.oldActiveWindow = $scope.activeWindow;
                 $scope.activeWindow = name;
+                $scope.$broadcast("szn-login-active-window-changed", {old:$scope.oldActiveWindow, current:$scope.activeWindow});
             };
 
             $scope.$on("$destroy", onDestroy);

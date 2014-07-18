@@ -114,6 +114,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                 $interval(checkCookie, 1000);
                 checkCookie();
             }
+
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
         }],
         link:function($scope, element, attrs) {
             var sznLoginConf = sznLogin.getConf();
@@ -136,6 +140,18 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                     $timeout($scope.modifyPosition);
                 }
             };
+
+            $scope.changeClasses = function(old, current) {
+                if (current == "register-window") {
+                    angular.element(container).addClass("to-left");
+                }
+
+                if (old == "register-window") {
+                    angular.element(container).addClass("from-left");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
 
             var onInit = function() {
                 if (window.im && sznLoginConf.zoneId) {

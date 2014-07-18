@@ -225,6 +225,10 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", function($timeout) {
                     }
                 );
             };
+
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
         }],
         link: function($scope, element, attrs) {
             var container = element[0];
@@ -243,6 +247,22 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", function($timeout) {
                 passwordMeter.style.backgroundColor = "rgb("+c.join(",")+")";
                 passwordMeter.style.width = power + '%';
             };
+
+            $scope.changeClasses = function(old, current) {
+                if (current == "login-window") {
+                    angular.element(container).addClass("to-right");
+                }
+
+                if (current == "verify-window") {
+                    angular.element(container).addClass("to-left");
+                }
+
+                if (old == "login-window") {
+                    angular.element(container).addClass("from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-register-form-window.html"
     };

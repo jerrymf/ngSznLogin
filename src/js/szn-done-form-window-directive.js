@@ -25,9 +25,21 @@ mdl.directive("sznDoneFormWindow", ["$timeout", "$window", function($timeout, $w
                 var values = sznRegister.getUsernameAndPassword();
                 sznLoginBackend.login(values.username, values.password).then($scope.loginDone);
             });
-        }],
-        link: function($scope, element, attrs) {
 
+            $scope.$on("szn-login-active-window-changed", function(scope, values) {
+                $scope.changeClasses(values.old, values.current);
+            });
+        }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $scope.changeClasses = function(old, current) {
+                if (old == "verify-window") {
+                    angular.element(container).addClass("from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-done-form-window.html"
     };
