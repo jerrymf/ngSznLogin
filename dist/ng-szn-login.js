@@ -516,12 +516,13 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
             };
 
             var onDestroy = function() {
-                $scope.$apply(function() {
-                    $scope.oldActiveWindow = null;
-                    $scope.activeWindow = null;
-                });
-
+                $scope.oldActiveWindow = null;
+                $scope.activeWindow = null;
                 $animate.removeClass(overlay, "szn-login-active", remove);
+
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
             }
 
             $scope.setActiveWindow = function(name) {
