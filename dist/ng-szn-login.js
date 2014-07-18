@@ -411,7 +411,7 @@ mdl.provider("sznLogin", function() {
         }
     };
 
-    this.$get = ["$compile", "$rootScope", "SznLoginBackend", "SznRegisterBackend", "DEFAULTS", function($compile, $rootScope, SznLoginBackend, SznRegisterBackend, DEFAULTS) {
+    this.$get = ["$compile", "$rootScope", "$timeout", "SznLoginBackend", "SznRegisterBackend", "DEFAULTS", function($compile, $rootScope, $timeout, SznLoginBackend, SznRegisterBackend, DEFAULTS) {
         var loginConf = {
             url: conf.url || DEFAULTS.loginUrl,
             serviceId: conf.serviceId || DEFAULTS.serviceId,
@@ -443,8 +443,8 @@ mdl.provider("sznLogin", function() {
                 this.scope.$on("szn-login-close-request", this.close.bind(this));
                 this.scope.$on("szn-login-done", function() {
                     if (this.callbackAfterLogin) {
-                        this.callbackAfterLogin();
-                        this.callbackAfterLogin = null;
+                        var cbk = this.callbackAfterLogin;
+                        $timeout(cbk);
                     }
                 }.bind(this));
 
@@ -520,6 +520,7 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
                     $scope.oldActiveWindow = null;
                     $scope.activeWindow = null;
                 });
+
                 $animate.removeClass(overlay, "szn-login-active", remove);
             }
 
@@ -629,10 +630,6 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                         $scope.error.msg = data.statusMessage;
                         $scope.error.href = "";
                     break;
-                }
-
-                if (!$scope.$$phase) {
-                    $scope.$apply();
                 }
             };
 
@@ -1048,7 +1045,6 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
                     if (passed) {
                         $scope.setActiveWindow("done-window");
                     }
-                    $scope.$apply();
                 });
             };
 
@@ -1213,7 +1209,7 @@ mdl.directive("focusable", ["$timeout", function($timeout) {
             var elm = elements[0];
             $timeout(function() {
                 elm.focus();
-            });
+            }, 25);
         }
     };
 }]);

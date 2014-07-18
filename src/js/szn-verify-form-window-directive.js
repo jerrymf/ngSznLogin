@@ -65,7 +65,6 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
                     if (passed) {
                         $scope.setActiveWindow("done-window");
                     }
-                    $scope.$apply();
                 });
             };
 

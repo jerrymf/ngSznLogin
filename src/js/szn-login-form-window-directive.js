@@ -89,10 +89,6 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                         $scope.error.href = "";
                     break;
                 }
-
-                if (!$scope.$$phase) {
-                    $scope.$apply();
-                }
             };
 
             $scope.continueWithWeakPassword = function(e) {
