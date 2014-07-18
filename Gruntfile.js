@@ -49,6 +49,7 @@ module.exports = function ( grunt ) {
                    "./src/js/common-auto-fill-sync-directive.js",
                    "./src/js/common-center-position-directive.js",
                    "./src/js/common-closeable-directive.js",
+                   "./src/js/common-focusable-directive.js",
                    "./src/js/ng-szn-login.suffix",
                    "./dist/templates.js"
                 ],

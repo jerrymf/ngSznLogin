@@ -1,5 +1,4 @@
-@import "../../bower_components/lesshat/build/lesshat.less";
-@import "ng-szn-login-img-path.less";
+@import "ng-szn-login-config.less";
 
 @szn-login-mobile: ~"screen and (max-width: 800px)";
 
@@ -31,20 +30,25 @@
     }
 
     .szn-login-overlay {
-        .opacity(0.7);
-        .transition(opacity 0.7s);
-        background: #fff;
+        .opacity(0);
+        .transition(opacity 0.5s);
+        .background-image(linear-gradient(to bottom, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0.7) 100%));
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aaffffff', endColorstr='#aaffffff',GradientType=0 );
         position:fixed;
         top:0;
         left:0;
         right:0;
         bottom:0;
         z-index:99998;
+
+        &.szn-login-active {
+            .opacity(1.0);
+        }
     }
 
     .szn-login-overflow {
-        position:fixed;
-        z-index:99998;
+        position:absolute;
+        z-index:99999;
         top:0;
         left:0;
         right:0;
@@ -53,7 +57,7 @@
         width: 100%;
 
         .szn-login-window {
-            position: fixed;
+            position: absolute;
             left: 0;
             top: 0;
             box-shadow: 0 0 70px rgba(119, 126, 133, 0.71);
@@ -61,7 +65,6 @@
             border-radius: 14px;
             padding: 60px 60px 54px;
             background: url('@{szn-login-img-path}/seznam.png') no-repeat 53px 48px #fffdf3;
-            .transition(opacity 0.7s, transform 0.7s);
 
             @media @szn-login-mobile {
                 padding: 30px 24px 14px;
@@ -119,7 +122,6 @@
                 color: #333;
                 text-align: left;
 
-                /* nelze sloucit */
                 .placeholder(#808080);
 
                 & > div {

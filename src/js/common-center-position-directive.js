@@ -28,7 +28,7 @@ mdl.directive("centerPosition", ["$timeout", "$window", function($timeout, $wind
             angular.element($window).bind("resize", $scope.modifyPosition);
             $scope.$on("$destroy", destroy);
 
-            onInit();
+            $timeout(onInit);
         }
     };
 }]);

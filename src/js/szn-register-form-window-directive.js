@@ -243,11 +243,6 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", function($timeout) {
                 passwordMeter.style.backgroundColor = "rgb("+c.join(",")+")";
                 passwordMeter.style.width = power + '%';
             };
-
-            $timeout(function() {
-                var usernameInput = container.querySelector("input[name=username]");
-                usernameInput.focus();
-            });
         },
         templateUrl:"./src/html/szn-register-form-window.html"
     };

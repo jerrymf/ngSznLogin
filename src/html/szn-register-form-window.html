@@ -5,7 +5,7 @@
             <div class="text"><strong>Registrujte</strong> se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám.</div>
             <div>
                 <div>
-                    <span class="input" ng-class="{ok: valid.username, error: valid.username === false}"><input type="text" name="username" placeholder="Libovolný e-mail" ng-model="data.username" ng-blur="activateUsernameWatcher();"><span class="icon"></span></span>
+                    <span class="input" ng-class="{ok: valid.username, error: valid.username === false}"><input type="text" name="username" placeholder="Libovolný e-mail" ng-model="data.username" ng-blur="activateUsernameWatcher();" focusable><span class="icon"></span></span>
                 </div>
                 <div class="password-line">
                     <span class="input" ng-class="{ok: valid.password, error: valid.password === false}"><input type="password" placeholder="Heslo" ng-model="data.password" ng-blur="activatePasswordWatcher();"><span class="icon"></span><span id="passwordMeter"><span style="width: 0%; background-color: rgb(238, 14, 14);"></span></span></span>

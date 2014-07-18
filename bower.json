@@ -1,6 +1,6 @@
 {
   "name": "ngSznLogin",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "homepage": "https://github.com/jerrymf/ngSznLogin",
   "authors": [
     "Marek Fojtl <marek.fojtl@firma.seznam.cz>"
@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "angular": "1.2.x",
-    "lesshat": "3.0.x"
+    "lesshat": "3.0.x",
+    "angular-animate": "~1.2.20"
   }
 }
