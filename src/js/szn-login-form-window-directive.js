@@ -1,4 +1,4 @@
-mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScope", "sznLogin", function($timeout, $interval, $sce, $rootScope, sznLogin) {
+mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate", "$rootScope", "sznLogin", function($timeout, $interval, $sce, $animate, $rootScope, sznLogin) {
     return {
         restrict:"E",
         replace:true,
@@ -137,19 +137,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                 }
             };
 
-            $scope.changeClasses = function(old, current) {
-                if (current == "register-window") {
-                    angular.element(container).addClass("to-left");
-                }
-
-                if (old == "register-window") {
-                    angular.element(container).addClass("from-left");
-                }
-            };
-
-            $scope.changeClasses($scope.oldActiveWindow);
-
-            var onInit = function() {
+            var callAd = function() {
                 if (window.im && sznLoginConf.zoneId) {
                     var ad = {
                         zoneId: sznLoginConf.zoneId,
@@ -160,7 +148,18 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$rootScop
                 }
             };
 
-            onInit();
+            $scope.changeClasses = function(old, current) {
+                if (current == "register-window") {
+                    $animate.addClass(container, "to-left");
+                }
+
+                if (old == "register-window") {
+                    $animate.addClass(container, "from-left");
+                }
+            };
+
+            callAd();
+            $scope.changeClasses($scope.oldActiveWindow, null);
         },
         templateUrl:"./src/html/szn-login-form-window.html"
     };

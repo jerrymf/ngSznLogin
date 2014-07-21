@@ -22,7 +22,7 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
                 if (!$scope.$$phase) {
                     $scope.$apply();
                 }
-            }
+            };
 
             $scope.setActiveWindow = function(name) {
                 $scope.oldActiveWindow = $scope.activeWindow;

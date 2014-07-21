@@ -5,7 +5,7 @@ mdl.directive("focusable", ["$timeout", function($timeout) {
             var elm = elements[0];
             $timeout(function() {
                 elm.focus();
-            }, 25);
+            }, 700);
         }
     };
 }]);

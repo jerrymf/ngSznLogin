@@ -1,4 +1,4 @@
-mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
+mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout, $animate) {
     return {
         restrict:"E",
         replace:true,
@@ -85,7 +85,7 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", function($timeout) {
 
             $scope.changeClasses = function(old, current) {
                 if (old == "register-window") {
-                    angular.element(container).addClass("from-right");
+                    $animate.addClass(container, "from-right");
                 }
             };
 

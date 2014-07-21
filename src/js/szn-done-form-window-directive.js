@@ -1,4 +1,4 @@
-mdl.directive("sznDoneFormWindow", ["$timeout", "$window", function($timeout, $window) {
+mdl.directive("sznDoneFormWindow", ["$timeout", "$window", "$animate", function($timeout, $window, $animate) {
     return {
         restrict:"E",
         replace:true,
@@ -35,7 +35,7 @@ mdl.directive("sznDoneFormWindow", ["$timeout", "$window", function($timeout, $w
 
             $scope.changeClasses = function(old, current) {
                 if (old == "verify-window") {
-                    angular.element(container).addClass("from-right");
+                    $animate.addClass(container, "from-right");
                 }
             };
 
