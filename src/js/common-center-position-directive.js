@@ -9,7 +9,6 @@ mdl.directive("centerPosition", ["$timeout", "$window", function($timeout, $wind
             };
 
             var onInit = function() {
-                angular.element(container).removeClass("hidden");
                 $scope.modifyPosition();
             };
 
