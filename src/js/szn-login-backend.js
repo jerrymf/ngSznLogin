@@ -105,7 +105,7 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
                 defered.resolve({data:data});
             },
             function() {
-                defered.reject()
+                defered.reject();
             }
         );
 
