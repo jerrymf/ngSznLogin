@@ -36,21 +36,18 @@ mdl.provider("sznLogin", function() {
         return {
             opened:false,
             scope:null,
-            callbackAfterLogin:null,
             open: function(name, afterLoginAction) {
                 if (this.opened) { return; }
+                this.opened = true;
+
                 name = name || "login-window";
 
-                this.callbackAfterLogin = afterLoginAction;
-                this.opened = true;
+                var cbk = afterLoginAction;
 
                 this.scope = $rootScope.$new();
                 this.scope.$on("szn-login-close-request", this.close.bind(this));
                 this.scope.$on("szn-login-done", function() {
-                    if (this.callbackAfterLogin) {
-                        var cbk = this.callbackAfterLogin;
-                        $timeout(cbk);
-                    }
+                    if (cbk) { $timeout(cbk); }
                 }.bind(this));
 
                 var body = angular.element(document.body);
@@ -61,7 +58,6 @@ mdl.provider("sznLogin", function() {
                 if (!this.opened) { return; }
                 this.opened = false;
                 this.scope.$destroy();
-                this.callbackAfterLogin = null;
                 $rootScope.$broadcast("szn-login-closed");
             },
             getLogin: function() {
