@@ -4,7 +4,7 @@
         <div id="sznLoginAd"></div>
         <form id="sznLoginForm" class="szn-login-form" method="post" ng-submit="submit($event);">
             <div class="text" ng-if="!error.msg" ng-bind-html="titleText"></div>
-            <div class="text error" ng-if="!!error.msg"><strong>{{error.msg}}</strong> (<a ng-href="{{error.href}}" target="_blank">?</a>)</div>
+            <div class="text error" ng-if="!!error.msg"><strong>{{error.msg}}</strong> <span ng-if="error.href">(<a ng-href="{{error.href}}" target="_blank">?</a>)</span></div>
             <div ng-if="error.weakpassword.positive">
                 <div>
                     <a ng-href="{{error.weakpassword.href}}">Změnit heslo</a>
@@ -15,13 +15,13 @@
             </div>
             <div ng-if="!error.weakpassword.positive && !error.cookieDisabled">
                 <div>
-                    <span class="input" ng-class="{error: error.msg != ''}"><input type="text" name="username" ng-model="data.username" auto-fill-sync placeholder="Libovolný e-mail" focusable><span class="icon"></span></span>
+                    <span class="input" ng-class="{error: error.msg != ''}"><input type="text" name="username" ng-model="data.username" auto-fill-sync szn-placeholder="Libovolný e-mail" focusable /><span class="icon"></span></span>
                 </div>
                 <div>
-                    <span class="input" ng-class="{error: error.msg != ''}"><input type="password" name="password" ng-model="data.password" auto-fill-sync placeholder="Heslo"><span class="icon"></span></span><input type="submit" value="Přihlásit se">
+                    <span class="input" ng-class="{error: error.msg != ''}"><input type="password" name="password" ng-model="data.password" auto-fill-sync szn-placeholder="Heslo" /><span class="icon"></span></span><input type="submit" value="Přihlásit se" />
                 </div>
                 <div>
-                    <label><input type="checkbox" ng-model="data.remember">Pamatovat si mě na tomto počítači (<a target="_blank" ng-href="http://napoveda.seznam.cz/cz/login/prihlaseni/">?</a>)</label>
+                    <label><input type="checkbox" ng-checked="data.remember" ng-model="data.remember" />Pamatovat si mě na tomto počítači (<a target="_blank" ng-href="http://napoveda.seznam.cz/cz/login/prihlaseni/">?</a>)</label>
                 </div>
             </div>
             <div ng-if="error.cookieDisabled">

@@ -1,4 +1,4 @@
-mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
+mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q, $timeout) {
     var LoginRequest = function(url) {
         this._url = url;
     };
@@ -55,7 +55,10 @@ mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
         this._id = "sznLoginIframe" + (new Date().getTime() - Math.round(Math.random() * 10000000));
         this._iframe = this._buildIframe();
         this._deferred = null;
+        this._timeout = null;
+        this._isTimeout = false;
         this._onMessage = this._onMessage.bind(this);
+        this._onTimeout = this._onTimeout.bind(this);
 
         angular.element(window).bind("message", this._onMessage);
     };
@@ -63,6 +66,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
     LoginIframe.isSupported = !!window.postMessage;
 
     LoginIframe.prototype.get = function(method, params) {
+        this._isTimeout = false;
         this._deferred = $q.defer();
 
         var url = this._url + method;
@@ -74,11 +78,14 @@ mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
 
         this._iframe.src = url + "?" + arr.join("&");
 
+        this._timeout = $timeout(this._onTimeout, 2000);
+
         return this._deferred.promise;
 
     };
 
     LoginIframe.prototype.post = function(method, params) {
+        this._isTimeout = false;
         this._deferred = $q.defer();
 
         var url = this._url + method;
@@ -103,6 +110,8 @@ mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
         form.submit();
         form.parentNode.removeChild(form);
 
+        this._timeout = $timeout(this._onTimeout, 2000);
+
         return this._deferred.promise;
     };
 
@@ -117,10 +126,22 @@ mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
 
     LoginIframe.prototype._onMessage = function(e) {
         if (!this._isAllowedUrl(e.origin)) { return; }
+        if (this._isTimeout) { return; }
+
+        this._clearTimeout();
 
         var deferred = this._deferred;
         this._deferred = null;
         deferred.resolve({data:JSON.parse(e.data)});
+    };
+
+    LoginIframe.prototype._onTimeout = function() {
+        this._isTimeout = true;
+        this._clearTimeout();
+
+        var deferred = this._deferred;
+        this._deferred = null;
+        deferred.reject();
     };
 
     LoginIframe.prototype._isAllowedUrl = function(url) {
@@ -136,6 +157,11 @@ mdl.factory("SznLoginTransport", ["$http", "$q", function($http, $q) {
         }
 
         return false;
+    };
+
+    LoginIframe.prototype._clearTimeout = function() {
+        $timeout.cancel(this._timeout);
+        this._timeout = null;
     };
 
     if (LoginRequest.isSupported) {

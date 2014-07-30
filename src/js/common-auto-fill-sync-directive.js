@@ -1,13 +1,15 @@
 mdl.directive("autoFillSync", ["$timeout", function($timeout) {
     return {
       require: "ngModel",
-      link: function($scope, elem, attrs, ngModel) {
-          var origVal = elem.val();
+      link: function($scope, elm, attrs, ngModel) {
+          var origVal = elm.val();
           $timeout(function() {
-              var newVal = elem.val();
+              var newVal = elm.val();
               if(ngModel.$pristine && origVal !== newVal) {
                   ngModel.$setViewValue(newVal);
               }
+              elm.attr("placeholder", elm.attr("szn-placeholder"));
+              elm.val(newVal);
           }, 200);
       }
     };

@@ -99,10 +99,15 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
             return defered.promise;
         }
 
-        this._transport.post(this._methods.login, data).then(function(response) {
-            var data = response.data;
-            defered.resolve({data:data});
-        });
+        this._transport.post(this._methods.login, data).then(
+            function(response) {
+                var data = response.data;
+                defered.resolve({data:data});
+            },
+            function() {
+                defered.reject()
+            }
+        );
 
         return defered.promise;
     };

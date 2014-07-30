@@ -11,7 +11,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             $scope.data = {
                 username:"",
                 password:"",
-                remember:false
+                remember:true
             };
 
             $scope.error = {
@@ -41,7 +41,11 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             };
 
             $scope.loginProcess = function() {
-                sznLoginBackend.login($scope.data.username, $scope.data.password, $scope.data.remember).then($scope.loginDone);
+                $scope.resetError();
+                sznLoginBackend.login($scope.data.username, $scope.data.password, $scope.data.remember).then(
+                    $scope.loginDone,
+                    $scope.loginError
+                );
             };
 
             $scope.loginDone = function(response) {
@@ -49,8 +53,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
 
                 switch (data.status) {
                     case 200:
+                        if (sznLoginConf.autoClose) { $scope.$emit("szn-login-close-request"); }
                         $rootScope.$broadcast("szn-login-done", {auto:false});
-                        if (sznLoginConf.autoClose) { $scope.close(); }
                     return;
 
                     case 201:
@@ -89,6 +93,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                         $scope.error.href = "";
                     break;
                 }
+            };
+
+            $scope.loginError = function(response) {
+                $scope.error.msg = "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později.";
             };
 
             $scope.continueWithWeakPassword = function(e) {
