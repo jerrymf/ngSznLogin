@@ -48,6 +48,7 @@ mdl.provider("sznLogin", function() {
                 this.scope.$on("szn-login-close-request", this.close.bind(this));
                 this.scope.$on("szn-login-done", function() {
                     if (cbk) { $timeout(cbk); }
+                    if (this.getConf().autoClose) { $timeout(function() { this.close(); }.bind(this)); }
                 }.bind(this));
 
                 var body = angular.element(document.body);

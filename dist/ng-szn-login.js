@@ -181,6 +181,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
     };
 
     LoginIframe.prototype._onTimeout = function() {
+        if (!this._timeout) { return; }
         this._isTimeout = true;
         this._clearTimeout();
 
@@ -205,7 +206,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
     };
 
     LoginIframe.prototype._clearTimeout = function() {
-        $timeout.cancel(this._timeout);
+        if (!this._timeout) { return; }
         this._timeout = null;
     };
 
@@ -244,22 +245,33 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
 
         this._transport = new SznLoginTransport(this._conf.url);
         this._cookie = true;
+        this._checked = false;
     };
 
     Login.prototype.check = function() {
         var check = $q.defer();
         var data = this._getCommonData();
 
-        this._transport.get(this._methods.status, data).then(function(response) {
-            var data = response.data;
-            this._cookie = data.cookie;
-            check.resolve(data.logged);
-        }.bind(this));
+        this._transport.get(this._methods.status, data).then(
+            function(response) {
+                var data = response.data;
+                this._cookie = data.cookie;
+                this._checked = true;
+                check.resolve(data.logged);
+            }.bind(this),
+            function() {
+                check.reject();
+            }
+        );
 
         return check.promise;
     };
 
     Login.prototype.autologin = function() {
+        if (!this._checked) {
+            return this.check().then(this.autologin.bind(this));
+        }
+
         var data = this._getCommonData();
 
         return this._transport.get(this._methods.autologin, data);
@@ -292,6 +304,10 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
     };
 
     Login.prototype.login = function(name, pass, remember) {
+        if (!this._checked) {
+            return this.check().then(this.login.bind(this, name, pass, remember));
+        }
+
         var defered = $q.defer();
 
         var data = this._getCommonData();
@@ -474,6 +490,7 @@ mdl.provider("sznLogin", function() {
                 this.scope.$on("szn-login-close-request", this.close.bind(this));
                 this.scope.$on("szn-login-done", function() {
                     if (cbk) { $timeout(cbk); }
+                    if (this.getConf().autoClose) { $timeout(function() { this.close(); }.bind(this)); }
                 }.bind(this));
 
                 var body = angular.element(document.body);
@@ -623,7 +640,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
 
                 switch (data.status) {
                     case 200:
-                        if (sznLoginConf.autoClose) { $scope.$emit("szn-login-close-request"); }
+                        $scope.setActiveWindow(null);
                         $rootScope.$broadcast("szn-login-done", {auto:false});
                     return;
 
@@ -665,7 +682,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                 }
             };
 
-            $scope.loginError = function(response) {
+            $scope.loginError = function() {
                 $scope.error.msg = "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později.";
             };
 
@@ -722,7 +739,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                         section: "/login",
                         callback: showAd
                     };
-                    im.getAds([ad], true);
+                    window.im.getAds([ad], true);
                 }
             };
 
@@ -737,7 +754,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             };
 
             callAd();
-            $scope.changeClasses($scope.oldActiveWindow, null);
+            $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-login-form-window.html"
     };

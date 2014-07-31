@@ -136,6 +136,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
     };
 
     LoginIframe.prototype._onTimeout = function() {
+        if (!this._timeout) { return; }
         this._isTimeout = true;
         this._clearTimeout();
 
@@ -160,7 +161,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
     };
 
     LoginIframe.prototype._clearTimeout = function() {
-        $timeout.cancel(this._timeout);
+        if (!this._timeout) { return; }
         this._timeout = null;
     };
 

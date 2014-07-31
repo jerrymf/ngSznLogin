@@ -53,7 +53,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
 
                 switch (data.status) {
                     case 200:
-                        if (sznLoginConf.autoClose) { $scope.$emit("szn-login-close-request"); }
+                        $scope.setActiveWindow(null);
                         $rootScope.$broadcast("szn-login-done", {auto:false});
                     return;
 
@@ -95,7 +95,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                 }
             };
 
-            $scope.loginError = function(response) {
+            $scope.loginError = function() {
                 $scope.error.msg = "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později.";
             };
 
@@ -152,7 +152,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                         section: "/login",
                         callback: showAd
                     };
-                    im.getAds([ad], true);
+                    window.im.getAds([ad], true);
                 }
             };
 
@@ -167,7 +167,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             };
 
             callAd();
-            $scope.changeClasses($scope.oldActiveWindow, null);
+            $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-login-form-window.html"
     };
