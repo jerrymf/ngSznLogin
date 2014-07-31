@@ -1,7 +1,7 @@
 {
   "name": "ngSznLogin",
-  "version": "0.9.8",
-  "description": "Module for login to Seznam.cz services",
+  "version": "0.9.9",
+  "descriptio": "Module for login to Seznam.cz services",
   "main": "Gruntfile.js",
   "directories": {
     "doc": "docs",
