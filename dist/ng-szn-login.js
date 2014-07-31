@@ -44,6 +44,7 @@ mdl.constant("DEFAULTS", {
 });
 
 mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q, $timeout) {
+    var TIMEOUT = 6000;
     var LoginRequest = function(url) {
         this._url = url;
     };
@@ -123,7 +124,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
 
         this._iframe.src = url + "?" + arr.join("&");
 
-        this._timeout = $timeout(this._onTimeout, 2000);
+        this._timeout = $timeout(this._onTimeout, TIMEOUT);
 
         return this._deferred.promise;
 
@@ -155,7 +156,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
         form.submit();
         form.parentNode.removeChild(form);
 
-        this._timeout = $timeout(this._onTimeout, 2000);
+        this._timeout = $timeout(this._onTimeout, TIMEOUT);
 
         return this._deferred.promise;
     };
