@@ -19,6 +19,7 @@ mdl.directive("sznLoginInit", ["sznLogin", function(sznLogin) {
         }],
         link:function($scope, element, attrs) {
             angular.element(element[0]).bind("click", function(e) {
+                e.preventDefault();
                 sznLogin.open();
             });
         }
