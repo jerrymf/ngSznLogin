@@ -6,7 +6,159 @@ if (!win || !angular) {
     throw new Error("ngSznLogin: I did not found angular. Init failed.");
 }
 
-var mdl = angular.module("ngSznLogin", ["ng", "ngAnimate"]);
+var mdl = angular.module("ngSznLogin", ["ng", "ngAnimate", "pascalprecht.translate"]);
+
+mdl.config([
+
+    "$translateProvider",
+    function ($translateProvider) {
+        $translateProvider.translations("cs", {
+            SZN_LOGIN: {
+                LOGIN: {
+                    LOST_PASSWORD: "Zaslat zapomenuté heslo",
+                    REMEMBER_ME: "Pamatovat si mě na tomto počítači",
+                    NOT_REGISTERED: "Nejste zaregistrováni na Seznam.cz",
+                    REGISTER_NOW: "Registrujte se",
+                    USERNAME_PLACEHOLDER: "Libovolný e-mail",
+                    PASSWORD_PLACEHOLDER: "Heslo",
+                    LOG_IN: "Přihlásit se",
+                    COOKIES_NOTIFY: "Pro správné přihlášení je potřeba zapnout cookies. Nevíte se rady? Podívejte se do",
+                    HELP: "nápovědy",
+                    WEAKPASSWORD_CONTINUE: "Pokračovat se současným heslem",
+                    CHANGE_PASSWORD: "Změnit heslo",
+                    ERROR: {
+                        BAD_LOGIN: "Neexistující uživatel nebo chybné heslo",
+                        FORBIDDEN: "Váš účet je zablokován",
+                        WEAK_PASSWORD: "Vaše heslo je příliš jednoduché",
+                        INTERNAL: "Interní chyba systému",
+                        CONNECTION: "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později"
+                    }
+                },
+                REGISTER: {
+                    REGISTER_START: "Registrujte",
+                    REGISTER_END: "se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám",
+                    USERNAME_PLACEHOLDER: "Libovolný e-mail",
+                    PASSWORD_PLACEHOLDER: "Heslo",
+                    PASSWORD_REPEAT_PLACEHOLDER: "Zopakujte heslo",
+                    CONTINUE: "Pokračovat",
+                    AGREEMENT: "Registrací souhlasíte s",
+                    TERMS: "podmínkami služby",
+                    TERMS_NOTIFY: "Před pokračováním musíte souhlasit s podmínkami služby",
+                    ALREADY_REGISTERED: "Jsem registrovaný a chci se přihlásit",
+                    CREATE_EMAIL: "Nemám e-mail a chci ho vytvořit",
+                    ERROR: {
+                        0: "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později",
+                        404: "Tento e-mail je u nás již registrován",
+                        406: "K registraci chybí heslo",
+                        420: "Vaše heslo je příliš slabé",
+                        421: "Vaše heslo je příliš slabé",
+                        422: "Vaše heslo je příliš krátké. Zadejte delší",
+                        423: "Vaše heslo je příliš dlouhé. Zadejte kratší",
+                        424: "Heslo obsahuje nepovolené znaky",
+                        425: "Na začátku či na konci hesla nesmí být mezera",
+                        426: "Hesla se neshodují",
+                        427: "Tato schránka ještě neexistuje. Kliknutím na 'Pokračovat' ji zaregistrujete.",
+                        430: "Příliš krátký e-mail",
+                        431: "Zadaný e-mail je neplatný",
+                        500: "Interní chyba systému"
+                    }
+                },
+                VERIFY: {
+                    FINISH_REGISTRATION: "Pro dokončení klikněte na odkaz, který jsme vám poslali na e-mail nebo opište zaslaný kód",
+                    CODE_PLACEHOLDER: "Zadejte obdržený kód",
+                    FINISH: "Dokončit",
+                    NOT_OBTAINED: "Nepřišel vám kód",
+                    SEND_CODE_AGAIN: "Zaslat znovu ověřovací kód",
+                    CHECK_YOUR_EMAIL: "Zkontrolujte svou e-mailovou schránku, kam jsme vám zaslali nový ověřovací kód",
+                    ERROR: {
+                        403: "Zadaný kód je neplatný",
+                        500: "Interní chyba systému"
+                    }
+                },
+                DONE: {
+                    CONGRATULATION: "Blahopřejeme",
+                    SUCCESS: "registrace proběhla úspěšně",
+                    GO: "Vstoupit na"
+                }
+            }
+        });
+
+        $translateProvider.translations("en", {
+            SZN_LOGIN: {
+                LOGIN: {
+                    LOST_PASSWORD: "Send lost password",
+                    REMEMBER_ME: "Remember my details on this computer",
+                    NOT_REGISTERED: "Not register on Seznam.cz yet?",
+                    REGISTER_NOW: "Register now",
+                    USERNAME_PLACEHOLDER: "Your e-mail",
+                    PASSWORD_PLACEHOLDER: "Password",
+                    LOG_IN: "Log in",
+                    COOKIES_NOTIFY: "You need to have allowed cookies for successful login. Are you in trouble? Look at",
+                    HELP: "our help",
+                    WEAKPASSWORD_CONTINUE: "Continue with current password",
+                    CHANGE_PASSWORD: "Change password",
+                    ERROR: {
+                        BAD_LOGIN: "Not existing username or wrong password",
+                        FORBIDDEN: "Your account was banned",
+                        WEAK_PASSWORD: "Your password is too weak",
+                        INTERNAL: "Internal system error",
+                        CONNECTION: "We can not connect to our servers. Try it please later"
+                    }
+                },
+                REGISTER: {
+                    REGISTER_START: "Register now",
+                    REGISTER_END: "and you can get access to all Seznam.cz services",
+                    USERNAME_PLACEHOLDER: "Your e-mail",
+                    PASSWORD_PLACEHOLDER: "Password",
+                    PASSWORD_REPEAT_PLACEHOLDER: "Repeat password",
+                    CONTINUE: "Continue",
+                    AGREEMENT: "With registering you agree with",
+                    TERMS: "service terms",
+                    TERMS_NOTIFY: "Before continue you have to accept our terms",
+                    ALREADY_REGISTERED: "I am already registered and want to log in",
+                    CREATE_EMAIL: "I do not have e-mail on Seznam.cz and I want to create it.",
+                    ERROR: {
+                        0: "We can not connect to our servers. Try it please later",
+                        404: "This e-mail is already registered",
+                        406: "We are missing password",
+                        420: "Your password is too weak",
+                        421: "Your password is too weak",
+                        422: "Your password is too short. Type longer password.",
+                        423: "Your password is too long. Type shorter password",
+                        424: "Your password contains unallowed characters.",
+                        425: "Your password can not contain white space at start or at end",
+                        426: "Your passwords do not match",
+                        427: "This e-mail is not registered yet. Click on 'Continue' for registration finish",
+                        430: "Too short e-mail",
+                        431: "E-mail is not valid",
+                        500: "Internal system error"
+                    }
+                },
+                VERIFY: {
+                    FINISH_REGISTRATION: "For finish click on link we sent you to your e-mail or re-type sent code",
+                    CODE_PLACEHOLDER: "Zadejte obdržený kód",
+                    FINISH: "Dokončit",
+                    NOT_OBTAINED: "Code not obtained",
+                    SEND_CODE_AGAIN: "Send verification code again",
+                    CHECK_YOUR_EMAIL: "Check your e-mail, we have sent you another verification code",
+                    ERROR: {
+                        0: "We can not connect to our servers. Try it please later",
+                        403: "Code is not valid",
+                        500: "Internal system error"
+                    }
+                },
+                DONE: {
+                    CONGRATULATION: "Congratulations",
+                    SUCCESS: "registrion was successful",
+                    GO: "Go to"
+                }
+            }
+        });
+
+        $translateProvider.preferredLanguage("cs");
+    }
+
+]);
 
 if (!Function.prototype.bind) {
     Function.prototype.bind = function (oThis) {
@@ -448,6 +600,7 @@ mdl.provider("sznLogin", function() {
         serviceId:"",
         returnURL: "",
         text: "<strong>Přihlaste se</strong> tam, kam se dosud nikdo nevydal.",
+        language: "en",
         autoClose: true,
         autoLogin: true,
         checkCookie: false,
@@ -460,62 +613,74 @@ mdl.provider("sznLogin", function() {
         }
     };
 
-    this.$get = ["$compile", "$rootScope", "$timeout", "SznLoginBackend", "SznRegisterBackend", "DEFAULTS", function($compile, $rootScope, $timeout, SznLoginBackend, SznRegisterBackend, DEFAULTS) {
-        var loginConf = {
-            url: conf.url || DEFAULTS.loginUrl,
-            serviceId: conf.serviceId || DEFAULTS.serviceId,
-            returnURL: conf.returnURL
-        };
+    this.$get = [
 
-        var login = new SznLoginBackend(loginConf);
+        "$compile", "$rootScope", "$timeout", "$translate", "SznLoginBackend", "SznRegisterBackend", "DEFAULTS",
+        function($compile, $rootScope, $timeout, $translate, SznLoginBackend, SznRegisterBackend, DEFAULTS) {
 
-        var registerConf = {
-            url: conf.registerUrl || DEFAULTS.registerUrl,
-            serviceId: conf.serviceId || DEFAULTS.serviceId,
-            returnURL: conf.returnURL
-        };
+            var loginConf = {
+                url: conf.url || DEFAULTS.loginUrl,
+                serviceId: conf.serviceId || DEFAULTS.serviceId,
+                returnURL: conf.returnURL
+            };
 
-        var register = new SznRegisterBackend(registerConf);
+            var login = new SznLoginBackend(loginConf);
 
-        return {
-            opened:false,
-            scope:null,
-            open: function(name, afterLoginAction) {
-                if (this.opened) { return; }
-                this.opened = true;
+            var registerConf = {
+                url: conf.registerUrl || DEFAULTS.registerUrl,
+                serviceId: conf.serviceId || DEFAULTS.serviceId,
+                returnURL: conf.returnURL
+            };
 
-                name = name || "login-window";
+            var register = new SznRegisterBackend(registerConf);
 
-                var cbk = afterLoginAction;
+            $translate.use(conf.language);
 
-                this.scope = $rootScope.$new();
-                this.scope.$on("szn-login-close-request", this.close.bind(this));
-                this.scope.$on("szn-login-done", function() {
-                    if (cbk) { $timeout(cbk); }
-                    if (this.getConf().autoClose) { $timeout(function() { this.close(); }.bind(this)); }
-                }.bind(this));
+            return {
+                opened:false,
+                scope:null,
+                open: function(name, afterLoginAction) {
+                    if (this.opened) { return; }
+                    this.opened = true;
 
-                var body = angular.element(document.body);
-                body.append($compile("<szn-login-box activeWindow='" + name + "'></szn-login-box>")(this.scope));
-                $rootScope.$broadcast("szn-login-opened");
-            },
-            close: function() {
-                if (!this.opened) { return; }
-                this.opened = false;
-                this.scope.$destroy();
-                $rootScope.$broadcast("szn-login-closed");
-            },
-            getLogin: function() {
-                return login;
-            },
-            getRegister: function() {
-                return register;
-            },
-            getConf: function() {
-                return conf;
-            }
-        };
-    }];
+                    name = name || "login-window";
+
+                    var cbk = afterLoginAction;
+
+                    this.scope = $rootScope.$new();
+                    this.scope.$on("szn-login-close-request", this.close.bind(this));
+                    this.scope.$on("szn-login-done", function() {
+                        if (cbk) { $timeout(cbk); }
+                        if (this.getConf().autoClose) { $timeout(function() { this.close(); }.bind(this)); }
+                    }.bind(this));
+
+                    var body = angular.element(document.body);
+                    body.append($compile("<szn-login-box activeWindow='" + name + "'></szn-login-box>")(this.scope));
+                    $rootScope.$broadcast("szn-login-opened");
+                },
+                close: function() {
+                    if (!this.opened) { return; }
+                    this.opened = false;
+                    this.scope.$destroy();
+                    $rootScope.$broadcast("szn-login-closed");
+                },
+                changeLanguage: function(language) {
+                    $translate.use(language);
+                },
+                getLogin: function() {
+                    return login;
+                },
+                getRegister: function() {
+                    return register;
+                },
+                getConf: function() {
+                    return conf;
+                }
+            };
+
+        }
+
+    ];
 });
 
 mdl.directive("sznLoginInit", ["sznLogin", function(sznLogin) {
@@ -545,6 +710,7 @@ mdl.directive("sznLoginInit", ["sznLogin", function(sznLogin) {
         }
     };
 }]);
+
 
 mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeout) {
     return {
@@ -654,17 +820,17 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
 
                     case 403:
                     case 406:
-                        $scope.error.msg = "Neexistující uživatel nebo chybné heslo!";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.BAD_LOGIN";
                         $scope.error.href = "http://napoveda.seznam.cz/cz/login/jak-na-zapomenute-heslo/";
                     break;
 
                     case 405:
-                        $scope.error.msg = "Váš účet je zablokován.";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.FORBIDDEN";
                         $scope.error.href = "http://napoveda.seznam.cz/cz/login/blokace-seznam-uctu/";
                     break;
 
                     case 420: /* slabe, ale ne moc */
-                        $scope.error.msg = "Vaše heslo je příliš jednoduché!";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.WEAK_PASSWORD";
                         $scope.error.weakpassword.positive = true;
                         $scope.error.weakpassword.href = sznLoginBackend.getURLForPasswordChange(data.crypted);
                     break;
@@ -674,7 +840,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                     break;
 
                     case 500:
-                        $scope.error.msg = "Interní chyba systému.";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.INTERNAL";
                         $scope.error.href = "";
                     break;
 
@@ -686,7 +852,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             };
 
             $scope.loginError = function() {
-                $scope.error.msg = "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později.";
+                $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.CONNECTION";
             };
 
             $scope.continueWithWeakPassword = function(e) {
@@ -713,10 +879,9 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                 $scope.changeClasses(values.old, values.current);
             });
         }],
-        link:function($scope, element, attrs) {
+        link:function($scope, element) {
             var sznLoginConf = sznLogin.getConf();
             var container = element[0];
-            var form = container.querySelector("#sznloginForm");
             var adElm = container.querySelector("#sznLoginAd");
 
             var showAd = function(data) {
@@ -781,19 +946,20 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
             var redirectToRegistration = false;
 
             var errors = {
-                404: "Tento e-mail je u nás již registrován",
-                406: "K registraci chybí heslo",
-                420: "Vaše heslo je příliš slabé",
-                421: "Vaše heslo je příliš slabé",
-                422: "Vaše heslo je příliš krátké. Zadejte delší",
-                423: "Vaše heslo je příliš dlouhé. Zadejte kratší",
-                424: "Heslo obsahuje nepovolené znaky",
-                425: "Na začátku či na konci hesla nesmí být mezera",
-                426: "Hesla se neshodují",
-                427: "Tato schránka ještě neexistuje. Kliknutím na 'Pokračovat' ji zaregistrujete.",
-                430: "Příliš krátký e-mail",
-                431: "Zadaný e-mail je neplatný",
-                500: "Interní chyba systému"
+                0: "SZN_LOGIN.REGISTER.ERROR.0",
+                404: "SZN_LOGIN.REGISTER.ERROR.404",
+                406: "SZN_LOGIN.REGISTER.ERROR.406",
+                420: "SZN_LOGIN.REGISTER.ERROR.420",
+                421: "SZN_LOGIN.REGISTER.ERROR.421",
+                422: "SZN_LOGIN.REGISTER.ERROR.422",
+                423: "SZN_LOGIN.REGISTER.ERROR.423",
+                424: "SZN_LOGIN.REGISTER.ERROR.424",
+                425: "SZN_LOGIN.REGISTER.ERROR.425",
+                426: "SZN_LOGIN.REGISTER.ERROR.426",
+                427: "SZN_LOGIN.REGISTER.ERROR.427",
+                430: "SZN_LOGIN.REGISTER.ERROR.430",
+                431: "SZN_LOGIN.REGISTER.ERROR.431",
+                500: "SZN_LOGIN.REGISTER.ERROR.500"
             };
 
             $scope.data = {
@@ -843,6 +1009,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 var data = response.data;
                 var status = data.status;
 
+                $scope.resetError(0);
                 $scope.resetError(500);
 
                 if (type == "username") {
@@ -896,20 +1063,30 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 return true;
             };
 
+            $scope.connectionError = function() {
+                $scope.error.msgs.push({
+                    status: 0,
+                    msg: errors[0]
+                });
+            };
+
             $scope.activateUsernameWatcher = function() {
                 if (usernameWatcherActivated) { return; }
                 $scope.$watch("data.username", $scope.checkUsername);
                 usernameWatcherActivated = true;
             };
 
-            $scope.checkUsername = function(newValue, oldValue) {
+            $scope.checkUsername = function(newValue) {
                 if (timeoutUsernameFinished) { $timeout.cancel(timeoutUsernameFinished); }
 
                 timeoutUsernameFinished = $timeout(function() {
                     if (newValue) {
-                        sznRegister.checkUser(newValue).then(function(response) {
-                            $scope.processStatus(response, "username");
-                        });
+                        sznRegister.checkUser(newValue).then(
+                            function(response) {
+                                $scope.processStatus(response, "username");
+                            },
+                            $scope.connectionError
+                        );
                     } else {
                         $scope.resetError([500, 404, 427, 430, 431]);
                         $scope.valid.username = null;
@@ -923,7 +1100,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 passwordWatcherActivated = true;
             };
 
-            $scope.checkPassword = function(newValue, oldValue) {
+            $scope.checkPassword = function(newValue) {
                 if ($scope.data.passwordRepeat) {
                     $scope.checkPasswordRepeat($scope.data.passwordRepeat);
                 }
@@ -932,9 +1109,12 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
 
                 timeoutPasswordFinished = $timeout(function() {
                     if (newValue) {
-                        sznRegister.checkPassword(newValue).then(function(response) {
-                            $scope.processStatus(response, "password");
-                        });
+                        sznRegister.checkPassword(newValue).then(
+                            function(response) {
+                                $scope.processStatus(response, "password");
+                            },
+                            $scope.connectionError
+                        );
                     } else {
                         $scope.resetError([500, 406, 420, 421, 422, 423, 424]);
                         $scope.valid.password = null;
@@ -950,7 +1130,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 passwordRepeatWatcherActivated = true;
             };
 
-            $scope.checkPasswordRepeat = function(newValue, oldValue) {
+            $scope.checkPasswordRepeat = function(newValue) {
                 if (!newValue) {
                     $scope.valid.passwordRepeat = null;
                     $scope.resetError([500, 426]);
@@ -987,7 +1167,8 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                         if (passed) {
                             $scope.setActiveWindow("verify-window");
                         }
-                    }
+                    },
+                    $scope.connectionError
                 );
             };
 
@@ -995,7 +1176,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 $scope.changeClasses(values.old, values.current);
             });
         }],
-        link: function($scope, element, attrs) {
+        link: function($scope, element) {
             var container = element[0];
             var passwordMeter = container.querySelector("#passwordMeter span");
 
@@ -1010,7 +1191,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 }
 
                 passwordMeter.style.backgroundColor = "rgb("+c.join(",")+")";
-                passwordMeter.style.width = power + '%';
+                passwordMeter.style.width = power + "%";
             };
 
             $scope.changeClasses = function(old, current) {
@@ -1040,8 +1221,9 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
         controller: ["$scope", "sznLogin", function($scope, sznLogin) {
             var sznRegister = sznLogin.getRegister();
             var errors = {
-                403: "Zadaný kód je neplatný",
-                500: "Interní chyba systému"
+                0: "SZN_LOGIN.VERIFY.ERROR.0",
+                403: "SZN_LOGIN.VERIFY.ERROR.403",
+                500: "SZN_LOGIN.VERIFY.ERROR.500"
             };
 
             $scope.resended = false;
@@ -1073,11 +1255,18 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
                 return $scope.error.msgs.filter(function(msg) { return msg.status == status ;}).length;
             };
 
+            $scope.connectionError = function() {
+                $scope.error.msgs.push({
+                    status: 0,
+                    msg: errors[0]
+                });
+            };
+
             $scope.processStatus = function(response) {
                 var data = response.data;
                 var status = data.status;
 
-                $scope.resetError([403, 500]);
+                $scope.resetError([0, 403, 500]);
 
                 if (status in errors) {
                     if (!$scope.isError(status)) {
@@ -1095,12 +1284,15 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
             $scope.submit = function(e) {
                 e.preventDefault();
                 var pin = $scope.data.pin;
-                sznRegister.verify(pin).then(function(response) {
-                    var passed = $scope.processStatus(response);
-                    if (passed) {
-                        $scope.setActiveWindow("done-window");
-                    }
-                });
+                sznRegister.verify(pin).then(
+                    function(response) {
+                        var passed = $scope.processStatus(response);
+                        if (passed) {
+                            $scope.setActiveWindow("done-window");
+                        }
+                    },
+                    $scope.connectionError
+                );
             };
 
             $scope.resendCode = function(e) {
@@ -1115,10 +1307,10 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
                 $scope.changeClasses(values.old, values.current);
             });
         }],
-        link: function($scope, elements, attrs) {
+        link: function($scope, elements) {
             var container = elements[0];
 
-            $scope.changeClasses = function(old, current) {
+            $scope.changeClasses = function(old) {
                 if (old == "register-window") {
                     $animate.addClass(container, "from-right");
                 }
@@ -1178,20 +1370,23 @@ mdl.directive("sznDoneFormWindow", ["$timeout", "$window", "$animate", function(
 }]);
 
 mdl.directive("autoFillSync", ["$timeout", function($timeout) {
-    return {
-      require: "ngModel",
-      link: function($scope, elm, attrs, ngModel) {
-          var origVal = elm.val();
-          $timeout(function() {
-              var newVal = elm.val();
-              if(ngModel.$pristine && origVal !== newVal) {
-                  ngModel.$setViewValue(newVal);
-              }
-              elm.attr("placeholder", elm.attr("szn-placeholder"));
-              elm.val(newVal);
-          }, 200);
-      }
-    };
+        return {
+            require: "ngModel",
+            link: function($scope, elm, attrs, ngModel) {
+                var origVal = elm.val();
+
+                $timeout(function() {
+                    var newVal = elm.val();
+
+                    if(ngModel.$pristine && origVal !== newVal) {
+                        ngModel.$setViewValue(newVal);
+                    }
+
+                    elm.attr("placeholder", elm.attr("szn-placeholder"));
+                    elm.val(newVal);
+                }, 200);
+            }
+        };
 }]);
 
 mdl.directive("centerPosition", ["$timeout", "$window", function($timeout, $window) {
@@ -1276,7 +1471,7 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('./src/html/szn-done-form-window.html',
-    "<div class=\"szn-login-window done\"><div class=\"szn-login-close\"></div><div class=\"szn-done-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\"><div class=\"text\"><strong>Blahopřejeme,</strong> registrace proběhla úspěšně :-)</div><div><div class=\"done\"><input type=\"button\" value=\"Vstoupit na {{host}}\" ng-click=\"close();\"></div></div></form></div></div>"
+    "<div class=\"szn-login-window done\"><div class=\"szn-login-close\"></div><div class=\"szn-done-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\"><div class=\"text\"><strong>{{ 'SZN_LOGIN.DONE.CONGRATULATION' | translate }},</strong> {{ 'SZN_LOGIN.DONE.SUCCESS' | translate }} :-)</div><div><div class=\"done\"><input type=\"button\" value=\"{{ 'SZN_LOGIN.DONE.GO' | translate }} {{host}}\" ng-click=\"close();\"></div></div></form></div></div>"
   );
 
 
@@ -1286,17 +1481,17 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-login-form-window.html',
-    "<div class=\"szn-login-window\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\" ng-bind-html=\"titleText\"></div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{error.msg}}</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">Změnit heslo</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">Pokračovat se současným heslem</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync szn-placeholder=\"Libovolný e-mail\" focusable><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync szn-placeholder=\"Heslo\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"Přihlásit se\"></div><div><label><input type=\"checkbox\" ng-checked=\"data.remember\" ng-model=\"data.remember\">Pamatovat si mě na tomto počítači (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>Pro správné přihlášení je potřeba zapnout cookies. Nevíte se rady? Podívejte se do <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">nápovědy</a>.</div></div><div><div class=\"info\">Nejste zaregistrováni na Seznam.cz? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">Registrujte se!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">Zaslat zapomenuté heslo</a></div></div><div class=\"line\"></div></form></div></div>"
+    "<div class=\"szn-login-window\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\" ng-bind-html=\"titleText\"></div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">{{ 'SZN_LOGIN.LOGIN.CHANGE_PASSWORD' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">{{ 'SZN_LOGIN.LOGIN.WEAKPASSWORD_CONTINUE' | translate }}</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.USERNAME_PLACEHOLDER' | translate }}\" focusable><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LOGIN.LOG_IN' | translate }}\"></div><div><label><input type=\"checkbox\" ng-checked=\"data.remember\" ng-model=\"data.remember\">{{ 'SZN_LOGIN.LOGIN.REMEMBER_ME' | translate }} (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>{{ 'SZN_LOGIN.LOGIN.COOKIES_NOTIFY' | translate }} <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">{{ 'SZN_LOGIN.LOGIN.HELP' | translate }}</a>.</div></div><div><div class=\"info\">{{ 'SZN_LOGIN.LOGIN.NOT_REGISTERED' | translate }}? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">{{ 'SZN_LOGIN.LOGIN.REGISTER_NOW' | translate }}!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">{{ 'SZN_LOGIN.LOGIN.LOST_PASSWORD' | translate }}</a></div></div><div class=\"line\"></div></form></div></div>"
   );
 
 
   $templateCache.put('./src/html/szn-register-form-window.html',
-    "<div class=\"szn-login-window register\"><div class=\"szn-login-close\"></div><div class=\"szn-register-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\"><strong>Registrujte</strong> se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám.</div><div><div><span class=\"input\" ng-class=\"{ok: valid.username, error: valid.username === false}\"><input type=\"text\" name=\"username\" placeholder=\"Libovolný e-mail\" ng-model=\"data.username\" ng-blur=\"activateUsernameWatcher();\" focusable><span class=\"icon\"></span></span></div><div class=\"password-line\"><span class=\"input\" ng-class=\"{ok: valid.password, error: valid.password === false}\"><input type=\"password\" placeholder=\"Heslo\" ng-model=\"data.password\" ng-blur=\"activatePasswordWatcher();\"><span class=\"icon\"></span><span id=\"passwordMeter\"><span style=\"width: 0%; background-color: rgb(238, 14, 14)\"></span></span></span> <span class=\"input second\" ng-class=\"{ok: valid.passwordRepeat, error: valid.passwordRepeat === false}\"><input type=\"password\" placeholder=\"Zopakujte heslo\" ng-model=\"data.passwordRepeat\" ng-blur=\"activatePasswordRepeatWatcher();\"><span class=\"icon\"></span></span><div class=\"szn-login-clear\"></div></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div><input type=\"checkbox\" ng-model=\"data.acceptation\">Registrací souhlasíte s <a ng-href=\"https://registrace.seznam.cz/licenceScreen\" target=\"_blank\">podmínkami služby</a>.</div><input type=\"submit\" value=\"Pokračovat\" ng-class=\"{disabled:!data.acceptation}\" title=\"Před pokračováním musíte souhlasit s podmínkami služby\"><div class=\"info\"><a ng-href=\"https://registrace.seznam.cz\" target=\"_blank\">Nemám e-mail a chci ho vytvořit</a></div><div><a ng-href=\"#\" ng-click=\"activateLoginPage($event);\">Jsem registrovaný a chci se přihlásit</a></div></div></form></div></div>"
+    "<div class=\"szn-login-window register\"><div class=\"szn-login-close\"></div><div class=\"szn-register-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\"><strong>{{ 'SZN_LOGIN.REGISTER.REGISTER_START' | translate }}</strong> {{ 'SZN_LOGIN.REGISTER.REGISTER_END' | translate }}.</div><div><div><span class=\"input\" ng-class=\"{ok: valid.username, error: valid.username === false}\"><input type=\"text\" name=\"username\" placeholder=\"{{ 'SZN_LOGIN.REGISTER.USERNAME_PLACEHOLDER' | translate }}\" ng-model=\"data.username\" ng-blur=\"activateUsernameWatcher();\" focusable><span class=\"icon\"></span></span></div><div class=\"password-line\"><span class=\"input\" ng-class=\"{ok: valid.password, error: valid.password === false}\"><input type=\"password\" placeholder=\"{{ 'SZN_LOGIN.REGISTER.PASSWORD_PLACEHOLDER' | translate }}\" ng-model=\"data.password\" ng-blur=\"activatePasswordWatcher();\"><span class=\"icon\"></span><span id=\"passwordMeter\"><span style=\"width: 0%; background-color: rgb(238, 14, 14)\"></span></span></span> <span class=\"input second\" ng-class=\"{ok: valid.passwordRepeat, error: valid.passwordRepeat === false}\"><input type=\"password\" placeholder=\"{{ 'SZN_LOGIN.REGISTER.PASSWORD_REPEAT_PLACEHOLDER' | translate }}\" ng-model=\"data.passwordRepeat\" ng-blur=\"activatePasswordRepeatWatcher();\"><span class=\"icon\"></span></span><div class=\"szn-login-clear\"></div></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{ emsg.msg | translate }}!</strong></div></div><div><input type=\"checkbox\" ng-model=\"data.acceptation\">{{ 'SZN_LOGIN.REGISTER.AGREEMENT' | translate }} <a ng-href=\"https://registrace.seznam.cz/licenceScreen\" target=\"_blank\">{{ 'SZN_LOGIN.REGISTER.TERMS' | translate }}</a>.</div><input type=\"submit\" value=\"{{ 'SZN_LOGIN.REGISTER.CONTINUE' | translate }}\" ng-class=\"{disabled:!data.acceptation}\" title=\"{{ 'SZN_LOGIN.REGISTER.TERMS_NOTIFY' | translate }}\"><div class=\"info\"><a ng-href=\"https://registrace.seznam.cz\" target=\"_blank\">{{ 'SZN_LOGIN.REGISTER.CREATE_EMAIL' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"activateLoginPage($event);\">{{ 'SZN_LOGIN.REGISTER.ALREADY_REGISTERED' | translate }}</a></div></div></form></div></div>"
   );
 
 
   $templateCache.put('./src/html/szn-verify-form-window.html',
-    "<div class=\"szn-login-window verify\"><div class=\"szn-login-close\"></div><div class=\"szn-verify-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\">Pro dokončení klikněte na odkaz, který jsme vám poslali na e-mail nebo opište zaslaný kód.</div><div><div><span class=\"input\"><input type=\"text\" name=\"verify\" placeholder=\"XXXXXX\" title=\"Zadejte obdržený kód\" ng-model=\"data.pin\" focusable><span class=\"icon\"></span></span><input type=\"submit\" value=\"Dokončit\"></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div class=\"resend\" ng-if=\"!resended\">Nepřišel vám kód? <a ng-href=\"#\" ng-click=\"resendCode($event);\">Zaslat znovu ověřovací kód</a></div><div class=\"text resend notify\" ng-if=\"!!resended\"><strong>Zkontrolujte svou e-mailovou schránku, kam jsme vám zaslali nový ověřovací kód.</strong></div></div></form></div></div>"
+    "<div class=\"szn-login-window verify\"><div class=\"szn-login-close\"></div><div class=\"szn-verify-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\">{{ 'SZN_LOGIN.VERIFY.FINISH_REGISTRATION' | translate }}.</div><div><div><span class=\"input\"><input type=\"text\" name=\"verify\" placeholder=\"XXXXXX\" title=\"{{ 'SZN_LOGIN.VERIFY.CODE_PLACEHOLDER' | translate }}\" ng-model=\"data.pin\" focusable><span class=\"icon\"></span></span><input type=\"submit\" value=\"{{ 'SZN_LOGIN.VERIFY.FINISH' | translate }}\"></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div class=\"resend\" ng-if=\"!resended\">{{ 'SZN_LOGIN.VERIFY.NOT_OBTAINED' | translate }}? <a ng-href=\"#\" ng-click=\"resendCode($event);\">{{ 'SZN_LOGIN.VERIFY.SEND_CODE_AGAIN' | translate }}.</a></div><div class=\"text resend notify\" ng-if=\"!!resended\"><strong>{{ 'SZN_LOGIN.VERIFY.CHECK_YOUR_EMAIL' | translate }}.</strong></div></div></form></div></div>"
   );
 
 }]);

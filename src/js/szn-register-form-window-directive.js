@@ -16,19 +16,20 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
             var redirectToRegistration = false;
 
             var errors = {
-                404: "Tento e-mail je u nás již registrován",
-                406: "K registraci chybí heslo",
-                420: "Vaše heslo je příliš slabé",
-                421: "Vaše heslo je příliš slabé",
-                422: "Vaše heslo je příliš krátké. Zadejte delší",
-                423: "Vaše heslo je příliš dlouhé. Zadejte kratší",
-                424: "Heslo obsahuje nepovolené znaky",
-                425: "Na začátku či na konci hesla nesmí být mezera",
-                426: "Hesla se neshodují",
-                427: "Tato schránka ještě neexistuje. Kliknutím na 'Pokračovat' ji zaregistrujete.",
-                430: "Příliš krátký e-mail",
-                431: "Zadaný e-mail je neplatný",
-                500: "Interní chyba systému"
+                0: "SZN_LOGIN.REGISTER.ERROR.0",
+                404: "SZN_LOGIN.REGISTER.ERROR.404",
+                406: "SZN_LOGIN.REGISTER.ERROR.406",
+                420: "SZN_LOGIN.REGISTER.ERROR.420",
+                421: "SZN_LOGIN.REGISTER.ERROR.421",
+                422: "SZN_LOGIN.REGISTER.ERROR.422",
+                423: "SZN_LOGIN.REGISTER.ERROR.423",
+                424: "SZN_LOGIN.REGISTER.ERROR.424",
+                425: "SZN_LOGIN.REGISTER.ERROR.425",
+                426: "SZN_LOGIN.REGISTER.ERROR.426",
+                427: "SZN_LOGIN.REGISTER.ERROR.427",
+                430: "SZN_LOGIN.REGISTER.ERROR.430",
+                431: "SZN_LOGIN.REGISTER.ERROR.431",
+                500: "SZN_LOGIN.REGISTER.ERROR.500"
             };
 
             $scope.data = {
@@ -78,6 +79,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 var data = response.data;
                 var status = data.status;
 
+                $scope.resetError(0);
                 $scope.resetError(500);
 
                 if (type == "username") {
@@ -131,20 +133,30 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 return true;
             };
 
+            $scope.connectionError = function() {
+                $scope.error.msgs.push({
+                    status: 0,
+                    msg: errors[0]
+                });
+            };
+
             $scope.activateUsernameWatcher = function() {
                 if (usernameWatcherActivated) { return; }
                 $scope.$watch("data.username", $scope.checkUsername);
                 usernameWatcherActivated = true;
             };
 
-            $scope.checkUsername = function(newValue, oldValue) {
+            $scope.checkUsername = function(newValue) {
                 if (timeoutUsernameFinished) { $timeout.cancel(timeoutUsernameFinished); }
 
                 timeoutUsernameFinished = $timeout(function() {
                     if (newValue) {
-                        sznRegister.checkUser(newValue).then(function(response) {
-                            $scope.processStatus(response, "username");
-                        });
+                        sznRegister.checkUser(newValue).then(
+                            function(response) {
+                                $scope.processStatus(response, "username");
+                            },
+                            $scope.connectionError
+                        );
                     } else {
                         $scope.resetError([500, 404, 427, 430, 431]);
                         $scope.valid.username = null;
@@ -158,7 +170,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 passwordWatcherActivated = true;
             };
 
-            $scope.checkPassword = function(newValue, oldValue) {
+            $scope.checkPassword = function(newValue) {
                 if ($scope.data.passwordRepeat) {
                     $scope.checkPasswordRepeat($scope.data.passwordRepeat);
                 }
@@ -167,9 +179,12 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
 
                 timeoutPasswordFinished = $timeout(function() {
                     if (newValue) {
-                        sznRegister.checkPassword(newValue).then(function(response) {
-                            $scope.processStatus(response, "password");
-                        });
+                        sznRegister.checkPassword(newValue).then(
+                            function(response) {
+                                $scope.processStatus(response, "password");
+                            },
+                            $scope.connectionError
+                        );
                     } else {
                         $scope.resetError([500, 406, 420, 421, 422, 423, 424]);
                         $scope.valid.password = null;
@@ -185,7 +200,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 passwordRepeatWatcherActivated = true;
             };
 
-            $scope.checkPasswordRepeat = function(newValue, oldValue) {
+            $scope.checkPasswordRepeat = function(newValue) {
                 if (!newValue) {
                     $scope.valid.passwordRepeat = null;
                     $scope.resetError([500, 426]);
@@ -222,7 +237,8 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                         if (passed) {
                             $scope.setActiveWindow("verify-window");
                         }
-                    }
+                    },
+                    $scope.connectionError
                 );
             };
 
@@ -230,7 +246,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 $scope.changeClasses(values.old, values.current);
             });
         }],
-        link: function($scope, element, attrs) {
+        link: function($scope, element) {
             var container = element[0];
             var passwordMeter = container.querySelector("#passwordMeter span");
 
@@ -245,7 +261,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 }
 
                 passwordMeter.style.backgroundColor = "rgb("+c.join(",")+")";
-                passwordMeter.style.width = power + '%';
+                passwordMeter.style.width = power + "%";
             };
 
             $scope.changeClasses = function(old, current) {

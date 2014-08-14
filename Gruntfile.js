@@ -33,6 +33,7 @@ module.exports = function ( grunt ) {
                },
                src: [
                    "./src/js/ng-szn-login.prefix",
+                   "./src/js/config.js",
                    "./src/js/ie8-fix.js",
                    "./src/js/defaults.js",
                    "./src/js/szn-login-transport.js",

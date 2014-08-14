@@ -64,17 +64,17 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
 
                     case 403:
                     case 406:
-                        $scope.error.msg = "Neexistující uživatel nebo chybné heslo!";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.BAD_LOGIN";
                         $scope.error.href = "http://napoveda.seznam.cz/cz/login/jak-na-zapomenute-heslo/";
                     break;
 
                     case 405:
-                        $scope.error.msg = "Váš účet je zablokován.";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.FORBIDDEN";
                         $scope.error.href = "http://napoveda.seznam.cz/cz/login/blokace-seznam-uctu/";
                     break;
 
                     case 420: /* slabe, ale ne moc */
-                        $scope.error.msg = "Vaše heslo je příliš jednoduché!";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.WEAK_PASSWORD";
                         $scope.error.weakpassword.positive = true;
                         $scope.error.weakpassword.href = sznLoginBackend.getURLForPasswordChange(data.crypted);
                     break;
@@ -84,7 +84,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                     break;
 
                     case 500:
-                        $scope.error.msg = "Interní chyba systému.";
+                        $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.INTERNAL";
                         $scope.error.href = "";
                     break;
 
@@ -96,7 +96,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             };
 
             $scope.loginError = function() {
-                $scope.error.msg = "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později.";
+                $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.CONNECTION";
             };
 
             $scope.continueWithWeakPassword = function(e) {
@@ -123,10 +123,9 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
                 $scope.changeClasses(values.old, values.current);
             });
         }],
-        link:function($scope, element, attrs) {
+        link:function($scope, element) {
             var sznLoginConf = sznLogin.getConf();
             var container = element[0];
-            var form = container.querySelector("#sznloginForm");
             var adElm = container.querySelector("#sznLoginAd");
 
             var showAd = function(data) {

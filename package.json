@@ -1,6 +1,6 @@
 {
   "name": "ngSznLogin",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "description": "Module for login to Seznam.cz services",
   "main": "Gruntfile.js",
   "directories": {
@@ -9,14 +9,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "express": "~4.3.0",
+    "express": "^4.3.2",
     "grunt": "~0.4.5",
     "grunt-angular-templates": "~0.5.5",
-    "grunt-contrib-less": "~0.11.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-contrib-concat": "^0.4.0",
     "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-copy": "^0.5.0"
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-watch": "~0.6.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -2,16 +2,16 @@
     <div class="szn-login-close"></div>
     <div class="szn-verify-page">
         <form id="sznLoginForm" class="szn-login-form" method="post" ng-submit="submit($event);">
-            <div class="text">Pro dokončení klikněte na odkaz, který jsme vám poslali na e-mail nebo opište zaslaný kód.</div>
+            <div class="text">{{ 'SZN_LOGIN.VERIFY.FINISH_REGISTRATION' | translate }}.</div>
             <div>
                 <div>
-                    <span class="input"><input type="text" name="verify" placeholder="XXXXXX" title="Zadejte obdržený kód" ng-model="data.pin" focusable><span class="icon"></span></span><input type="submit" value="Dokončit">
+                    <span class="input"><input type="text" name="verify" placeholder="XXXXXX" title="{{ 'SZN_LOGIN.VERIFY.CODE_PLACEHOLDER' | translate }}" ng-model="data.pin" focusable><span class="icon"></span></span><input type="submit" value="{{ 'SZN_LOGIN.VERIFY.FINISH' | translate }}">
                 </div>
                 <div class="text error" ng-if="!!error.msgs.length"><div ng-repeat="emsg in error.msgs"><strong>{{emsg.msg}}</strong></div></div>
                 <div class="resend" ng-if="!resended">
-                    Nepřišel vám kód? <a ng-href="#" ng-click="resendCode($event);">Zaslat znovu ověřovací kód</a>
+                   {{ 'SZN_LOGIN.VERIFY.NOT_OBTAINED' | translate }}? <a ng-href="#" ng-click="resendCode($event);">{{ 'SZN_LOGIN.VERIFY.SEND_CODE_AGAIN' | translate }}.</a>
                 </div>
-                <div class="text resend notify" ng-if="!!resended"><strong>Zkontrolujte svou e-mailovou schránku, kam jsme vám zaslali nový ověřovací kód.</strong></div>
+                <div class="text resend notify" ng-if="!!resended"><strong>{{ 'SZN_LOGIN.VERIFY.CHECK_YOUR_EMAIL' | translate }}.</strong></div>
             </div>
         </form>
     </div>
