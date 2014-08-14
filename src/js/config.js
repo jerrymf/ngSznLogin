@@ -5,6 +5,7 @@ mdl.config([
         $translateProvider.translations("cs", {
             SZN_LOGIN: {
                 LOGIN: {
+                    TEXT: "{{text}}",
                     LOST_PASSWORD: "Zaslat zapomenuté heslo",
                     REMEMBER_ME: "Pamatovat si mě na tomto počítači",
                     NOT_REGISTERED: "Nejste zaregistrováni na Seznam.cz",
@@ -76,13 +77,14 @@ mdl.config([
         $translateProvider.translations("en", {
             SZN_LOGIN: {
                 LOGIN: {
+                    TEXT: "{{text}}",
                     LOST_PASSWORD: "Send lost password",
                     REMEMBER_ME: "Remember my details on this computer",
                     NOT_REGISTERED: "Not register on Seznam.cz yet?",
                     REGISTER_NOW: "Register now",
                     USERNAME_PLACEHOLDER: "Your e-mail",
                     PASSWORD_PLACEHOLDER: "Password",
-                    LOG_IN: "Log in",
+                    LOG_IN: "Sign in",
                     COOKIES_NOTIFY: "You need to have allowed cookies for successful login. Are you in trouble? Look at",
                     HELP: "our help",
                     WEAKPASSWORD_CONTINUE: "Continue with current password",
@@ -105,7 +107,7 @@ mdl.config([
                     AGREEMENT: "With registering you agree with",
                     TERMS: "service terms",
                     TERMS_NOTIFY: "Before continue you have to accept our terms",
-                    ALREADY_REGISTERED: "I am already registered and want to log in",
+                    ALREADY_REGISTERED: "I am already registered and want to sign in",
                     CREATE_EMAIL: "I do not have e-mail on Seznam.cz and I want to create it.",
                     ERROR: {
                         0: "We can not connect to our servers. Try it please later",

@@ -3,7 +3,15 @@ mdl.provider("sznLogin", function() {
         url:"",
         serviceId:"",
         returnURL: "",
-        text: "<strong>Přihlaste se</strong> tam, kam se dosud nikdo nevydal.",
+        multilingualText: {
+            "cs": {
+                def: "Přihlaste se tam, kam se dosud nikdo nevydal"
+            },
+            "en": {
+                def: "Sign in places where no man has gone before"
+            }
+        },
+        multilingualTextId: "def",
         language: "cs",
         autoClose: true,
         autoLogin: true,
@@ -69,7 +77,11 @@ mdl.provider("sznLogin", function() {
                     $rootScope.$broadcast("szn-login-closed");
                 },
                 changeLanguage: function(language) {
+                    conf.language = language;
                     $translate.use(language);
+                },
+                useText: function(textId) {
+                    conf.multilingualTextId = textId;
                 },
                 getLogin: function() {
                     return login;

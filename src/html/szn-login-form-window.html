@@ -3,7 +3,7 @@
     <div class="szn-login-page">
         <div id="sznLoginAd"></div>
         <form id="sznLoginForm" class="szn-login-form" method="post" ng-submit="submit($event);">
-            <div class="text" ng-if="!error.msg" ng-bind-html="titleText"></div>
+            <div class="text" ng-if="!error.msg">{{ 'SZN_LOGIN.LOGIN.TEXT' | translate: '{ text: text }' }}</div>
             <div class="text error" ng-if="!!error.msg"><strong>{{ error.msg | translate }}!</strong> <span ng-if="error.href">(<a ng-href="{{error.href}}" target="_blank">?</a>)</span></div>
             <div ng-if="error.weakpassword.positive">
                 <div>

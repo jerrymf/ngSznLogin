@@ -1,4 +1,4 @@
-mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate", "$rootScope", "sznLogin", function($timeout, $interval, $sce, $animate, $rootScope, sznLogin) {
+mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$rootScope", "sznLogin", function($timeout, $interval, $animate, $rootScope, sznLogin) {
     return {
         restrict:"E",
         replace:true,
@@ -6,7 +6,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             var sznLoginBackend = sznLogin.getLogin();
             var sznLoginConf = sznLogin.getConf();
 
-            $scope.titleText = $sce.trustAsHtml(sznLoginConf.text);
+            $scope.text = (sznLoginConf.multilingualText[sznLoginConf.language] || {})[sznLoginConf.multilingualTextId] || "";
 
             $scope.data = {
                 username:"",

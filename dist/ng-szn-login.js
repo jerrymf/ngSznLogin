@@ -15,6 +15,7 @@ mdl.config([
         $translateProvider.translations("cs", {
             SZN_LOGIN: {
                 LOGIN: {
+                    TEXT: "{{text}}",
                     LOST_PASSWORD: "Zaslat zapomenuté heslo",
                     REMEMBER_ME: "Pamatovat si mě na tomto počítači",
                     NOT_REGISTERED: "Nejste zaregistrováni na Seznam.cz",
@@ -86,13 +87,14 @@ mdl.config([
         $translateProvider.translations("en", {
             SZN_LOGIN: {
                 LOGIN: {
+                    TEXT: "{{text}}",
                     LOST_PASSWORD: "Send lost password",
                     REMEMBER_ME: "Remember my details on this computer",
                     NOT_REGISTERED: "Not register on Seznam.cz yet?",
                     REGISTER_NOW: "Register now",
                     USERNAME_PLACEHOLDER: "Your e-mail",
                     PASSWORD_PLACEHOLDER: "Password",
-                    LOG_IN: "Log in",
+                    LOG_IN: "Sign in",
                     COOKIES_NOTIFY: "You need to have allowed cookies for successful login. Are you in trouble? Look at",
                     HELP: "our help",
                     WEAKPASSWORD_CONTINUE: "Continue with current password",
@@ -115,7 +117,7 @@ mdl.config([
                     AGREEMENT: "With registering you agree with",
                     TERMS: "service terms",
                     TERMS_NOTIFY: "Before continue you have to accept our terms",
-                    ALREADY_REGISTERED: "I am already registered and want to log in",
+                    ALREADY_REGISTERED: "I am already registered and want to sign in",
                     CREATE_EMAIL: "I do not have e-mail on Seznam.cz and I want to create it.",
                     ERROR: {
                         0: "We can not connect to our servers. Try it please later",
@@ -599,8 +601,16 @@ mdl.provider("sznLogin", function() {
         url:"",
         serviceId:"",
         returnURL: "",
-        text: "<strong>Přihlaste se</strong> tam, kam se dosud nikdo nevydal.",
-        language: "en",
+        multilingualText: {
+            "cs": {
+                def: "Přihlaste se tam, kam se dosud nikdo nevydal"
+            },
+            "en": {
+                def: "Sign in places where no man has gone before"
+            }
+        },
+        multilingualTextId: "def",
+        language: "cs",
         autoClose: true,
         autoLogin: true,
         checkCookie: false,
@@ -665,7 +675,11 @@ mdl.provider("sznLogin", function() {
                     $rootScope.$broadcast("szn-login-closed");
                 },
                 changeLanguage: function(language) {
+                    conf.language = language;
                     $translate.use(language);
+                },
+                useText: function(textId) {
+                    conf.multilingualTextId = textId;
                 },
                 getLogin: function() {
                     return login;
@@ -754,7 +768,7 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
     };
 }]);
 
-mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate", "$rootScope", "sznLogin", function($timeout, $interval, $sce, $animate, $rootScope, sznLogin) {
+mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$rootScope", "sznLogin", function($timeout, $interval, $animate, $rootScope, sznLogin) {
     return {
         restrict:"E",
         replace:true,
@@ -762,7 +776,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$sce", "$animate"
             var sznLoginBackend = sznLogin.getLogin();
             var sznLoginConf = sznLogin.getConf();
 
-            $scope.titleText = $sce.trustAsHtml(sznLoginConf.text);
+            $scope.text = (sznLoginConf.multilingualText[sznLoginConf.language] || {})[sznLoginConf.multilingualTextId] || "";
 
             $scope.data = {
                 username:"",
@@ -1481,7 +1495,7 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-login-form-window.html',
-    "<div class=\"szn-login-window\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\" ng-bind-html=\"titleText\"></div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">{{ 'SZN_LOGIN.LOGIN.CHANGE_PASSWORD' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">{{ 'SZN_LOGIN.LOGIN.WEAKPASSWORD_CONTINUE' | translate }}</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.USERNAME_PLACEHOLDER' | translate }}\" focusable><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LOGIN.LOG_IN' | translate }}\"></div><div><label><input type=\"checkbox\" ng-checked=\"data.remember\" ng-model=\"data.remember\">{{ 'SZN_LOGIN.LOGIN.REMEMBER_ME' | translate }} (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>{{ 'SZN_LOGIN.LOGIN.COOKIES_NOTIFY' | translate }} <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">{{ 'SZN_LOGIN.LOGIN.HELP' | translate }}</a>.</div></div><div><div class=\"info\">{{ 'SZN_LOGIN.LOGIN.NOT_REGISTERED' | translate }}? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">{{ 'SZN_LOGIN.LOGIN.REGISTER_NOW' | translate }}!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">{{ 'SZN_LOGIN.LOGIN.LOST_PASSWORD' | translate }}</a></div></div><div class=\"line\"></div></form></div></div>"
+    "<div class=\"szn-login-window\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\">{{ 'SZN_LOGIN.LOGIN.TEXT' | translate: '{ text: text }' }}</div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">{{ 'SZN_LOGIN.LOGIN.CHANGE_PASSWORD' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">{{ 'SZN_LOGIN.LOGIN.WEAKPASSWORD_CONTINUE' | translate }}</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.USERNAME_PLACEHOLDER' | translate }}\" focusable><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LOGIN.LOG_IN' | translate }}\"></div><div><label><input type=\"checkbox\" ng-checked=\"data.remember\" ng-model=\"data.remember\">{{ 'SZN_LOGIN.LOGIN.REMEMBER_ME' | translate }} (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>{{ 'SZN_LOGIN.LOGIN.COOKIES_NOTIFY' | translate }} <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">{{ 'SZN_LOGIN.LOGIN.HELP' | translate }}</a>.</div></div><div><div class=\"info\">{{ 'SZN_LOGIN.LOGIN.NOT_REGISTERED' | translate }}? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">{{ 'SZN_LOGIN.LOGIN.REGISTER_NOW' | translate }}!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">{{ 'SZN_LOGIN.LOGIN.LOST_PASSWORD' | translate }}</a></div></div><div class=\"line\"></div></form></div></div>"
   );
 
 
