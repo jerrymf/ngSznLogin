@@ -6,6 +6,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             var sznLoginBackend = sznLogin.getLogin();
             var sznLoginConf = sznLogin.getConf();
 
+            $scope.loading = false;
+
             $scope.text = (sznLoginConf.multilingualText[sznLoginConf.language] || {})[sznLoginConf.multilingualTextId] || "";
 
             $scope.data = {
@@ -41,6 +43,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             };
 
             $scope.loginProcess = function() {
+                if ($scope.loading) { return; }
+
+                $scope.loading = true;
+
                 $scope.resetError();
                 sznLoginBackend.login($scope.data.username, $scope.data.password, $scope.data.remember).then(
                     $scope.loginDone,
@@ -49,6 +55,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             };
 
             $scope.loginDone = function(response) {
+                $scope.loading = false;
+
                 var data = response.data;
 
                 switch (data.status) {
@@ -96,6 +104,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             };
 
             $scope.loginError = function() {
+                $scope.loading = false;
                 $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.CONNECTION";
             };
 

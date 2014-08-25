@@ -23,6 +23,7 @@ mdl.config([
                     USERNAME_PLACEHOLDER: "Libovolný e-mail",
                     PASSWORD_PLACEHOLDER: "Heslo",
                     LOG_IN: "Přihlásit se",
+                    LOG_IN_PROCESS: "Přihlašuji…",
                     COOKIES_NOTIFY: "Pro správné přihlášení je potřeba zapnout cookies. Nevíte se rady? Podívejte se do",
                     HELP: "nápovědy",
                     WEAKPASSWORD_CONTINUE: "Pokračovat se současným heslem",
@@ -95,6 +96,7 @@ mdl.config([
                     USERNAME_PLACEHOLDER: "Your e-mail",
                     PASSWORD_PLACEHOLDER: "Password",
                     LOG_IN: "Sign in",
+                    LOG_IN_PROCESS: "Signing…",
                     COOKIES_NOTIFY: "You need to have allowed cookies for successful login. Are you in trouble? Look at",
                     HELP: "our help",
                     WEAKPASSWORD_CONTINUE: "Continue with current password",
@@ -776,6 +778,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             var sznLoginBackend = sznLogin.getLogin();
             var sznLoginConf = sznLogin.getConf();
 
+            $scope.loading = false;
+
             $scope.text = (sznLoginConf.multilingualText[sznLoginConf.language] || {})[sznLoginConf.multilingualTextId] || "";
 
             $scope.data = {
@@ -811,6 +815,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             };
 
             $scope.loginProcess = function() {
+                if ($scope.loading) { return; }
+
+                $scope.loading = true;
+
                 $scope.resetError();
                 sznLoginBackend.login($scope.data.username, $scope.data.password, $scope.data.remember).then(
                     $scope.loginDone,
@@ -819,6 +827,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             };
 
             $scope.loginDone = function(response) {
+                $scope.loading = false;
+
                 var data = response.data;
 
                 switch (data.status) {
@@ -866,6 +876,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             };
 
             $scope.loginError = function() {
+                $scope.loading = false;
                 $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.CONNECTION";
             };
 
@@ -1495,7 +1506,7 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-login-form-window.html',
-    "<div class=\"szn-login-window\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\">{{ 'SZN_LOGIN.LOGIN.TEXT' | translate: '{ text: text }' }}</div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">{{ 'SZN_LOGIN.LOGIN.CHANGE_PASSWORD' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">{{ 'SZN_LOGIN.LOGIN.WEAKPASSWORD_CONTINUE' | translate }}</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.USERNAME_PLACEHOLDER' | translate }}\" focusable><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}\"><span class=\"icon\"></span></span><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LOGIN.LOG_IN' | translate }}\"></div><div><label><input type=\"checkbox\" ng-checked=\"data.remember\" ng-model=\"data.remember\">{{ 'SZN_LOGIN.LOGIN.REMEMBER_ME' | translate }} (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>{{ 'SZN_LOGIN.LOGIN.COOKIES_NOTIFY' | translate }} <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">{{ 'SZN_LOGIN.LOGIN.HELP' | translate }}</a>.</div></div><div><div class=\"info\">{{ 'SZN_LOGIN.LOGIN.NOT_REGISTERED' | translate }}? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">{{ 'SZN_LOGIN.LOGIN.REGISTER_NOW' | translate }}!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">{{ 'SZN_LOGIN.LOGIN.LOST_PASSWORD' | translate }}</a></div></div><div class=\"line\"></div></form></div></div>"
+    "<div class=\"szn-login-window\"><div class=\"szn-login-close\"></div><div class=\"szn-login-page\"><div id=\"sznLoginAd\"></div><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\" ng-if=\"!error.msg\">{{ 'SZN_LOGIN.LOGIN.TEXT' | translate: '{ text: text }' }}</div><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div ng-if=\"error.weakpassword.positive\"><div><a ng-href=\"{{error.weakpassword.href}}\">{{ 'SZN_LOGIN.LOGIN.CHANGE_PASSWORD' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"continueWithWeakPassword($event);\">{{ 'SZN_LOGIN.LOGIN.WEAKPASSWORD_CONTINUE' | translate }}</a></div></div><div ng-if=\"!error.weakpassword.positive && !error.cookieDisabled\"><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"text\" name=\"username\" ng-model=\"data.username\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.USERNAME_PLACEHOLDER' | translate }}\" focusable><span class=\"icon\"></span></span></div><div><span class=\"input\" ng-class=\"{error: error.msg != ''}\"><input type=\"password\" name=\"password\" ng-model=\"data.password\" auto-fill-sync szn-placeholder=\"{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}\"><span class=\"icon\"></span></span><span class=\"submit-btn\"><span class=\"loading\" ng-show=\"loading\"></span><input type=\"submit\" value=\"{{ (loading ? 'SZN_LOGIN.LOGIN.LOG_IN_PROCESS' : 'SZN_LOGIN.LOGIN.LOG_IN') | translate }}\"></span></div><div><label><input type=\"checkbox\" ng-checked=\"data.remember\" ng-model=\"data.remember\">{{ 'SZN_LOGIN.LOGIN.REMEMBER_ME' | translate }} (<a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/login/prihlaseni/\">?</a>)</label></div></div><div ng-if=\"error.cookieDisabled\"><div>{{ 'SZN_LOGIN.LOGIN.COOKIES_NOTIFY' | translate }} <a target=\"_blank\" ng-href=\"http://napoveda.seznam.cz/cz/povoleni-cookie-v-internetovych-prohlizecich.html\">{{ 'SZN_LOGIN.LOGIN.HELP' | translate }}</a>.</div></div><div><div class=\"info\">{{ 'SZN_LOGIN.LOGIN.NOT_REGISTERED' | translate }}? <a ng-href=\"#\" ng-click=\"activateRegisterPage($event)\">{{ 'SZN_LOGIN.LOGIN.REGISTER_NOW' | translate }}!</a></div><div><a ng-href=\"http://napoveda.seznam.cz/cz/zapomenute-heslo.html\">{{ 'SZN_LOGIN.LOGIN.LOST_PASSWORD' | translate }}</a></div></div><div class=\"line\"></div></form></div></div>"
   );
 
 

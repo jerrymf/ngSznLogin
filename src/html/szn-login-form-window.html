@@ -18,7 +18,7 @@
                     <span class="input" ng-class="{error: error.msg != ''}"><input type="text" name="username" ng-model="data.username" auto-fill-sync szn-placeholder="{{ 'SZN_LOGIN.LOGIN.USERNAME_PLACEHOLDER' | translate }}" focusable /><span class="icon"></span></span>
                 </div>
                 <div>
-                    <span class="input" ng-class="{error: error.msg != ''}"><input type="password" name="password" ng-model="data.password" auto-fill-sync szn-placeholder="{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}" /><span class="icon"></span></span><input type="submit" value="{{ 'SZN_LOGIN.LOGIN.LOG_IN' | translate }}" />
+                    <span class="input" ng-class="{error: error.msg != ''}"><input type="password" name="password" ng-model="data.password" auto-fill-sync szn-placeholder="{{ 'SZN_LOGIN.LOGIN.PASSWORD_PLACEHOLDER' | translate }}" /><span class="icon"></span></span><span class="submit-btn"><span class="loading" ng-show="loading"></span><input type="submit" value="{{ (loading ? 'SZN_LOGIN.LOGIN.LOG_IN_PROCESS' : 'SZN_LOGIN.LOGIN.LOG_IN') | translate }}" /></span>
                 </div>
                 <div>
                     <label><input type="checkbox" ng-checked="data.remember" ng-model="data.remember" />{{ 'SZN_LOGIN.LOGIN.REMEMBER_ME' | translate }} (<a target="_blank" ng-href="http://napoveda.seznam.cz/cz/login/prihlaseni/">?</a>)</label>

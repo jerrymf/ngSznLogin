@@ -420,7 +420,24 @@
     width: 230px;
   }
 }
-#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form input[type=submit] {
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form .submit-btn {
+  position: relative;
+  display: inline-block;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form .submit-btn .loading {
+  display: inline-block;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  background-image: url('img/ajax-loader.gif');
+  background-position: center center;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: default;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form .submit-btn input[type=submit] {
   margin-left: 2px;
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form label {
