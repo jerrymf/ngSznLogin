@@ -132,6 +132,8 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
 
         this._clearTimeout();
 
+        if (!this._deferred) { return; }
+
         var deferred = this._deferred;
         this._deferred = null;
         deferred.resolve({data:JSON.parse(e.data)});
