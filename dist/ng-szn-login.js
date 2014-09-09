@@ -340,14 +340,14 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
         if (this._isTimeout) { return; }
 
         this._clearTimeout();
-        this._removeIframe();
 
         if (!this._deferred) { return; }
+
+        this._removeIframe();
 
         var deferred = this._deferred;
         this._deferred = null;
         deferred.resolve({data:JSON.parse(e.data)});
-        console.log(e.data);
     };
 
     LoginIframe.prototype._onTimeout = function() {
