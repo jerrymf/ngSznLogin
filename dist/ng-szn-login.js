@@ -281,6 +281,11 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
 
         this._iframe.src = url + "?" + arr.join("&");
 
+        document.body.insertBefore(
+            this._iframe,
+            document.body.firstChild
+        );
+
         this._timeout = $timeout(this._onTimeout, TIMEOUT);
 
         return this._deferred.promise;
@@ -310,6 +315,10 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
         }
 
         document.body.appendChild(form);
+        document.body.insertBefore(
+            this._iframe,
+            document.body.firstChild
+        );
         form.submit();
         form.parentNode.removeChild(form);
 
@@ -323,7 +332,6 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
         tempDiv.innerHTML = '<iframe name="' + this._id + '"></iframe>';
         var iframe = tempDiv.firstChild;
         iframe.style.display = "none";
-        document.body.insertBefore(iframe, document.body.firstChild);
         return iframe;
     };
 
@@ -332,18 +340,21 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
         if (this._isTimeout) { return; }
 
         this._clearTimeout();
+        this._removeIframe();
 
         if (!this._deferred) { return; }
 
         var deferred = this._deferred;
         this._deferred = null;
         deferred.resolve({data:JSON.parse(e.data)});
+        console.log(e.data);
     };
 
     LoginIframe.prototype._onTimeout = function() {
         if (!this._timeout) { return; }
         this._isTimeout = true;
         this._clearTimeout();
+        this._removeIframe();
 
         var deferred = this._deferred;
         this._deferred = null;
@@ -363,6 +374,10 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
         }
 
         return false;
+    };
+
+    LoginIframe.prototype._removeIframe = function() {
+        this._iframe.parentNode.removeChild(this._iframe);
     };
 
     LoginIframe.prototype._clearTimeout = function() {
