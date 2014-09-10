@@ -5,7 +5,7 @@
   "authors": [
     "Marek Fojtl <marek.fojtl@firma.seznam.cz>"
   ],
-  "description": "Module for login to Seznam.cz services",
+  "description": "Module for signing to Seznam.cz services",
   "keywords": [
     "angularjs",
     "login",
