@@ -6,7 +6,7 @@ Module for signing into Seznam.cz web services.
 Basic usage:
 ===========
 
-We recommend to use bower for download librabry:
+It is recommended to use bower:
 
 <pre>
   bower install ng-szn-login --save
