@@ -15,10 +15,10 @@ We recommend to use bower for download librabry:
 1) First of all, you have to solve dependecies. This module is depended on angular-translate and angular-animate. So you have to include scripts:
 
 <pre>
-  &lt;script type="text/javascript" src="path_to_libs/angular/angular.min.js"&gt;&lt;/script&gt;
-  &lt;script type="text/javascript" src="path_to_libs/angular-translate/angular-translate.min.js"&gt;&lt;/script&gt;
-  &lt;script type="text/javascript" src="path_to_libs/angular-animate/angular-animate.min.js"&gt;&lt;/script&gt;
-  &lt;script type="text/javascript" src="path_to_libs/ng-szn-login/dist/ng-szn-login.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="path_to_bower_components/angular/angular.min.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="path_to_bower_components/angular-translate/angular-translate.min.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="path_to_bower_components/angular-animate/angular-animate.min.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="path_to_bower_components/ng-szn-login/dist/ng-szn-login.js"&gt;&lt;/script&gt;
 </pre>
 
 2) It uses less preprocessor for working with CSS:
@@ -27,13 +27,13 @@ In your project you have to import ng-szn-login.less, that contains all CSS rule
 
 <pre>
   /* import lesshat less framework */
-  @import "path_to_libs/lesshat/build/lesshat.less";
+  @import "path_to_bower_components/lesshat/build/lesshat.less";
   
   /* set where are stored images of this module (found in dist directory) */
   @szn-login-img-path: "img";
   
   /* import less file with css rules of szn login module */
-  @import "path_to_libs/ng-szn-login.less";
+  @import "path_to_bower_components/ng-szn-login/dist/ng-szn-login.less";
 </pre>
 
 3) In angular configuration you have to set important options:
