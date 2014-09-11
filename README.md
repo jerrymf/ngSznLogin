@@ -15,7 +15,7 @@ Basic usage:
   &lt;script type="text/javascript" src="path_to_libs/ng-szn-login/dist/ng-szn-login.js"&gt;&lt;/script&gt;
 </pre>
 
-2) In angular config, you have to set important options:
+2) In angular configuration you have to set important options:
 
 <pre>
   &lt;script type="text/javascript"&gt;
