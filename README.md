@@ -6,6 +6,12 @@ Module for signing into Seznam.cz web services.
 Basic usage:
 ===========
 
+We recommend to use bower for download librabry:
+
+<pre>
+  bower install ng-szn-login --save
+</pre>
+
 1) First of all, you have to solve dependecies. This module is depended on angular-translate and angular-animate. So you have to include scripts:
 
 <pre>
@@ -15,7 +21,22 @@ Basic usage:
   &lt;script type="text/javascript" src="path_to_libs/ng-szn-login/dist/ng-szn-login.js"&gt;&lt;/script&gt;
 </pre>
 
-2) In angular configuration you have to set important options:
+2) It uses less preprocessor for working with CSS:
+
+In your project you have to import ng-szn-login.less, that contains all CSS rules for module. It is dependend on lesshat (http://lesshat.madebysource.com) and variables set in ng-szn-login-config.less. This configuration you have to create in your app. So in your style.less file can be something like this:
+
+<pre>
+  /* import lesshat less framework */
+  @import "path_to_libs/lesshat/build/lesshat.less";
+  
+  /* set where are stored images of this module (found in dist directory) */
+  @szn-login-img-path: "img";
+  
+  /* import less file with css rules of szn login module */
+  @import "path_to_libs/ng-szn-login.less";
+</pre>
+
+3) In angular configuration you have to set important options:
 
 <pre>
   &lt;script type="text/javascript"&gt;
@@ -35,7 +56,7 @@ Basic usage:
   &lt;/script&gt;
 </pre>
 
-3) There is directive named szn-login-init. It is easy to use:
+4) There is directive named szn-login-init. It is easy to use:
 
 <pre>
   &lt;button szn-login-init&gt;Sign in&lt;/button&gt;
@@ -43,7 +64,7 @@ Basic usage:
 
 Then when you click on button, it automatically opens login window.
 
-4) Do not forget to register listener for signal "szn-login-done". It is broadcasted when user is succesfully signed in.
+5) Do not forget to register listener for signal "szn-login-done". It is broadcasted when user is succesfully signed in.
 
 Example:
 
