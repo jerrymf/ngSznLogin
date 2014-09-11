@@ -59,3 +59,8 @@ Example:
     }]);
   &lt;/script&gt;
 </pre>
+
+Custom usage:
+===========
+
+Preparing ...
