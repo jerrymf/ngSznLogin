@@ -11,8 +11,8 @@ module.exports = function ( grunt ) {
         pkg: grunt.file.readJSON("package.json"),
         less: {
           build: {
-            src:"./src/less/ng-szn-login.less",
-            dest:"./dist/ng-szn-login.css"
+            src: "./src/less/style.less",
+            dest: "./dist/ng-szn-login.css"
           }
         },
         ngtemplates:  {
