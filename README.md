@@ -24,7 +24,7 @@ Basic usage:
     var app = angular.module("app", ["ngSznLogin"]);
     
     /* url and register url are important for correct working, but in case you work with .cz, it is set as default */
-    demoApp.config(["sznLoginProvider", function(sznLoginProvider) {
+    app.config(["sznLoginProvider", function(sznLoginProvider) {
         sznLoginProvider.config({
             url:          "https://login.szn.cz", /* if you want to work with dev machines, you must change this url */
             registerUrl:  "https://registrace.seznam.cz", /* if you want to work with dev machines, you must change this url */
