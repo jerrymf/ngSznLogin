@@ -749,7 +749,7 @@ mdl.directive("sznLoginBox", ["$animate", "$timeout", function($animate, $timeou
     return {
         restrict: "E",
         replace: true,
-        scope: true,
+        scope: {},
         link: function($scope, element, attrs) {
             var elm = element[0];
             var overlay = elm.querySelector(".szn-login-overlay");
