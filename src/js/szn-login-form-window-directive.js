@@ -137,11 +137,25 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             var container = element[0];
             var adElm = container.querySelector("#sznLoginAd");
 
-            var showAd = function(data) {
-                var elm = angular.element(adElm);
-                elm.append(data);
+            var html = "";
+            var impress = false;
 
-                if (data.indexOf("/impress?spotId") > -1) {
+            var showAd = function(data) {
+                if (typeof data  == "string") { /* im2.js */
+                    html = data;
+                    impress = html.indexOf("/impress?spotId") > -1;
+                } else { /* im3.js  */
+                    impress = !!data.impress;
+                    while(data.spots.length) {
+                        var spot = data.spots.shift();
+                        html += spot.content;
+                    }
+                }
+
+                var elm = angular.element(adElm);
+                elm.append(html);
+
+                if (impress) {
                     elm.addClass("adFull");
                 } else {
                     elm.removeClass("adFull");
