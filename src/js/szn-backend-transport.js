@@ -1,4 +1,4 @@
-mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q, $timeout) {
+mdl.factory("SznBackendTransport", ["$http", "$q", "$timeout", function($http, $q, $timeout) {
     var TIMEOUT = 6000;
 
     var LoginRequest = function(url) {

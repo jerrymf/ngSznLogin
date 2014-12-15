@@ -1,0 +1,23 @@
+<div class="szn-login-window license">
+    <div class="szn-login-close"></div>
+    <div class="szn-login-license-page">
+        <form id="sznLoginForm" class="szn-login-form" method="post" ng-submit="submit($event);">
+            <div class="text error" ng-if="!!error.msg">
+                <strong>{{ error.msg | translate }}!</strong> <span ng-if="error.href">(<a ng-href="{{error.href}}" target="_blank">?</a>)</span>
+            </div>
+            <div>
+                <strong>{{ 'SZN_LOGIN.LICENSE.TITLE' | translate }}</strong>
+            </div>
+            <div>
+                {{ 'SZN_LOGIN.LICENSE.TEXT' | translate }} <a target="_blank" href="http://napoveda.seznam.cz/cz/smluvni-podminky-pro-registraci-uzivatelu-1-1-2015.html">{{ 'SZN_LOGIN.LICENSE.HELP' | translate }}</a>.
+            </div>
+            <div class="agreement-line">
+                <label><input type="checkbox" class="agree" ng-model="data.agree" />{{ 'SZN_LOGIN.LICENSE.AGREEMENT' | translate }}</label>
+            </div>
+            <div class="submit-line">
+                <input type="submit" value="{{ 'SZN_LOGIN.LICENSE.CONTINUE' | translate }}" />
+            </div>
+            <div class="line"></div>
+        </form>
+    </div>
+</div>

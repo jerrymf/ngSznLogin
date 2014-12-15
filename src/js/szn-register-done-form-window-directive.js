@@ -1,4 +1,4 @@
-mdl.directive("sznDoneFormWindow", ["$timeout", "$window", "$animate", function($timeout, $window, $animate) {
+mdl.directive("sznRegisterDoneFormWindow", ["$timeout", "$window", "$animate", function($timeout, $window, $animate) {
     return {
         restrict:"E",
         replace:true,
@@ -33,14 +33,14 @@ mdl.directive("sznDoneFormWindow", ["$timeout", "$window", "$animate", function(
         link: function($scope, elements, attrs) {
             var container = elements[0];
 
-            $scope.changeClasses = function(old, current) {
-                if (old == "verify-window") {
+            $scope.changeClasses = function(old, newOne) {
+                if (old == "register-verify-window") {
                     $animate.addClass(container, "from-right");
                 }
             };
 
             $scope.changeClasses($scope.oldActiveWindow);
         },
-        templateUrl:"./src/html/szn-done-form-window.html"
+        templateUrl:"./src/html/szn-register-done-form-window.html"
     };
 }]);

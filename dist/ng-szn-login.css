@@ -43,6 +43,9 @@
   clear: both;
   height: 0;
 }
+#sznLoginBox .szn-login-invisible {
+  visibility: hidden;
+}
 #sznLoginBox input {
   padding: 0;
   margin: 0;
@@ -448,6 +451,13 @@
 }
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form div.error strong {
   color: #de0000;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .agreement-line,
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .submit-line {
+  margin-top: 15px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .submit-line {
+  text-align: center;
 }
 @media screen and (max-width: 800px) {
   #sznLoginBox .szn-login-overflow .szn-login-window .szn-register-page input[type=text] {

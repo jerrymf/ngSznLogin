@@ -1,4 +1,4 @@
-mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout, $animate) {
+mdl.directive("sznRegisterVerifyFormWindow", ["$timeout", "$animate", function($timeout, $animate) {
     return {
         restrict:"E",
         replace:true,
@@ -72,7 +72,7 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
                     function(response) {
                         var passed = $scope.processStatus(response);
                         if (passed) {
-                            $scope.setActiveWindow("done-window");
+                            $scope.setActiveWindow("register-done-window");
                         }
                     },
                     $scope.connectionError
@@ -102,6 +102,6 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
 
             $scope.changeClasses($scope.oldActiveWindow);
         },
-        templateUrl:"./src/html/szn-verify-form-window.html"
+        templateUrl:"./src/html/szn-register-verify-form-window.html"
     };
 }]);

@@ -1,4 +1,4 @@
-mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLoginTransport) {
+mdl.factory("SznLoginBackend", ["$q", "SznBackendTransport", function($q, SznBackendTransport) {
     var Login = function(conf) {
         this._conf = {
             url: "",
@@ -12,7 +12,8 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
             autologin: "/beta/autologin",
             acceptweak: "/beta/acceptweak",
             change: "/changeScreen",
-            openId: "/loginOIProcess"
+            openId: "/loginOIProcess",
+            license: "/beta/confirmLicence"
         };
 
         for (var i in conf) {
@@ -22,9 +23,11 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
             }
         }
 
-        this._transport = new SznLoginTransport(this._conf.url);
+        this._transport = new SznBackendTransport(this._conf.url);
         this._cookie = true;
         this._checked = false;
+
+        this._cdata   = null;
     };
 
     Login.prototype.check = function() {
@@ -117,14 +120,25 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
         this._transport.post(this._methods.login, data).then(
             function(response) {
                 var data = response.data;
+                if (data.cdata) { this._cdata = cdata; }
                 defered.resolve({data:data});
-            },
+            }.bind(this),
             function() {
+                this._cdata = null;
                 defered.reject();
-            }
+            }.bind(this)
         );
 
         return defered.promise;
+    };
+
+    Login.prototype.confirmLicence = function(agree) {
+        var data = this._getCommonData();
+        data.cdata = this._cdata;
+
+        if (agree) { data.setlicence = 1; }
+
+        return this._transport.post(this._methods.license, data);
     };
 
     Login.prototype._getCommonData = function() {

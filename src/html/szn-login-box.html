@@ -2,8 +2,9 @@
     <div class="szn-login-overlay"></div>
     <div class="szn-login-overflow">
         <szn-login-form-window ng-if="activeWindow == 'login-window'" center-position closeable></szn-login-form-window>
+        <szn-login-license-form-window ng-if="activeWindow == 'login-license-window'" center-position closeable></szn-login-license-form-window>
         <szn-register-form-window ng-if="activeWindow == 'register-window'" center-position closeable></szn-register-form-window>
-        <szn-verify-form-window ng-if="activeWindow == 'verify-window'" center-position closeable></szn-verify-form-window>
-        <szn-done-form-window ng-if="activeWindow == 'done-window'" center-position closeable></szn-done-form-window>
+        <szn-register-verify-form-window ng-if="activeWindow == 'register-verify-window'" center-position closeable></szn-register-verify-form-window>
+        <szn-register-done-form-window ng-if="activeWindow == 'register-done-window'" center-position closeable></szn-register-done-form-window>
     </div>
 </div>

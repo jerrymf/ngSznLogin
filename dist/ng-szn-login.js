@@ -36,6 +36,16 @@ mdl.config([
                         CONNECTION: "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později"
                     }
                 },
+                LICENSE: {
+                    TITLE: "Změna Smluvních podmínek služeb poskytovaných společností Seznam.cz",
+                    TEXT: "Od 1. 2. 2015 vchází v platnost nové Smluvní podmínky služeb společnosti Seznam.cz. Pro další využívání našich služeb podmínky prosím přečtěte a potvrďte nejpozději do 31. 1. 2015. Jejich plné znění naleznete v naší",
+                    HELP: "Nápovědě",
+                    AGREEMENT: "Souhlasím s novými podmínkami",
+                    CONTINUE: "Pokračovat",
+                    ERROR: {
+                        UNKNOWN: "Neznámá chyba"
+                    }
+                },
                 REGISTER: {
                     REGISTER_START: "Registrujte",
                     REGISTER_END: "se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám",
@@ -107,6 +117,16 @@ mdl.config([
                         WEAK_PASSWORD: "Your password is too weak",
                         INTERNAL: "Internal system error",
                         CONNECTION: "We can not connect to our servers. Try it please later"
+                    }
+                },
+                LICENSE: {
+                    TITLE: "Terms and Conditions of using Seznam.cz services was changed",
+                    TEXT: "Since 01.02.2015 new terms and conditions are valid. For further use of Seznam.cz servies, please read and confirm new terms no later than 31.01.2015. For more information, please go to our ",
+                    HELP: "help service",
+                    AGREEMENT: "I agree with new terms and conditions",
+                    CONTINUE: "Continue",
+                    ERROR: {
+                        UNKNOWN: "Uknown error"
                     }
                 },
                 REGISTER: {
@@ -199,7 +219,7 @@ mdl.constant("DEFAULTS", {
     serviceId: "email"
 });
 
-mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q, $timeout) {
+mdl.factory("SznBackendTransport", ["$http", "$q", "$timeout", function($http, $q, $timeout) {
     var TIMEOUT = 6000;
 
     var LoginRequest = function(url) {
@@ -394,7 +414,7 @@ mdl.factory("SznLoginTransport", ["$http", "$q", "$timeout", function($http, $q,
     }
 }]);
 
-mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLoginTransport) {
+mdl.factory("SznLoginBackend", ["$q", "SznBackendTransport", function($q, SznBackendTransport) {
     var Login = function(conf) {
         this._conf = {
             url: "",
@@ -408,7 +428,8 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
             autologin: "/beta/autologin",
             acceptweak: "/beta/acceptweak",
             change: "/changeScreen",
-            openId: "/loginOIProcess"
+            openId: "/loginOIProcess",
+            license: "/beta/confirmLicence"
         };
 
         for (var i in conf) {
@@ -418,9 +439,11 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
             }
         }
 
-        this._transport = new SznLoginTransport(this._conf.url);
+        this._transport = new SznBackendTransport(this._conf.url);
         this._cookie = true;
         this._checked = false;
+
+        this._cdata   = null;
     };
 
     Login.prototype.check = function() {
@@ -513,14 +536,25 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
         this._transport.post(this._methods.login, data).then(
             function(response) {
                 var data = response.data;
+                if (data.cdata) { this._cdata = cdata; }
                 defered.resolve({data:data});
-            },
+            }.bind(this),
             function() {
+                this._cdata = null;
                 defered.reject();
-            }
+            }.bind(this)
         );
 
         return defered.promise;
+    };
+
+    Login.prototype.confirmLicence = function(agree) {
+        var data = this._getCommonData();
+        data.cdata = this._cdata;
+
+        if (agree) { data.setlicence = 1; }
+
+        return this._transport.post(this._methods.license, data);
     };
 
     Login.prototype._getCommonData = function() {
@@ -533,7 +567,7 @@ mdl.factory("SznLoginBackend", ["$q", "SznLoginTransport", function($q, SznLogin
     return Login;
 }]);
 
-mdl.factory("SznRegisterBackend", ["SznLoginTransport", function(SznLoginTransport) {
+mdl.factory("SznRegisterBackend", ["SznBackendTransport", function(SznBackendTransport) {
     var Register = function(conf) {
         this._methods = {
             passwordcheck: "/beta/passwordcheck",
@@ -552,7 +586,7 @@ mdl.factory("SznRegisterBackend", ["SznLoginTransport", function(SznLoginTranspo
 
         for (var p in conf) { this._conf[p] = conf[p]; }
 
-        this._transport = new SznLoginTransport(this._conf.url);
+        this._transport = new SznBackendTransport(this._conf.url);
     };
 
     Register.prototype.checkPassword = function(password) {
@@ -880,6 +914,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
                         location.href = sznLoginBackend.getURLForPasswordChange(data.crypted);
                     break;
 
+                    case 430: /* souhlas s podminkami */
+                        $scope.setActiveWindow("login-license-window");
+                    break;
+
                     case 500:
                         $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.INTERNAL";
                         $scope.error.href = "";
@@ -967,8 +1005,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
                 }
             };
 
-            $scope.changeClasses = function(old, current) {
-                if (current == "register-window") {
+            $scope.changeClasses = function(old, newOne) {
+                if (newOne == "register-window") {
                     $animate.addClass(container, "to-left");
                 }
 
@@ -981,6 +1019,67 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             $scope.changeClasses($scope.oldActiveWindow);
         },
         templateUrl:"./src/html/szn-login-form-window.html"
+    };
+}]);
+
+mdl.directive("sznLoginLicenseFormWindow", ["$window", "$animate", function($window, $animate) {
+    return {
+        restrict:"E",
+        replace:true,
+        controller: ["$scope", "sznLogin", function($scope, sznLogin) {
+            var sznLoginBackend = sznLogin.getLogin();
+
+            $scope.data = {
+                agree: false
+            };
+
+            $scope.error = {
+                msg: "",
+                href: ""
+            };
+
+            $scope.submit = function(e) {
+                e.preventDefault();
+                $scope.confirmLicenseProcess();
+            };
+
+            $scope.confirmLicenseProcess = function() {
+                sznLoginBackend.confirmLicence($scope.data.agree).then($scope.processStatus, $scope.processStatus);
+            };
+
+            $scope.processStatus = function(response) {
+                var data = null;
+                var status = 0;
+
+                if (response) {
+                    data = response.data;
+                    status = data.status;
+                }
+
+                switch (status) {
+                    case 200:
+                        $scope.setActiveWindow(null);
+                        $rootScope.$broadcast("szn-login-done", {auto:false});
+                    break;
+                    default:
+                        $scope.error.msg = "SZN_LOGIN.LICENSE.ERROR.UNKNOWN";
+                        $scope.error.href = "";
+                    break;
+                }
+            };
+        }],
+        link: function($scope, elements, attrs) {
+            var container = elements[0];
+
+            $scope.changeClasses = function(old, newOne) {
+                if (old == "login-window") {
+                    $animate.addClass(container, "from-right");
+                }
+            };
+
+            $scope.changeClasses($scope.oldActiveWindow);
+        },
+        templateUrl:"./src/html/szn-login-license-form-window.html"
     };
 }]);
 
@@ -1221,7 +1320,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                     function(response) {
                         var passed = $scope.processStatus(response);
                         if (passed) {
-                            $scope.setActiveWindow("verify-window");
+                            $scope.setActiveWindow("register-verify-window");
                         }
                     },
                     $scope.connectionError
@@ -1250,12 +1349,12 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 passwordMeter.style.width = power + "%";
             };
 
-            $scope.changeClasses = function(old, current) {
-                if (current == "login-window") {
+            $scope.changeClasses = function(old, newOne) {
+                if (newOne == "login-window") {
                     $animate.addClass(container, "to-right");
                 }
 
-                if (current == "verify-window") {
+                if (newOne == "register-verify-window") {
                     $animate.addClass(container, "to-left");
                 }
 
@@ -1270,7 +1369,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
     };
 }]);
 
-mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout, $animate) {
+mdl.directive("sznRegisterVerifyFormWindow", ["$timeout", "$animate", function($timeout, $animate) {
     return {
         restrict:"E",
         replace:true,
@@ -1344,7 +1443,7 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
                     function(response) {
                         var passed = $scope.processStatus(response);
                         if (passed) {
-                            $scope.setActiveWindow("done-window");
+                            $scope.setActiveWindow("register-done-window");
                         }
                     },
                     $scope.connectionError
@@ -1374,11 +1473,11 @@ mdl.directive("sznVerifyFormWindow", ["$timeout", "$animate", function($timeout,
 
             $scope.changeClasses($scope.oldActiveWindow);
         },
-        templateUrl:"./src/html/szn-verify-form-window.html"
+        templateUrl:"./src/html/szn-register-verify-form-window.html"
     };
 }]);
 
-mdl.directive("sznDoneFormWindow", ["$timeout", "$window", "$animate", function($timeout, $window, $animate) {
+mdl.directive("sznRegisterDoneFormWindow", ["$timeout", "$window", "$animate", function($timeout, $window, $animate) {
     return {
         restrict:"E",
         replace:true,
@@ -1413,15 +1512,15 @@ mdl.directive("sznDoneFormWindow", ["$timeout", "$window", "$animate", function(
         link: function($scope, elements, attrs) {
             var container = elements[0];
 
-            $scope.changeClasses = function(old, current) {
-                if (old == "verify-window") {
+            $scope.changeClasses = function(old, newOne) {
+                if (old == "register-verify-window") {
                     $animate.addClass(container, "from-right");
                 }
             };
 
             $scope.changeClasses($scope.oldActiveWindow);
         },
-        templateUrl:"./src/html/szn-done-form-window.html"
+        templateUrl:"./src/html/szn-register-done-form-window.html"
     };
 }]);
 
@@ -1526,13 +1625,8 @@ mdl.directive("focusable", ["$timeout", function($timeout) {
 angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('./src/html/szn-done-form-window.html',
-    "<div class=\"szn-login-window done\"><div class=\"szn-login-close\"></div><div class=\"szn-done-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\"><div class=\"text\"><strong>{{ 'SZN_LOGIN.DONE.CONGRATULATION' | translate }},</strong> {{ 'SZN_LOGIN.DONE.SUCCESS' | translate }} :-)</div><div><div class=\"done\"><input type=\"button\" value=\"{{ 'SZN_LOGIN.DONE.GO' | translate }} {{host}}\" ng-click=\"close();\"></div></div></form></div></div>"
-  );
-
-
   $templateCache.put('./src/html/szn-login-box.html',
-    "<div id=\"sznLoginBox\"><div class=\"szn-login-overlay\"></div><div class=\"szn-login-overflow\"><szn-login-form-window ng-if=\"activeWindow == 'login-window'\" center-position closeable></szn-login-form-window><szn-register-form-window ng-if=\"activeWindow == 'register-window'\" center-position closeable></szn-register-form-window><szn-verify-form-window ng-if=\"activeWindow == 'verify-window'\" center-position closeable></szn-verify-form-window><szn-done-form-window ng-if=\"activeWindow == 'done-window'\" center-position closeable></szn-done-form-window></div></div>"
+    "<div id=\"sznLoginBox\"><div class=\"szn-login-overlay\"></div><div class=\"szn-login-overflow\"><szn-login-form-window ng-if=\"activeWindow == 'login-window'\" center-position closeable></szn-login-form-window><szn-login-license-form-window ng-if=\"activeWindow == 'login-license-window'\" center-position closeable></szn-login-license-form-window><szn-register-form-window ng-if=\"activeWindow == 'register-window'\" center-position closeable></szn-register-form-window><szn-register-verify-form-window ng-if=\"activeWindow == 'register-verify-window'\" center-position closeable></szn-register-verify-form-window><szn-register-done-form-window ng-if=\"activeWindow == 'register-done-window'\" center-position closeable></szn-register-done-form-window></div></div>"
   );
 
 
@@ -1541,12 +1635,22 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('./src/html/szn-login-license-form-window.html',
+    "<div class=\"szn-login-window license\"><div class=\"szn-login-close\"></div><div class=\"szn-login-license-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div><strong>{{ 'SZN_LOGIN.LICENSE.TITLE' | translate }}</strong></div><div>{{ 'SZN_LOGIN.LICENSE.TEXT' | translate }} <a target=\"_blank\" href=\"http://napoveda.seznam.cz/cz/smluvni-podminky-pro-registraci-uzivatelu-1-1-2015.html\">{{ 'SZN_LOGIN.LICENSE.HELP' | translate }}</a>.</div><div class=\"agreement-line\"><label><input type=\"checkbox\" class=\"agree\" ng-model=\"data.agree\">{{ 'SZN_LOGIN.LICENSE.AGREEMENT' | translate }}</label></div><div class=\"submit-line\"><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LICENSE.CONTINUE' | translate }}\"></div><div class=\"line\"></div></form></div></div>"
+  );
+
+
+  $templateCache.put('./src/html/szn-register-done-form-window.html',
+    "<div class=\"szn-login-window done\"><div class=\"szn-login-close\"></div><div class=\"szn-done-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\"><div class=\"text\"><strong>{{ 'SZN_LOGIN.DONE.CONGRATULATION' | translate }},</strong> {{ 'SZN_LOGIN.DONE.SUCCESS' | translate }} :-)</div><div><div class=\"done\"><input type=\"button\" value=\"{{ 'SZN_LOGIN.DONE.GO' | translate }} {{host}}\" ng-click=\"close();\"></div></div></form></div></div>"
+  );
+
+
   $templateCache.put('./src/html/szn-register-form-window.html',
     "<div class=\"szn-login-window register\"><div class=\"szn-login-close\"></div><div class=\"szn-register-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\"><strong>{{ 'SZN_LOGIN.REGISTER.REGISTER_START' | translate }}</strong> {{ 'SZN_LOGIN.REGISTER.REGISTER_END' | translate }}.</div><div><div><span class=\"input\" ng-class=\"{ok: valid.username, error: valid.username === false}\"><input type=\"text\" name=\"username\" placeholder=\"{{ 'SZN_LOGIN.REGISTER.USERNAME_PLACEHOLDER' | translate }}\" ng-model=\"data.username\" ng-blur=\"activateUsernameWatcher();\" focusable><span class=\"icon\"></span></span></div><div class=\"password-line\"><span class=\"input\" ng-class=\"{ok: valid.password, error: valid.password === false}\"><input type=\"password\" placeholder=\"{{ 'SZN_LOGIN.REGISTER.PASSWORD_PLACEHOLDER' | translate }}\" ng-model=\"data.password\" ng-blur=\"activatePasswordWatcher();\"><span class=\"icon\"></span><span id=\"passwordMeter\"><span style=\"width: 0%; background-color: rgb(238, 14, 14)\"></span></span></span> <span class=\"input second\" ng-class=\"{ok: valid.passwordRepeat, error: valid.passwordRepeat === false}\"><input type=\"password\" placeholder=\"{{ 'SZN_LOGIN.REGISTER.PASSWORD_REPEAT_PLACEHOLDER' | translate }}\" ng-model=\"data.passwordRepeat\" ng-blur=\"activatePasswordRepeatWatcher();\"><span class=\"icon\"></span></span><div class=\"szn-login-clear\"></div></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{ emsg.msg | translate }}!</strong></div></div><div><input type=\"checkbox\" ng-model=\"data.acceptation\">{{ 'SZN_LOGIN.REGISTER.AGREEMENT' | translate }} <a ng-href=\"https://registrace.seznam.cz/licenceScreen\" target=\"_blank\">{{ 'SZN_LOGIN.REGISTER.TERMS' | translate }}</a>.</div><input type=\"submit\" value=\"{{ 'SZN_LOGIN.REGISTER.CONTINUE' | translate }}\" ng-class=\"{disabled:!data.acceptation}\" title=\"{{ 'SZN_LOGIN.REGISTER.TERMS_NOTIFY' | translate }}\"><div class=\"info\"><a ng-href=\"https://registrace.seznam.cz\" target=\"_blank\">{{ 'SZN_LOGIN.REGISTER.CREATE_EMAIL' | translate }}</a></div><div><a ng-href=\"#\" ng-click=\"activateLoginPage($event);\">{{ 'SZN_LOGIN.REGISTER.ALREADY_REGISTERED' | translate }}</a></div></div></form></div></div>"
   );
 
 
-  $templateCache.put('./src/html/szn-verify-form-window.html',
+  $templateCache.put('./src/html/szn-register-verify-form-window.html',
     "<div class=\"szn-login-window verify\"><div class=\"szn-login-close\"></div><div class=\"szn-verify-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text\">{{ 'SZN_LOGIN.VERIFY.FINISH_REGISTRATION' | translate }}.</div><div><div><span class=\"input\"><input type=\"text\" name=\"verify\" placeholder=\"XXXXXX\" title=\"{{ 'SZN_LOGIN.VERIFY.CODE_PLACEHOLDER' | translate }}\" ng-model=\"data.pin\" focusable><span class=\"icon\"></span></span><input type=\"submit\" value=\"{{ 'SZN_LOGIN.VERIFY.FINISH' | translate }}\"></div><div class=\"text error\" ng-if=\"!!error.msgs.length\"><div ng-repeat=\"emsg in error.msgs\"><strong>{{emsg.msg}}</strong></div></div><div class=\"resend\" ng-if=\"!resended\">{{ 'SZN_LOGIN.VERIFY.NOT_OBTAINED' | translate }}? <a ng-href=\"#\" ng-click=\"resendCode($event);\">{{ 'SZN_LOGIN.VERIFY.SEND_CODE_AGAIN' | translate }}.</a></div><div class=\"text resend notify\" ng-if=\"!!resended\"><strong>{{ 'SZN_LOGIN.VERIFY.CHECK_YOUR_EMAIL' | translate }}.</strong></div></div></form></div></div>"
   );
 

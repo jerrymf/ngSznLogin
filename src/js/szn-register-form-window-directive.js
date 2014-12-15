@@ -235,7 +235,7 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                     function(response) {
                         var passed = $scope.processStatus(response);
                         if (passed) {
-                            $scope.setActiveWindow("verify-window");
+                            $scope.setActiveWindow("register-verify-window");
                         }
                     },
                     $scope.connectionError
@@ -264,12 +264,12 @@ mdl.directive("sznRegisterFormWindow", ["$timeout", "$animate", function($timeou
                 passwordMeter.style.width = power + "%";
             };
 
-            $scope.changeClasses = function(old, current) {
-                if (current == "login-window") {
+            $scope.changeClasses = function(old, newOne) {
+                if (newOne == "login-window") {
                     $animate.addClass(container, "to-right");
                 }
 
-                if (current == "verify-window") {
+                if (newOne == "register-verify-window") {
                     $animate.addClass(container, "to-left");
                 }
 

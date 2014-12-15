@@ -1,4 +1,4 @@
-mdl.factory("SznRegisterBackend", ["SznLoginTransport", function(SznLoginTransport) {
+mdl.factory("SznRegisterBackend", ["SznBackendTransport", function(SznBackendTransport) {
     var Register = function(conf) {
         this._methods = {
             passwordcheck: "/beta/passwordcheck",
@@ -17,7 +17,7 @@ mdl.factory("SznRegisterBackend", ["SznLoginTransport", function(SznLoginTranspo
 
         for (var p in conf) { this._conf[p] = conf[p]; }
 
-        this._transport = new SznLoginTransport(this._conf.url);
+        this._transport = new SznBackendTransport(this._conf.url);
     };
 
     Register.prototype.checkPassword = function(password) {

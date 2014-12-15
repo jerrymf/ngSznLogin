@@ -91,6 +91,10 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
                         location.href = sznLoginBackend.getURLForPasswordChange(data.crypted);
                     break;
 
+                    case 430: /* souhlas s podminkami */
+                        $scope.setActiveWindow("login-license-window");
+                    break;
+
                     case 500:
                         $scope.error.msg = "SZN_LOGIN.LOGIN.ERROR.INTERNAL";
                         $scope.error.href = "";
@@ -178,8 +182,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
                 }
             };
 
-            $scope.changeClasses = function(old, current) {
-                if (current == "register-window") {
+            $scope.changeClasses = function(old, newOne) {
+                if (newOne == "register-window") {
                     $animate.addClass(container, "to-left");
                 }
 

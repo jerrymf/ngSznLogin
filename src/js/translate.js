@@ -26,6 +26,16 @@ mdl.config([
                         CONNECTION: "Nemůžeme se spojit s našimi servery. Zkuste to, prosím, později"
                     }
                 },
+                LICENSE: {
+                    TITLE: "Změna Smluvních podmínek služeb poskytovaných společností Seznam.cz",
+                    TEXT: "Od 1. 2. 2015 vchází v platnost nové Smluvní podmínky služeb společnosti Seznam.cz. Pro další využívání našich služeb podmínky prosím přečtěte a potvrďte nejpozději do 31. 1. 2015. Jejich plné znění naleznete v naší",
+                    HELP: "Nápovědě",
+                    AGREEMENT: "Souhlasím s novými podmínkami",
+                    CONTINUE: "Pokračovat",
+                    ERROR: {
+                        UNKNOWN: "Neznámá chyba"
+                    }
+                },
                 REGISTER: {
                     REGISTER_START: "Registrujte",
                     REGISTER_END: "se a získáte obsah všech služeb Seznam.cz přímo na míru vašim potřebám",
@@ -97,6 +107,16 @@ mdl.config([
                         WEAK_PASSWORD: "Your password is too weak",
                         INTERNAL: "Internal system error",
                         CONNECTION: "We can not connect to our servers. Try it please later"
+                    }
+                },
+                LICENSE: {
+                    TITLE: "Terms and Conditions of using Seznam.cz services was changed",
+                    TEXT: "Since 01.02.2015 new terms and conditions are valid. For further use of Seznam.cz servies, please read and confirm new terms no later than 31.01.2015. For more information, please go to our ",
+                    HELP: "help service",
+                    AGREEMENT: "I agree with new terms and conditions",
+                    CONTINUE: "Continue",
+                    ERROR: {
+                        UNKNOWN: "Uknown error"
                     }
                 },
                 REGISTER: {
