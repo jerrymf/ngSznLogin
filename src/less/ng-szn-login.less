@@ -389,13 +389,29 @@
 
             .szn-login-license-page {
 
-                .agreement-line,
-                .submit-line {
-                    margin-top: 15px;
+                ul {
+                    margin: 10px 0 10px 30px;
+
+                    li {
+                        list-style-type: circle;
+                    }
+
                 }
 
-                .submit-line {
-                    text-align: center;
+                .szn-login-form {
+                    & > div {
+                        width: auto;
+                        max-width: 640px;
+                    }
+
+                    .agreement-line,
+                    .submit-line {
+                        margin-top: 15px;
+                    }
+
+                    .submit-line {
+                        text-align: center;
+                    }
                 }
 
             }

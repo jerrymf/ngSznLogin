@@ -452,11 +452,21 @@
 #sznLoginBox .szn-login-overflow .szn-login-window .szn-login-page .szn-login-form div.error strong {
   color: #de0000;
 }
-#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .agreement-line,
-#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .submit-line {
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page ul {
+  margin: 10px 0 10px 30px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page ul li {
+  list-style-type: circle;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .szn-login-form > div {
+  width: auto;
+  max-width: 640px;
+}
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .szn-login-form .agreement-line,
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .szn-login-form .submit-line {
   margin-top: 15px;
 }
-#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .submit-line {
+#sznLoginBox .szn-login-overflow .szn-login-window .szn-login-license-page .szn-login-form .submit-line {
   text-align: center;
 }
 @media screen and (max-width: 800px) {

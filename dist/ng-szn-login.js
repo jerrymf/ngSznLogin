@@ -38,8 +38,13 @@ mdl.config([
                 },
                 LICENSE: {
                     TITLE: "Změna Smluvních podmínek služeb poskytovaných společností Seznam.cz",
-                    TEXT: "Od 1. 2. 2015 vchází v platnost nové Smluvní podmínky služeb společnosti Seznam.cz. Pro další využívání našich služeb podmínky prosím přečtěte a potvrďte nejpozději do 31. 1. 2015. Jejich plné znění naleznete v naší",
-                    HELP: "Nápovědě",
+                    TEXT1: "Aby pro vás byly Smluvní podmínky srozumitelnější, rozhodli jsme se je k 1. 2. 2015 zpřehlednit. Přestože se pro vás nic nemění, prosíme o jejich opětovné odsouhlasení nejpozději do 31. 1. 2015.",
+                    TEXT2: "Pro připomenutí tady jsou nejdůležitější body:",
+                    TEXT3: "S vaším e-mailovým účtem se můžete přihlásit i do našich ostatních služeb (Firmy.cz, Sklik.cz, Seznam peněženka, Mapy.cz, Lidé.cz aj.)",
+                    TEXT4: "Některé naše služby před prvním přihlášením vyžadují souhlas se zpracováním osobních údajů",
+                    TEXT5: "Pokud se nepřihlásíte ke svému účtu u žádné z našich služeb déle než půl roku, můžeme účet uvolnit pro případnou registraci někoho jiného",
+                    TEXT6: "V plném znění si podmínky můžete přelouskat v naší",
+                    TEXT7: "Nápovědě",
                     AGREEMENT: "Souhlasím s novými podmínkami",
                     CONTINUE: "Pokračovat",
                     ERROR: {
@@ -121,8 +126,13 @@ mdl.config([
                 },
                 LICENSE: {
                     TITLE: "Terms and Conditions of using Seznam.cz services was changed",
-                    TEXT: "Since 01.02.2015 new terms and conditions are valid. For further use of Seznam.cz servies, please read and confirm new terms no later than 31.01.2015. For more information, please go to our ",
-                    HELP: "help service",
+                    TEXT1: "For clearer terms and conditions we decided make it clearly. New ones are valid since 01.02.2015. Altough there is no change for you we please you for your agreement again no later than 31.01.215.",
+                    TEXT2: "Here are the most important points:",
+                    TEXT3: "With your e-mail account you can even sign into our other services (Firmy.cz, Sklik.cz, Seznam peněženka, Mapy.cz, Lidé.cz, ...)",
+                    TEXT4: "Some services needs during their first sign to them agreement with processing of your personal data",
+                    TEXT5: "If you do not sign with your account to any our service during half year, we delete your account and we can provide your nick to another one",
+                    TEXT6: "Full version of text you can read on our",
+                    TEXT7: "help",
                     AGREEMENT: "I agree with new terms and conditions",
                     CONTINUE: "Continue",
                     ERROR: {
@@ -884,8 +894,9 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
 
                 switch (data.status) {
                     case 200:
-                        $scope.setActiveWindow(null);
-                        $rootScope.$broadcast("szn-login-done", {auto:false});
+                        $scope.setActiveWindow("login-license-window");
+                        //$scope.setActiveWindow(null);
+                        //$rootScope.$broadcast("szn-login-done", {auto:false});
                     return;
 
                     case 201:
@@ -1064,21 +1075,9 @@ mdl.directive("sznLoginLicenseFormWindow", ["$window", "$animate", function($win
                     default:
                         $scope.error.msg = "SZN_LOGIN.LICENSE.ERROR.UNKNOWN";
                         $scope.error.href = "";
-                    break;
                 }
             };
         }],
-        link: function($scope, elements, attrs) {
-            var container = elements[0];
-
-            $scope.changeClasses = function(old, newOne) {
-                if (old == "login-window") {
-                    $animate.addClass(container, "from-right");
-                }
-            };
-
-            $scope.changeClasses($scope.oldActiveWindow);
-        },
         templateUrl:"./src/html/szn-login-license-form-window.html"
     };
 }]);
@@ -1636,7 +1635,7 @@ angular.module('ngSznLogin').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('./src/html/szn-login-license-form-window.html',
-    "<div class=\"szn-login-window license\"><div class=\"szn-login-close\"></div><div class=\"szn-login-license-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div><strong>{{ 'SZN_LOGIN.LICENSE.TITLE' | translate }}</strong></div><div>{{ 'SZN_LOGIN.LICENSE.TEXT' | translate }} <a target=\"_blank\" href=\"http://napoveda.seznam.cz/cz/smluvni-podminky-pro-registraci-uzivatelu-1-1-2015.html\">{{ 'SZN_LOGIN.LICENSE.HELP' | translate }}</a>.</div><div class=\"agreement-line\"><label><input type=\"checkbox\" class=\"agree\" ng-model=\"data.agree\">{{ 'SZN_LOGIN.LICENSE.AGREEMENT' | translate }}</label></div><div class=\"submit-line\"><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LICENSE.CONTINUE' | translate }}\"></div><div class=\"line\"></div></form></div></div>"
+    "<div class=\"szn-login-window license\"><div class=\"szn-login-close\"></div><div class=\"szn-login-license-page\"><form id=\"sznLoginForm\" class=\"szn-login-form\" method=\"post\" ng-submit=\"submit($event);\"><div class=\"text error\" ng-if=\"!!error.msg\"><strong>{{ error.msg | translate }}!</strong> <span ng-if=\"error.href\">(<a ng-href=\"{{error.href}}\" target=\"_blank\">?</a>)</span></div><div><div><strong>{{ 'SZN_LOGIN.LICENSE.TITLE' | translate }}</strong></div><div>{{ 'SZN_LOGIN.LICENSE.TEXT1' | translate }}</div><div>{{ 'SZN_LOGIN.LICENSE.TEXT2' | translate }}</div><ul><li>{{ 'SZN_LOGIN.LICENSE.TEXT3' | translate }}</li><li>{{ 'SZN_LOGIN.LICENSE.TEXT4' | translate }}</li><li>{{ 'SZN_LOGIN.LICENSE.TEXT5' | translate }}</li></ul><div>{{ 'SZN_LOGIN.LICENSE.TEXT6' | translate }} <a target=\"_blank\" href=\"http://napoveda.seznam.cz/cz/smluvni-podminky-pro-registraci-uzivatelu-1-1-2015.html\">{{ 'SZN_LOGIN.LICENSE.TEXT7' | translate }}</a>.</div><div class=\"agreement-line\"><label><input type=\"checkbox\" class=\"agree\" ng-model=\"data.agree\">{{ 'SZN_LOGIN.LICENSE.AGREEMENT' | translate }}</label></div><div class=\"submit-line\"><input type=\"submit\" value=\"{{ 'SZN_LOGIN.LICENSE.CONTINUE' | translate }}\"></div><div class=\"line\"></div></div></form></div></div>"
   );
 
 

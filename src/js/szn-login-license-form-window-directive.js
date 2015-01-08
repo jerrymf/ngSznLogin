@@ -43,17 +43,6 @@ mdl.directive("sznLoginLicenseFormWindow", ["$window", "$animate", function($win
                 }
             };
         }],
-        link: function($scope, elements, attrs) {
-            var container = elements[0];
-
-            $scope.changeClasses = function(old, newOne) {
-                if (old == "login-window") {
-                    $animate.addClass(container, "from-right");
-                }
-            };
-
-            $scope.changeClasses($scope.oldActiveWindow);
-        },
         templateUrl:"./src/html/szn-login-license-form-window.html"
     };
 }]);

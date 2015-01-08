@@ -6,18 +6,31 @@
                 <strong>{{ error.msg | translate }}!</strong> <span ng-if="error.href">(<a ng-href="{{error.href}}" target="_blank">?</a>)</span>
             </div>
             <div>
-                <strong>{{ 'SZN_LOGIN.LICENSE.TITLE' | translate }}</strong>
+                <div>
+                    <strong>{{ 'SZN_LOGIN.LICENSE.TITLE' | translate }}</strong>
+                </div>
+                <div>
+                    {{ 'SZN_LOGIN.LICENSE.TEXT1' | translate }}
+                </div>
+                <div>
+                    {{ 'SZN_LOGIN.LICENSE.TEXT2' | translate }}
+                </div>
+                <ul>
+                    <li>{{ 'SZN_LOGIN.LICENSE.TEXT3' | translate }}</li>
+                    <li>{{ 'SZN_LOGIN.LICENSE.TEXT4' | translate }}</li>
+                    <li>{{ 'SZN_LOGIN.LICENSE.TEXT5' | translate }}</li>
+                </ul>
+                <div>
+                    {{ 'SZN_LOGIN.LICENSE.TEXT6' | translate }} <a target="_blank" href="http://napoveda.seznam.cz/cz/smluvni-podminky-pro-registraci-uzivatelu-1-1-2015.html">{{ 'SZN_LOGIN.LICENSE.TEXT7' | translate }}</a>.
+                </div>
+                <div class="agreement-line">
+                    <label><input type="checkbox" class="agree" ng-model="data.agree" />{{ 'SZN_LOGIN.LICENSE.AGREEMENT' | translate }}</label>
+                </div>
+                <div class="submit-line">
+                    <input type="submit" value="{{ 'SZN_LOGIN.LICENSE.CONTINUE' | translate }}" />
+                </div>
+                <div class="line"></div>
             </div>
-            <div>
-                {{ 'SZN_LOGIN.LICENSE.TEXT' | translate }} <a target="_blank" href="http://napoveda.seznam.cz/cz/smluvni-podminky-pro-registraci-uzivatelu-1-1-2015.html">{{ 'SZN_LOGIN.LICENSE.HELP' | translate }}</a>.
-            </div>
-            <div class="agreement-line">
-                <label><input type="checkbox" class="agree" ng-model="data.agree" />{{ 'SZN_LOGIN.LICENSE.AGREEMENT' | translate }}</label>
-            </div>
-            <div class="submit-line">
-                <input type="submit" value="{{ 'SZN_LOGIN.LICENSE.CONTINUE' | translate }}" />
-            </div>
-            <div class="line"></div>
         </form>
     </div>
 </div>

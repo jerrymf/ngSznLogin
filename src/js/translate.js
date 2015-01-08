@@ -28,8 +28,13 @@ mdl.config([
                 },
                 LICENSE: {
                     TITLE: "Změna Smluvních podmínek služeb poskytovaných společností Seznam.cz",
-                    TEXT: "Od 1. 2. 2015 vchází v platnost nové Smluvní podmínky služeb společnosti Seznam.cz. Pro další využívání našich služeb podmínky prosím přečtěte a potvrďte nejpozději do 31. 1. 2015. Jejich plné znění naleznete v naší",
-                    HELP: "Nápovědě",
+                    TEXT1: "Aby pro vás byly Smluvní podmínky srozumitelnější, rozhodli jsme se je k 1. 2. 2015 zpřehlednit. Přestože se pro vás nic nemění, prosíme o jejich opětovné odsouhlasení nejpozději do 31. 1. 2015.",
+                    TEXT2: "Pro připomenutí tady jsou nejdůležitější body:",
+                    TEXT3: "S vaším e-mailovým účtem se můžete přihlásit i do našich ostatních služeb (Firmy.cz, Sklik.cz, Seznam peněženka, Mapy.cz, Lidé.cz aj.)",
+                    TEXT4: "Některé naše služby před prvním přihlášením vyžadují souhlas se zpracováním osobních údajů",
+                    TEXT5: "Pokud se nepřihlásíte ke svému účtu u žádné z našich služeb déle než půl roku, můžeme účet uvolnit pro případnou registraci někoho jiného",
+                    TEXT6: "V plném znění si podmínky můžete přelouskat v naší",
+                    TEXT7: "Nápovědě",
                     AGREEMENT: "Souhlasím s novými podmínkami",
                     CONTINUE: "Pokračovat",
                     ERROR: {
@@ -111,8 +116,13 @@ mdl.config([
                 },
                 LICENSE: {
                     TITLE: "Terms and Conditions of using Seznam.cz services was changed",
-                    TEXT: "Since 01.02.2015 new terms and conditions are valid. For further use of Seznam.cz servies, please read and confirm new terms no later than 31.01.2015. For more information, please go to our ",
-                    HELP: "help service",
+                    TEXT1: "For clearer terms and conditions we decided make it clearly. New ones are valid since 01.02.2015. Altough there is no change for you we please you for your agreement again no later than 31.01.215.",
+                    TEXT2: "Here are the most important points:",
+                    TEXT3: "With your e-mail account you can even sign into our other services (Firmy.cz, Sklik.cz, Seznam peněženka, Mapy.cz, Lidé.cz, ...)",
+                    TEXT4: "Some services needs during their first sign to them agreement with processing of your personal data",
+                    TEXT5: "If you do not sign with your account to any our service during half year, we delete your account and we can provide your nick to another one",
+                    TEXT6: "Full version of text you can read on our",
+                    TEXT7: "help",
                     AGREEMENT: "I agree with new terms and conditions",
                     CONTINUE: "Continue",
                     ERROR: {
