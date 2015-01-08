@@ -894,9 +894,8 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
 
                 switch (data.status) {
                     case 200:
-                        $scope.setActiveWindow("login-license-window");
-                        //$scope.setActiveWindow(null);
-                        //$rootScope.$broadcast("szn-login-done", {auto:false});
+                        $scope.setActiveWindow(null);
+                        $rootScope.$broadcast("szn-login-done", {auto:false});
                     return;
 
                     case 201:
