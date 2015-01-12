@@ -115,7 +115,7 @@ mdl.directive("sznLoginFormWindow", ["$timeout", "$interval", "$animate", "$root
             $scope.continueWithWeakPassword = function(e) {
                 e.preventDefault();
                 $scope.resetError();
-                sznLogin.continueWithWeakPassword().then($scope.loginDone);
+                sznLoginBackend.continueWithWeakPassword().then($scope.loginDone);
             };
 
             $scope.activateRegisterPage = function(e) {
