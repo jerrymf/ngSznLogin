@@ -1,4 +1,4 @@
-ngSznLogin (v0.9.17)
+ngSznLogin (v0.9.18)
 ==========
 
 Module for signing into Seznam.cz web services.
