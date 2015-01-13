@@ -546,7 +546,7 @@ mdl.factory("SznLoginBackend", ["$q", "SznBackendTransport", function($q, SznBac
         this._transport.post(this._methods.login, data).then(
             function(response) {
                 var data = response.data;
-                if (data.cdata) { this._cdata = cdata; }
+                if (data.cdata) { this._cdata = data.cdata; }
                 defered.resolve({data:data});
             }.bind(this),
             function() {
