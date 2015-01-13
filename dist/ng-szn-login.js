@@ -1036,7 +1036,7 @@ mdl.directive("sznLoginLicenseFormWindow", ["$window", "$animate", function($win
     return {
         restrict:"E",
         replace:true,
-        controller: ["$scope", "sznLogin", function($scope, sznLogin) {
+        controller: ["$scope", "$rootScope", "sznLogin", function($scope, $rootScope, sznLogin) {
             var sznLoginBackend = sznLogin.getLogin();
 
             $scope.data = {
