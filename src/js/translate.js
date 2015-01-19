@@ -32,9 +32,8 @@ mdl.config([
                     TEXT2: "Pro připomenutí tady jsou nejdůležitější body:",
                     TEXT3: "S vaším e-mailovým účtem se můžete přihlásit i do našich ostatních služeb (Firmy.cz, Sklik.cz, Seznam peněženka, Mapy.cz, Lidé.cz aj.)",
                     TEXT4: "Některé naše služby před prvním přihlášením vyžadují souhlas se zpracováním osobních údajů",
-                    TEXT5: "Pokud se nepřihlásíte ke svému účtu u žádné z našich služeb déle než půl roku, můžeme účet uvolnit pro případnou registraci někoho jiného",
-                    TEXT6: "V plném znění si podmínky můžete přelouskat v naší",
-                    TEXT7: "Nápovědě",
+                    TEXT5: "V plném znění si podmínky můžete přelouskat v naší",
+                    TEXT6: "Nápovědě",
                     AGREEMENT: "Souhlasím s novými podmínkami",
                     CONTINUE: "Pokračovat",
                     ERROR: {
@@ -120,9 +119,8 @@ mdl.config([
                     TEXT2: "Here are the most important points:",
                     TEXT3: "With your e-mail account you can even sign into our other services (Firmy.cz, Sklik.cz, Seznam peněženka, Mapy.cz, Lidé.cz, ...)",
                     TEXT4: "Some services needs during their first sign to them agreement with processing of your personal data",
-                    TEXT5: "If you do not sign with your account to any our service during half year, we delete your account and we can provide your nick to another one",
-                    TEXT6: "Full version of text you can read on our",
-                    TEXT7: "help",
+                    TEXT5: "Full version of text you can read on our",
+                    TEXT6: "help",
                     AGREEMENT: "I agree with new terms and conditions",
                     CONTINUE: "Continue",
                     ERROR: {
