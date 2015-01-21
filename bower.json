@@ -1,6 +1,6 @@
 {
   "name": "ngSznLogin",
-  "version": "0.9.20",
+  "version": "0.9.21",
   "main": "dist/ng-szn-login.js",
   "homepage": "https://github.com/jerrymf/ngSznLogin",
   "authors": [

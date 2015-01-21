@@ -93,6 +93,12 @@
   overflow: hidden;
   width: 100%;
 }
+@media screen and (max-width: 800px) {
+  #sznLoginBox .szn-login-overflow {
+    position: fixed;
+    overflow: auto;
+  }
+}
 #sznLoginBox .szn-login-overflow .szn-login-window {
   position: absolute;
   left: 0;
