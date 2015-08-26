@@ -675,7 +675,7 @@ mdl.provider("sznLogin", function() {
         autoClose: true,
         autoLogin: true,
         checkCookie: false,
-        zoneId: "seznam.pack.rectangle"
+        zoneId: "seznam.login.medium.rectangle"
     };
 
     this.config = function(obj) {

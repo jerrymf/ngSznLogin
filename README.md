@@ -1,4 +1,4 @@
-ngSznLogin (v0.9.22)
+ngSznLogin (v0.9.23)
 ==========
 
 Module for signing into Seznam.cz web services.
@@ -28,10 +28,10 @@ In your project you have to import ng-szn-login.less, that contains all CSS rule
 <pre>
   /* import lesshat less framework */
   @import "path_to_bower_components/lesshat/build/lesshat.less";
-  
+
   /* set where are stored images of this module (found in dist directory) */
   @szn-login-img-path: "img";
-  
+
   /* import less file with css rules of szn login module */
   @import "path_to_bower_components/ng-szn-login/dist/ng-szn-login.less";
 </pre>
@@ -40,10 +40,10 @@ In your project you have to import ng-szn-login.less, that contains all CSS rule
 
 <pre>
   &lt;script type="text/javascript"&gt;
-    
+
     /* your application is depended on szn-login module */
     var app = angular.module("app", ["ngSznLogin"]);
-    
+
     /* url and register url are important for correct working, but in case you work with .cz, it is set as default */
     app.config(["sznLoginProvider", function(sznLoginProvider) {
         sznLoginProvider.config({
@@ -52,7 +52,7 @@ In your project you have to import ng-szn-login.less, that contains all CSS rule
             serviceId:    "servicename" /* serviceId is id of service, where it is used, for example: lide, zbozi, sreality */
         });
     }]);
-  
+
   &lt;/script&gt;
 </pre>
 
@@ -70,7 +70,7 @@ Example:
 
 <pre>
   &lt;body ngController="MainCtrl"&gt;&lt;/body&gt;
-  
+
   &lt;script type="text/javascript"&gt;
     app.controller("MainCtrl", ["$scope", function($scope) {
         $scope.$on("szn-login-done", function(auto) {
